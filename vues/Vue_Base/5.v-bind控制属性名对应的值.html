@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			a{
+				text-decoration: none;
+				
+			}
+			a.active{
+				background: red;
+			}
+		</style>
+		<script src="js/vue.js" type="text/javascript"></script>
+	</head>
+	<body>
+		'v-bind:'可以简写成':'
+		v-bind:用来绑定vue的在行间设置的属性
+		<div id="box">
+			<ul>
+				<li v-for="n in amounts">
+					在这里，这个class本来是正常的行间属性，在前面加上v-bind:(:)后，在box内，这个属性就被Vue监听了
+					里面的字符串会被Vue解析，所以可以用三木来判断
+					也就是说，利用了:、@、{{}}、v-for...的地方会只要它涵盖在Vue的el的范围内，就会被Vue监听
+					<a href="javascript:" v-bind:class="(aClass === n?'active':'')">{{n}}</a>
+				</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			let obj={
+				aClass:1,
+				amounts:20
+			}
+			new Vue({
+				el:'#box',
+				data:obj
+			})
+		</script>
+	</body>
+</html>

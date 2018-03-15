@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>测试专用</title>
+  <script src="js/vue.js"></script>
+  <script type="text/javascript" src="js/jquery-3.2.0.js"></script>
+</head>
+<body>
+	<div id="app">
+		<custom-n1></custom-n1>
+	</div>
+	<div id="app2">
+		<custom-n2></custom-n2>
+	</div>
+	<template id="tem1">
+		<input type="button" value="发送数据" @click="sendMes">
+	</template>
+	<template id="tem2">
+	<div>
+		<p>{{changeMes()}}</p>
+		<input type="text" v-model="mes">
+	</div>
+		
+	</template>
+	<script>
+	let Hub=new Vue();
+	Vue.component('custom-n1',{
+		data(){
+			return{
+				mes:"我是第一个实例的信息"
+			}
+		},
+		template:"#tem1",
+		methods:{
+			sendMes(){
+				Hub.$emit('resMes',this.mes);
+				console.log(this.mes)
+			}
+		}
+	})
+	new Vue({
+		el:"#app"
+	})
+	Vue.component("custom-n2",{
+		data(){
+			return{
+				mes:"我是第二个实例的信息"
+			}
+		},
+		template:"#tem2",
+		methods:{
+			changeMes(){
+				// Hub.$on("resMes",(value)=>{
+				// 	this.mes=value;
+				// })
+				Hub.$on("resMes",function(value){
+					this.mes=value;		
+				}.bind(this))
+			}
+			
+		}
+	})
+	new Vue({
+		el:"#app2"
+	})
+
+	</script>
+</body>
+</html>

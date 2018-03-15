@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.box{
+				border:1px solid #000000;
+			}
+		</style>
+		<script src="../js/vue.js" type="text/javascript"></script>
+	</head>
+	<body>
+	<div id="app1">
+		<p>{{message}}</p>
+		<custom-tag :imessage="message" @addnum="padd" ></custom-tag>
+	</div>
+	<template id="child">
+		<div>
+			<input type="button" @click="addnum" value="+" />
+		</div>
+	</template>
+	<script type="text/javascript">
+		Vue.component('custom-tag',{
+			props:['imessage'],
+			data(){
+				return {
+					message:this.imessage
+				}
+			},
+			template:"#child",
+			methods:{
+				addnum(){
+					this.message++;
+					this.$emit('addnum',this.message);
+				}
+			}
+		})
+		new Vue({
+			el:"#app1",
+			data:{
+				message:0
+			},
+			methods:{
+				padd(value){
+					this.message+=value;
+				}
+			}
+		})
+	</script>
+	</body>
+</html>

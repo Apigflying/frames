@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div id="app">
+			abc1，list是作为形参传入到props内的，在app下的属于new Vue的父级环境，父级要监控他们的变化，所以用“:”
+			
+			<curstom-list :abc1="title1" :list="list1"></curstom-list>
+		</div>
+		<script type="text/javascript">
+			Vue.component('curstom-list',{
+				//props接收实参
+				props:['abc1','list'],
+				//接收的实参进行字符串拼接，将数据替换进来
+				//这里属于子级的模板环境
+				template:`
+					<div>
+						<h2>{{abc1}}</h2>
+						<ul>
+							<li v-for="value in list">{{value}}</li>
+						</ul>
+					</div>
+				`
+			})
+			var data={
+					title1:'abc',
+					list1:[1,2,3,4],
+					title2:'def',
+					list2:[5,6,7,8]
+			}
+			
+			new Vue({
+				el:'#app',
+				data:data
+			})
+		</script>
+	</body>
+</html>

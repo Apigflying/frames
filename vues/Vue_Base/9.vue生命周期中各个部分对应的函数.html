@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.box{
+				width:100px;
+				height:100px;
+				background: blue;
+			}
+		</style>
+	<script src="js/vue.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div id="box">
+			<button @click="fn1">123456</button>
+			<ul>
+				<li v-for="attr in a">{{attr}}</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			var data={
+				a:4,b:2,
+				shows:false
+			}
+			var vm=new Vue({
+				el:"#box",
+				data:data,
+				methods:{
+					fn(){
+						console.log('abc')
+					},
+					fn1(){
+						this.a=7
+					}
+				},
+				beforeCreate(){
+					//页面加载,就会执行这个函数
+					console.log('beforeCreate创建实例之前执行的函数')
+				},
+				created(){
+					console.log('create初始化事件之后执行的函数')
+				},
+				beforeMount(){
+					//页面加载,vue的实例el被创建就会执行这个函数
+					console.log('beforeMount创建vue元素实例，替换元素之前执行的函数')
+				},
+				mounted(){
+					console.log('mounted创建实例之后执行的函数')
+				},
+				beforeUpdate(){
+					console.log('beforeUpdate虚拟DOM被重修饰渲染之前执行的函数')
+				},
+				updated(){
+					console.log('updata虚拟DOM被重修饰渲染之后执行的函数')
+				}
+
+			})
+		</script>
+	</body>
+</html>

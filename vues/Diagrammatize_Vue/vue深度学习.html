@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+</head>
+<body>
+	<p>
+		1.单文件组件
+		每个单文件组件作为被引用的子组件都相当于实例化了一个Vue实例
+		在一个文件内，引用了vue的文件，
+		<script>
+			Vue.component('子组件的标签名字',{
+				template:'<div>{{datas}}</div>',
+				data(){return{
+					datas:'abc'//
+				}},
+
+			})
+			component的第二个参数就相当于重新创建了一个子组件的实例
+			等同于new了一个新的Vue，与跟组件的vue不同的是：
+			子组件内的component是components，data要写成函数的形式，数据是data函数的返回值
+			为什么要将data写成函数，返回一个对象呢？
+			在全局中，data是一个对象，里面保存了全局可以使用的数据，当全局数据改变时，会影响其他组件，所以，Vue在单文件的子组件内，通过
+			data:function(){
+				return{
+					a:'124'
+				}
+			}
+			相当于
+			的方式注册子组件自己的数据，而不会影响全局组件的数据,即同名不同组件内的同名数据不会互相影响
+			如：
+			在custom-a文件内的datas不会影响custom-b文件内的datas
+		</script>
+
+		2.vue的全局API：
+			在全局范围内都能够使用的
+		（1）Vue.extend({})
+			用于扩展vue构造器的方法，
+			其实就是
+			Vue.component()的第二个参数，也就是单文件组件
+			每一个单文件组件，就是一个组件构造器，它有自己的模板，有自己的data，方法和钩子等
+			所以：一个单文件组件，就是一个组件构造器
+		（2）Vue.set(object,key,value)
+			用于给全局Vue，就是根组件的构造器，设置属性的
+		（3）Vue.component
+			用于添加全局组件的
+		（4）Vue.use()
+			用来加载插件的如：vuex,vue-router,vue-axios等
+
+		3.内置组件：
+		（1）component标签，绑定is属性，用来决定要渲染的组件
+		（2）keep-alive标签，决定加载后的内容是否进行缓存
+		4.v-for遍历对象
+			<li v-for="(value,key) in obj">
+				value->对应obj的所有value值
+				key->对应obj的所有key值
+			</li>
+
+		5.数据双向绑定-列表更新方法：
+		数组的数据更新：
+		数组的以下方法会造成页面的重新渲染
+		push()
+		pop()
+		shift()
+		unshift()
+		splice()
+		sort()
+		reverse()
+		
+
+		其他不会直接改变数组的方法，不会触发页面重新渲染
+	注：改变数组的长度和直接给数组的第几项赋值，也不会重新渲染
+	如：
+		arr[2]=10;不会重新渲染
+		arr.length=4;也不会重新渲染
+
+		可以使用vue全局的set方法（由于是全局的，所以要引用Vue。import Vue from 'vue'）
+		Vue.set(
+		第一个参数为要修改的数组[this.arr],
+		第二个参数为数组的索引[index],
+		第三个参数是要替换的内容[这个内容会替换数组中的第index项])
+		方法等同于：
+		arr.splice(index,1,{要替换的内容})；
+
+		6.动态添加classname
+			<div class="wrap" :class="className"></div>
+			data(){return{
+				className:{
+					classA:true,
+					classB:false,
+					classC:true
+				}
+			}}
+			渲染的结果为：<div class="wrap classA classC"></div>
+			即：绑定的className的类型是对象的时候，
+			根据这个对象的value值为true或false来渲染这个对象的key，作为className
+
+		7.表单控件的v-model
+			（1）text
+					用v-model绑定的变量，在输入框内的内容改变的时候，数据会实时更新，反映到页面上
+					类似于一个表单的oninput事件：当表单元素的value正在改变的时候，会实时触发								反应在页面中，就是实时改变value值，同时渲染
+			（2）checkbox
+					在多选的时候，通常checkbox绑定的是一个数组：
+					<input type="checkbox" v-model="myBox" value="">
+			（3）将变量放入到行间的attr中，需要用v-bind的形式，来动态监听数据变化，
+				v-bind的作用：
+						1）告诉vue这个是变量
+						2）可以实时监听变量的变化
+					输入框的表单事件有  .number  .lazy  .trim
+						v-model.number的作用是将输入框内输入的数字（默认都是字符串）转换为数字类型，
+						v-model.lazy的作用是将表单实时更新变为失去焦点时更新
+							类似于从oninput事件变为了onchange（失去焦点并且值改变的时候触发）事件
+						v-model.trim的作用是将用户输入的内容进行去除前后空格
+
+
+		8.计算属性：
+			通常用计算属性的地方都用到data内的数据，依据data内的数据，进行计算返回，例如表单验证，数组重排序，，等等，可以对接收到的数据进行缓存和重定义
+			在可复用的模板组件中，可以通过计算属性，返回不同的data值，来进行区分和比较
+
+		9.除了自定义标签之外，还可以用is属性动态加载不同的组件：
+			在父组件内：
+				<p :is="WhichToRender"></p>
+				import renderA from './renderA'
+				import renderB from './renderB'
+				
+				data(){return {WhichToRender:'renderA'}},
+
+				当有事件触发，修改WhichToRender的值得时候，将它改为renderB，那么这个p标签，渲染就是renderB组件的内容
+				这个P标签等同于自定义标签：renderA
+
+				上面的写法也相当于：
+					<renderA v-if="showWhich"></renderA>
+						v-esle-if="showWhich"
+					<renderB v-else></renderB>
+				的渲染方式
+		10.自定义标签和自定义属性的名字都是不区分大小写的，就是说，会将原本大写的名字，改为中线分割
+		11.
+		在父组件内，自定义一个标签
+		<custom-child :toChild="dataToChild">这个是子组件要渲染的东西</custom-child>
+		props:{
+			'父组件在行间自定义的属性名 toChild ' :['String','Number'] 对传过来的数据进行验证,
+			右侧的意思是：传过来的数据可以是字符串，也可以是数字
+		}
+
+		12.transition过渡效果
+		<transition name="my-ani" mode="out-in">
+								通过mode改变过渡的方式。默认是in-out
+								
+								
+			这里放要过渡的元素
+			<p v-show="abc"></p>
+		</transition>
+		过渡的两种状态：
+		v-enter -> v-enter-active    v-leave -> v-leave-active
+			0   ->     1 				1   -> 		0
+					   ↑
+				过渡到的最终效果，也是元素原本的状态
+				
+		
+		<style>
+			my-ani对应上面的name
+				↓
+			.(my-ani)-enter-active,.my-ani-leave-active{
+				设置过渡的时间
+				transition: all 0.5s ease-out;
+			}
+			.my-ani-enter{
+				enter之前的起始状态
+				transform:translateY(-500px);
+				opacity:0;
+			}
+			.my-ani-enter-active  过渡中
+			从上面的状态过渡到正常显示,没有class的状态
+				↓
+			{
+				正常显示的状态
+				transform:translateY(0);
+				opacity: 1;
+			}
+			.my-ani-leave 	过渡之前,正常显示的状态
+			从上面的正常显示的状态过渡到,最终没有class的状态
+				↓
+			.my-ani-leave-active{
+				transform:translateY(500px);
+				opacity:0;
+			}
+			在过渡期间才有className的改变,在改变之前和改变之后都没有className
+			
+			.equipment-enter-active,.equipment-leave-active{
+				transition: all 0.5s ease-out;
+			}
+			.equipment-enter,.equipment-leave-active{
+				height:0;
+				opacity:0;
+			}
+			
+		</style>
+		
+		可以接收过渡的vue属性：
+		v-show
+		v-if...v-else
+		v-if和v-else过渡的标签名相同的时候，无法有过渡效果
+		像这种无法过渡的情况，是因为vue为了最大限度的减少重排
+		从而在原有标签上更改内容，以达到性能最优
+		
+		为了解决这种问题，可以给
+		<p v-if="show" key='1'>abc</p>
+		<p v-else key='2'>bcd</p>
+		每个标签添加一个key用来区分两个标签，让vue能够重排，进而重绘
+		
+		
+		动态组件（用is绑定的动态组件名的过渡）
+		<p :is="viewIt"></p>
+		
+		
+		13.自定义指令
+			想要自己定义一个指令：v-color在全局下使用
+			要在data(){},watch:{}同级下添加一个
+			
+			directives:{
+				color:function(el,binding){
+					el是使用这条指令的元素，是自带的
+					binding是一个对象，value对应的就是
+					<p v-color="'red'"></p>(这里的v-color与这里面的color的函数名字对应的)
+					中的'red'
+					el.style.color=binding.value
+								↓
+					p.style.color='red';
+				}
+			}
+			如果想把v-color作为全局的指令，可以在main.js里面添加
+			和data:{},el:'#app',同级的
+			directives:{
+				color:function(el,binding){
+					
+				}
+			}
+			这样，自定义的指令在全局下就都能够使用了
+			binding对象的属性:
+				name:指令的名字，不包括v-,这里就是'color'
+				value:指令绑定的值，可以接收动态的值
+			
+			二
+				vue-router
+				1，引入vue-router
+				import VueRouter from 'vue-router'
+				等同于
+				var VueRouter=require('vue-router');
+				引用的方法
+				
+				2，引用vue-router
+				引用插件的方式：
+				Vue.use(VueRouter);
+				
+				3，vue-router实例化
+				let router=new VueRouter();
+				
+				4,在全局内引用实例化出来对象router
+				在el:"#app",router,store...
+				
+			三
+				npm install vue-cli -g
+				全局安装vue-cli，安装一次就行
+				vue init webpack my-project
+				用webpack初始化一个项目
+				npm install
+				安装项目依赖
+				npm run dev 在localhost启动测试服务器
+				npm run build 生成上线目录（部署）
+				
+		vuex的状态管理：
+		1.
+		├── index.html
+		├── main.js
+		├── api
+		│   └── ... # 抽取出API请求
+		├── components
+		│   ├── App.vue
+		│   └── ...
+		└── store
+		    ├── index.js          # 我们组装模块并导出 store 的地方
+		    ├── actions.js        # 根级别的 action
+		    ├── mutations.js      # 根级别的 mutation
+		    └── modules
+		        ├── common.js     # 公用的 加载数据，
+		        └── products.js   # 产品模块
+		
+		
+		由于使用单一状态树，应用的所有状态会集中到一个比较大的对象。当应用变得非常复杂时，store 对象就有可能变得相当臃肿。
+		为了解决以上问题，Vuex 允许我们将 store 分割成模块（module）。每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块——从上至下进行同样方式的分割：
+		a.js文件
+		
+		1.加载异步请求的函数
+		在actions中使用
+		import getData from '/api/getData'
+		
+		2.
+			1)   main.js内
+			import store from './store'
+			new Vue({
+				router,store
+			})
+				
+			2)   store的入口文件
+			import Vue from 'vue'
+			import Vuex from 'vuex'
+			import common from './modules/common'//公用的，一加载就保存的
+			import repair from './modules/repair'//单独的状态，适用于一个模块，与外界其他模块没有数据之间的交互
+			import getters from './getters'//根getters
+			Vue.use(Vuex)
+
+			const store = new Vuex.Store({
+			    modules: {
+			    	//modules固定写法，用于引入所有的状态，作为统一管理
+			        common,
+			        repair
+			    },
+			    getters
+			});
+			export default store
+
+			3)    repair.js文件内，有自己管理的状态，与其他状态没有关系
+			import tools from '@/utils/tools'//引用工具函数
+			const repair={
+				state:{
+					//自己的状态
+					buildingMes:null,
+				},
+				actions:{
+					自己的函数，这里可以执行异步函数
+					通常用于向后端提交请求，获取数据之后，执行异步操作
+					-- 只有actions内可以执行异步操作，而mutations中不能只能异步操作，只能执行同步函数 --
+
+					例如：
+					saveDatas(context,id){
+
+						context作为actions函数的第一个参数，是vuex提供的一个对象
+						这个对象下有commit方法，用ES6的写法，可以直接写成{commit}
+
+						getDataApi(id).then(res=>{
+							执行异步函数，当res获取到之后，
+							再执行对应的mutations函数
+
+							context.commit('getDataApi',res.data.Content);
+
+						})
+					},
+					saveBuildingMes({commit},obj){
+						commit({type:'saveBuildingMes',obj})
+					},
+					async actionA ({ commit }) {
+					    commit('gotData', await getData())
+					},
+				},
+				mutations:{
+					saveBuildingMes(state,payload){
+						state.buildingMes=payload.obj;
+						tools.setStorage('buildingMes',payload.obj)
+					}
+				},
+			}
+			export default repair
+	
+			官方推荐的：
+				1.所有应用层级的state都放到同一个store里
+				2.只能通过mutations来更改原始状态
+				3.异步请求必须放到actions里
+
+
+			vue当嵌套组件的时候，会有一个问题：
+				在dialog组件内嵌套其他组件的时候，对应的子组件还没有渲染，也就是还没有加载完成
+				会导致找不到ref对应的元素
+
+	</p>	
+</body>
+</html>

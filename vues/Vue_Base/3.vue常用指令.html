@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/jquery-3.2.0.js" type="text/javascript">
+			
+		</script>
+		<script src="js/vue.js" type="text/javascript">
+			
+		</script>
+	</head>
+	<body>
+		<h1>v-if=""</h1>
+		<div class="app">
+			<!--<p v-if="这里接收一个返回值，返回值是由下面的obj的内容决定的，如果返回值是true，那么就让当前的标签显示在页面上，如果返回值是false，那么对应的这个标签就不会显示在页面上"></p>-->
+			
+			<p v-if="ber">hellow，vue</p>
+					  ↑
+			Vue将v-if关键字内的内容，在对象obj内查找，找到之后返回对应的value值，此处obj内ber值是ture，所以这个p标签能够被显示出来
+			<!--v-if="ber"，这个ber会被Vue解析成obj的key，然后将对应的key值在这里进行返回值判断-->
+			
+			<p v-if="no">show or not</p>
+			          ↑
+			在这里，no在obj内的返回值是false，所以这个p标签不会被显示出来
+			
+			<p v-if="name.length<10">123</p>
+						↑
+			可以利用obj对应key值的返回值进行判断，如果为真，那么会这个标签就会显示出来，如果为假，那么就不显示
+			
+			<p v-if="name.length>10">123</p>
+						↑	
+			此时name.length的的值是7，返回值是false，那么这个标签就不会显示出来
+			
+			
+			注意：v-if指令是根据条件表达式的值来执行元素的插入或者删除行为。
+			
+			
+		</div>
+		<h1>---------------------分割线---------------------</h1>
+		<h1>v-show=""</h1>
+		<div class="app">
+			<p v-show="ber">hellow,vue</p>
+				v-show控制了元素的行间样式，如果为true，那么不在行间添加样式，如果为false，那么就将这个元素的行间样式style设置为:display:none
+			<p v-show="no">hellow,vue</p>
+						↑
+				它的用法和v-if类似，只不过他们显示的效果不同，v-if控制标签是否在DOM中显示，v-show控制了行间的display
+		</div>
+		<h1>---------------------分割线---------------------</h1>
+		<h1>v-else=""</h1>
+		<div class="app">
+			<p v-if="age<18">我成年了</p>
+			<p v-else> 我还没成年 </p>
+			这里类似于JS中的if...else...
+			如果上面v-if后面的内容为真，那么就不走else内的
+			如果v-if为假，那么就会走else内的东西
+			并且，不能再if和else中间添加文字，否则vue会报错，就想原生JS中如果在if和else中间添加东西，也会报错一样
+		</div>
+		<h1>---------------------分割线---------------------</h1>
+		<script type="text/javascript">
+			let obj={
+				ber:true,
+				no:false,
+				name:'laowang',
+				age:23
+			}
+			//这个Vue是用来连接示图和数据的
+			$(function (){
+				let app1=$('.app')[0];
+				let app2=$('.app')[1];
+				let app3=$('.app')[2];
+				let app4=$('.app')[3];
+				new Vue({
+					el:app1,
+					data:obj//data指向model
+				})
+				new Vue({
+					el:app2,
+					data:obj//data指向model
+				})
+				new Vue({
+					el:app3,
+					data:obj//data指向model
+				})
+				new Vue({
+					el:app4,
+					data:obj//data指向model
+				})
+			})
+			
+		</script>
+	</body>
+</html>

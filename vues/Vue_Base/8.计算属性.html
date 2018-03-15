@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript">
+			
+		</script>
+	</head>
+	<body>
+		<div id="box">
+			<input type="text" v-model="question" />
+			<div>{{setorget}}</div>
+		</div>
+		<script type="text/javascript">
+			
+			var data={
+				question:'12344',
+				answer:''
+			}
+			new Vue({
+				el:"#box",
+				data:data,
+				computed:{//走这里是计算属性，计算属性用来通过message获取，或者设置
+					setorget:{
+						get:function(){
+							//这里是默认的，如过上面的setorget只是一个函数，那么默认是获取的操作,它需要有返回值，是计算后的值
+							//由于Vue是实时监听message的改变，做出对应数据的渲染的
+							//所以，可以通过set方法，改变message的值，来设置message
+							return this.question.split('').reverse().join('');
+						},
+						set:function(newmessage){
+							//这里是设置setorget的值，要接收一个参数
+							this.question=newmessage;
+						}
+					}
+				},
+				methods:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

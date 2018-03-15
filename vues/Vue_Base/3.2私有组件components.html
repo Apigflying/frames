@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div id="app">
+			<custom-parent >
+				<div class="amm">{{message}} </div>
+			</custom-parent>
+		</div>
+		<template id="child">
+			<div>
+				<slot>{{message}}</slot>
+			</div>
+		</template>
+		<script type="text/javascript">
+			Vue.component('custom-parent',{
+				data(){
+					return{
+						message:'我是子组件的数据'
+					}
+				},
+				template:'#child'
+			})
+			new Vue({
+				el:'#app',
+				data:{
+					message:'我是父组件的数据'
+				}
+			})
+		</script>
+	</body>
+</html>

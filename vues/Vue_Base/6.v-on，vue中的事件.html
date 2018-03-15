@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/jquery-3.2.0.js" type="text/javascript"></script>
+		<script src="js/vue.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div id="app">
+			<p><input type="text" class="inputs" /></p>
+			<input type="button" value="输出上面的内容" v-on:click="getCont" />
+			<input type="button" value="自定义事件" @click="say(12345)" />
+			v-on:可以简写成@
+		</div>
+		<script type="text/javascript">
+			//可以和jquery共用，但是必须写在new Vue的前面
+			$('#app').find('.inputs').attr('v-model','message');
+			let obj={
+				message:'abc'
+			}
+			let fns={
+				say(cont){
+					console.log(cont)
+				},
+				getCont(){
+					console.log(this.message)
+				}
+			}
+			new Vue({
+				el:'#app',
+				data:obj,//data用来挂载属性，可以在外面添加属性，这里只能添加属性，添加方法用下面的
+				methods:fns//methods这个对象用来挂载方法的
+			})
+			
+		</script>
+	</body>
+</html>

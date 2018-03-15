@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div id="box">
+			<table border="1px solid #000" cellspacing="0" cellpadding="0">
+				<tr>
+					<th>Name</th>
+					<th>Age</th>
+					<th>Sex</th>
+				</tr>
+				
+			这里类似于原生的for in 循环
+			使用v-for的必要条件：
+					对象obj内person的数据格式需要是数组
+					而且这种遍历类似于for in
+					在这里遍历的是数组
+					for(var attr in person){
+						attr就是对应数组中的每个对象
+						所以下面才能使用attr.name和attr.age
+					}
+					
+					注：
+					***利用v-可以直接获取到vue内，data对应的obj的key的valeu值
+					这里只需要传入obj的key，也就是person，就能获取到下面obj内的preson
+					所以，这里person才能直接使用***
+					
+				<tr v-for="attr in person">
+					<td>{{attr.name}}</td>
+					<td>{{attr.age}}</td>
+					<td>{{attr.sex}}</td>
+				</tr>
+			</table>
+		</div>
+		<ul id="ul">
+			<li v-for="value,index in list">{{value}}  、  {{index}}</li>
+		</ul>
+		这个for循环内，value也就是第一个字符串，就是list内的内容，
+		index就是对应项的索引值
+		<script type="text/javascript">
+			let obj={
+				person:[{
+					name:'a',
+					age:15,
+					sex:'man'
+				},{
+					name:'b',
+					age:45,
+					sex:'women'
+				},{
+					name:'c',
+					age:14,
+					sex:'man'
+				}]
+			}
+			new Vue({
+				el:'#box',
+				data:obj
+			})
+			new Vue({
+				el:'#ul',
+				data:{
+					list:[1,2,3,4,'sdga']
+				}
+			})
+		</script>
+	</body>
+</html>

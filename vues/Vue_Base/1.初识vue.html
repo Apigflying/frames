@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div class="demo">
+			<span>{{abc}}</span>
+			<!--页面中的部分用{{abc}}表示，vue会将两个大括号中的标识符解析-->
+		<!--将页面上el元素内的{{key}}替换成下面value的值
+					       ↑
+		  Vue({data:{key:value}})-->
+		</div>
+		
+		<script type="text/javascript">
+			let obj={
+				abc:'我是用vue更改的数据',
+			}
+			//首先创建一个vue实例
+			//这个vue实例传入一个参数，参数格式是JSON
+			//这个JSON中是元素选择器
+			var vm=new Vue({
+				//el用来选择元素，选择器同jQuery
+				//vue操作的是页面上的数据，所以，对获取的el元素内的{{}}处进行替换
+				el:".demo",
+				data:obj
+			})
+		</script>
+	</body>
+</html>
