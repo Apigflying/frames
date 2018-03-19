@@ -66,7 +66,7 @@ export default {
 .wrap{
   @include wh(400/$rem,200px);
   border:1px solid blue;
-  // overflow: hidden;
+  overflow: hidden;
   li{
     position: relative;
     z-index: 1;
