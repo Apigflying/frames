@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import * as _ from './hook'
+import * as _ from './hook'//全局的钩子函数
 
 Vue.use(Router)
-const Patha = () =>
-  import ('views/pathA')
+import Patha from 'views/pathA'//正常加载
 const Pathb = () =>
-  import ('views/pathB')
+  import ('views/pathB')//懒加载（按需加载）
 const testScroll = () =>
   import ('views/testScroll')
+const bScroll = () =>
+  import ('views/testScroll/better-scroll')
 const routes = [{
     path: '',
     component: Patha
@@ -26,6 +27,10 @@ const routes = [{
     path: '/testScroll',
     name: 'testScroll',
     component: testScroll
+  },{
+    path: '/bScroll',
+    name: 'bScroll',
+    component: bScroll
   },
 ]
 
