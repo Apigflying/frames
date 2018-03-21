@@ -1,0 +1,25 @@
+<view>
+  {{mes}}
+  <button class="btn" bindtap="clickTest">点击测试</button>
+  <view id="item{{num}}">123</view>
+  <template name="staffName">
+  <view>
+    FirstName: {{firstName}}, LastName: {{lastName}}
+  </view>
+</template>
+<block wx:for="{{[1, 2, 3]}}">
+  <view> {{index}}: </view>
+  <view> {{item}} </view>
+</block>
+
+<template is="staffName" data="{{...staffA}}"></template>
+<template is="staffName" data="{{...staffB}}"></template>
+<template is="staffName" data="{{...staffC}}"></template>
+  <view wx:for="{{arr}}" wx:key="index">{{item}}</view>
+  <button class="btn" bindtap="toindexs">
+    点击跳转到index组件页面
+  </button>
+  <map bindmarkertap="markertap" wx:latitude="latitude" wx:longitude="longitude"></map>
+  <view>
+  {{num}}</view>
+</view>

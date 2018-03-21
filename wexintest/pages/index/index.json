@@ -1,0 +1,11 @@
+{
+  "window": {
+    "backgroundTextStyle": "blue",
+    "navigationBarBackgroundColor": "red",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "usingComponents":{
+    "custom-com":"../../components/custom/custom"
+  }
+}

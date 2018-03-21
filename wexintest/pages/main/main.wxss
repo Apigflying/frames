@@ -1,0 +1,4 @@
+/* pages/main/main.wxss */
+.btn{
+  width:400rpx;
+}
