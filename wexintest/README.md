@@ -7,7 +7,7 @@
 
 ---
 
-##1.项目结构
+## 1.项目结构
 >main目录
 + main.json 
 + main.wxml
@@ -15,9 +15,9 @@
 + main.js
 >在一个目录中所有格式的文件只有一个，**文件名与目录名**必须相同
 
-##2.加载顺序和方式
+## 2.加载顺序和方式
 `app.json`文件中定义了pages数组，会将数组中的第一个目录作为首页渲染
-##3.钩子函数
+## 3.钩子函数
 >.js文件中定义钩子函数
 ```javascript
 //整个小程序只有一个app实例，是全部页面共享的，属于单页应用
@@ -87,7 +87,7 @@ path、query、scene是一定会存在的属性
 可通过场景值，判断进入小程序的来源如：扫描小程序码进入，从小程序进入小程序
 
 ----
-##4.全局钩子实例
+## 4.全局钩子实例
 >在任意的组件js文件中，可以利用getApp()来获取全局的小程序实例，主要用途是读取全局的分配属性
 ```javascript
 //index.js
@@ -102,7 +102,7 @@ console.log(appInstance.globalData);
 - 3.不要再onLaunch的时候调用getCurrentPages(),此时page还没有生成
 - 4.通过getApp()获取实例之后，不要私自调用生命周期函数
 
-##5.app.json全局配置
+## 5.app.json全局配置
 [全局app.json的配置][4]
 ```javascript
 {
@@ -137,7 +137,7 @@ console.log(appInstance.globalData);
 ![tabBar底部导航栏的展示信息配置项][5]
 
 
-##6.单组件的生命周期钩子函数
+## 6.单组件的生命周期钩子函数
 - onLoad: 页面加载
  + 一个页面只会调用一次，可以在 onLoad 中获取打开当前页面所调用的 query 参数。
 - onShow: 页面显示
@@ -162,7 +162,7 @@ console.log(appInstance.globalData);
 
 
 
-##待解决的问题
+## 待解决的问题
 - 1
 问题描述：
 - [ ]    在app.json中加入tabBar选项（带有list数组）的导航栏之后
@@ -204,14 +204,14 @@ console.log(appInstance.globalData);
   
   
   
-  # 微信小程序开发2-语法
+# 微信小程序开发2-语法
 
 标签（空格分隔）： 微信开发
 
 ---
 
-##1.wxml行内语法
-###1.绑定文本
+## 1.wxml行内语法
+### 1.绑定文本
 ```javascript
 <view>{{message}}</view>
 
@@ -220,7 +220,7 @@ data:{
 }
 
 ```
-###2.循环
+### 2.循环
 ```javascript
 //不加wx:key="index" 报警告
 <view wx:for="{{arr}}" wx:key="index" wx:for-index="index" wx:for-item="item">{{item}}</view>
@@ -230,7 +230,7 @@ data:{
 }
 ```
 
-###3.条件渲染
+### 3.条件渲染
 ```javascript
 <view wx:if="{{flag}}"></view>
 data:{
@@ -238,7 +238,7 @@ data:{
 }
 ```
 
-###4.模板渲染
+### 4.模板渲染
 ```javascript
 <template name="staffName">
 
@@ -261,8 +261,8 @@ data:{
 >总结：无论是内容，还是指令，在使用的时候，都是用{{}}来进行包裹的
 
 ---
-##2.自定义组件
-###1.使用自定义组件的顺序
+## 2.自定义组件
+### 1.使用自定义组件的顺序
 1.定义components文件夹，在其中添加custom目录
 2.在custom目录中添加对应格式的文件，如：一键添加Component
 3.在custom.json文件添加以下内容：
@@ -301,7 +301,7 @@ Component({
 }
 ```
 
-###2.slot插槽，在component组件中定义插槽
+### 2.slot插槽，在component组件中定义插槽
 默认一个组件内只有一个插槽，当有多个插槽的时候，需要在js中定义：
 ```javascript
 //Component定义------------------------------
@@ -328,6 +328,6 @@ Component({
 
 
 ---
-##遇到的问题
+## 遇到的问题
 - 1
     template的用法
