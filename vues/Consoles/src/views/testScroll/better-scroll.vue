@@ -25,7 +25,7 @@ export default {
   data () {
     return {
       data: [],
-      navs:[1,2,3,4,5,6],
+      navs: [1, 2, 3, 4, 5, 6],
       pulldown: true
     }
   },
@@ -33,9 +33,9 @@ export default {
     this.loadData()
   },
   methods: {
-    toEle(val){
-      console.log(this.$refs['item'+val][0]);
-      this.$children[0].scrollToElement(this.$refs['item'+val][0]);
+    toEle (val) {
+      console.log(this.$refs['item' + val][0]);
+      this.$children[0].scrollToElement(this.$refs['item' + val][0]);
     },
     loadData () {
       this.requestData().then((res) => {
@@ -53,11 +53,11 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import '../../style/base';
+@import "../../style/base";
 .navs {
   @include wh(80%,40px);
-  div{
-    border-right:1px solid red;
+  div {
+    border-right: 1px solid red;
     float: left;
     @include wh(40/$rem,40px);
     text-align: center;
@@ -66,16 +66,16 @@ export default {
     z-index: 2;
   }
 }
-.wrapper{
+.wrapper {
   @include wh(400/$rem,200px);
-  border:1px solid blue;
+  border: 1px solid blue;
   overflow: hidden;
-  li{
+  li {
     position: relative;
     z-index: 1;
     @include wh(100%,180px);
-    margin-bottom:20px;
-    border:1px solid black;
+    margin-bottom: 20px;
+    border: 1px solid black;
   }
 }
 </style>
