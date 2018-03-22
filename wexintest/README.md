@@ -300,8 +300,24 @@ Component({
     }
 }
 ```
+7.传递给子组件参数
+```javascript
+//父组件
+<custom-component custom="{{motto}}">
 
-### 2.slot插槽，在component组件中定义插槽
+data:{
+    motto:'hellow world'
+}
+
+//子组件
+<view>{{custom}}</view>
+
+properties:{
+    custom:String
+}
+```
+
+### 2.Component中的slot插槽，在component组件中定义插槽
 默认一个组件内只有一个插槽，当有多个插槽的时候，需要在js中定义：
 ```javascript
 //Component定义------------------------------
@@ -321,9 +337,87 @@ Component({
     </view>
 </custom-component>
 ```
+### 3.Component组件的js详解
+```javascript
+Component({
+  behaviors: [],
+  properties: {
+    myProperty: { // 属性名
+      type: String, // 类型（必填），目前接受的类型包括：String, Number, Boolean, Object, Array, null（表示任意类型）
+      value: '', // 属性初始值（可选），如果未指定则会根据类型选择一个
+      observer: function(newVal, oldVal){} // 属性被改变时执行的函数（可选），也可以写成在methods段中定义的方法名字符串, 如：'_propertyChange'
+    },
+    myProperty2: String // 简化的定义方式
+  },
+  data: {}, // 私有数据，可用于模版渲染
 
+  // 生命周期函数，可以为函数，或一个在methods段中定义的方法名
+  attached: function(){
+    
+  },
+  created(){
+    //组件生命周期函数，在组件实例进入页面节点树时执行，注意此时不能调用 setData
+  },
+  attached: function () {
+    //组件生命周期函数，在组件实例进入页面节点树时执行
+  },
+  ready: function () {
+    //组件生命周期函数，在组件布局完成后执行，此时可以获取节点信息（使用 SelectorQuery ）
+  },
 
+  methods: {
+    onMyButtonTap: function(){
+      this.setData({
+        // 更新属性和数据的方法与更新页面数据的方法类似
+      })
+    },
+    _myPrivateMethod: function(){
+      // 内部方法建议以下划线开头
+      this.replaceDataOnPath(['A', 0, 'B'], 'myPrivateData') // 这里将 data.A[0].B 设为 'myPrivateData'
+      this.applyDataUpdates()
+    },
+    _propertyChange: function(newVal, oldVal) {
 
+    }
+  }
+})
+```
+**注，组件命名规则**
+> 父组件.wxml 引用，且传递属性给子组件时 < custom-component current-val="{{parentVal}}" /> 
+> 子组件.wxml 引用，< view id="{{currentVal}}"> < /view>
+> 子组件.js 中 properties的属性名使用小驼峰 currentVal
+
+---
+
+### 4.Component与父组件之间的事件
+>子组件更改父组件的数据，需要用自定义事件
+```javascript
+//父组件
+/*
+    监听子组件的事件，执行的函数在父组件内定义
+*/
+<view>{{parentData}}</view>
+<custom-component bindchildCommitEvent="parentEventExecute" bind>
+
+data:{
+    parentData:'这是父组件的数据'
+},
+parentEventExecute(e){//子组件触发父组件的事件，在父组件内执行，修改父组件自己的属性
+    this.setData({
+        parentData:e.detail
+    })
+    //注，从子组件内传递过来的是事件对象，e.detail是子组件真正传递的数据
+}
+
+//----------------------------------------------------
+//子组件
+<button bindtap="childEventExecute">修改父组件内的数据</button>
+
+properties:{
+    
+}
+
+```
 
 
 
