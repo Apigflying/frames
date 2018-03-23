@@ -1,18 +1,24 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+  <view class="header">
+    <view class="header-top">
+      这里是顶部导航
+    </view>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+  <!-- 副导航跟随顶部导航切换而变化，所以讲副导航加进页面中 -->
+  <view class="section">
+    <scroll-view scroll-y class="box-wrap">
+      <view class="green box"></view>
+      <view class="red box"></view>
+      <view class="blue box"></view>
+      <view class="yellow box"></view>
+    </scroll-view>
   </view>
-  <view>{{testMessage}}</view>
-  <button bindtap="testClick">测试点击事件</button>
-  <view>{{num}}</view>
-  <button bindtap="changeGlobalNum">点击更改全局的num值</button>
-  <custom-com></custom-com>
+  <!-- 固定在底部的 -->
+  <view class="footer">
+    <view>
+      <image src="../../static/icon-play.png" class="footer_img" wx:if="{{!currentSong}}"></image>
+      <image v-else class="footer_img" src="{{currentSong.imgUrl}}"></image>
+    </view>
+  </view>
 </view>

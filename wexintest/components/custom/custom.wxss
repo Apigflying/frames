@@ -1,5 +1,5 @@
 .custom{
-  width:100rpx;
-  height:100rpx;
+  width:400rpx;
+  height:400rpx;
   border:1rpx solid red;
 }

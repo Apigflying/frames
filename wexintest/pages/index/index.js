@@ -1,15 +1,13 @@
 //index.js
 //获取应用实例
 const app = getApp()
+const {request} = require('../../utils/fetch.js')
+
 
 Page({
   data: {
-    motto: 'Hello World',
-    testMessage:'first',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    num:app.globalData.num
+    motto: 'Hellold',
+    currentSong:null
   },
   // -----------------------事件处理函数-----------------------
   bindViewTap: function() {
@@ -20,10 +18,32 @@ Page({
   changeGlobalNum(){
     app.globalData.num++;
   },
-  testClick(){
-    wx.reLaunch({
-      url: '../main/main',
-      
+  async testClick(){
+    // wx.reLaunch({ 
+    //   url: '../main/main',
+    // }) 
+    let data = await wx.request({
+      url: 'http://localhost:3000/search?keywords=%E6%B5%B7%E9%98%94%E5%A4%A9%E7%A9%BA',
+      method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+      success: function(res){
+        console.log(res);
+      }
+    })();
+    this.setData({
+      motto:data
+    })
+  },
+  sleep(){
+    return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+        resolve('1234')
+      },2000)
+    })
+  },
+  parentEvents(val){
+    console.log(val);
+    this.setData({
+      motto:val
     })
   },
   getUserInfo: function(e) {
@@ -35,33 +55,13 @@ Page({
     })
   },
   //-----------------------钩子函数-----------------------
-  onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
+  async onLoad() {
+    let {data:{code,result:{songs}}} = await request('search?keywords=%E6%B5%B7%E9%98%94%E5%A4%A9%E7%A9%BA');
+    this.setData({
+      currentSong:{
+        imgUrl:songs[0].artists[0].img1v1Url
       }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
+    })
   },
 
 })
