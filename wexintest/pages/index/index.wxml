@@ -1,24 +1,17 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="header">
-    <view class="header-top">
-      这里是顶部导航
-    </view>
+  <text>引入组件的两种方式</text>
+  <view>
+  1，在.json文件中添加
+  "usingComponents":{
+    "custom-com":"../../components/custom/custom"
+  }
+  引入custom组件
   </view>
-  <!-- 副导航跟随顶部导航切换而变化，所以讲副导航加进页面中 -->
-  <view class="section">
-    <scroll-view scroll-y class="box-wrap">
-      <view class="green box"></view>
-      <view class="red box"></view>
-      <view class="blue box"></view>
-      <view class="yellow box"></view>
-    </scroll-view>
-  </view>
-  <!-- 固定在底部的 -->
-  <view class="footer">
-    <view>
-      <image src="../../static/icon-play.png" class="footer_img" wx:if="{{!currentSong}}"></image>
-      <image v-else class="footer_img" src="{{currentSong.imgUrl}}"></image>
-    </view>
-  </view>
+  <view>{{custom}}</view>>
+  <custom-com custom="{{'这是传给custom子组件的数据'}}" bindCustomEvent="parentEvent"/>
+  2.使用include标签，引入子组件
+  <include src="../../components/dialog/dialog" dialog="{{'传给dialog的数据'}}" bindDialogEvent="parentEvent"/>
+
+  <view wx:for="{{[1,2,3,4,5]}}" bindtap="clickMe(item)">{{item}}</view>
 </view>

@@ -21,8 +21,7 @@ Component({
   },
   methods:{
     onTap(){
-      console.log('erzi', this.data)
-      this.triggerEvent('parentEvent', this.data);
+      this.triggerEvent('CustomEvent', 'custom-child-change-val');
     }
   }
 })

@@ -1,2 +1,6 @@
 <!--components/dialog/dialog.wxml-->
-<text>components/dialog/dialog.wxml</text>
+<view>
+<text>这是dialog的内容</text>
+{{dialog}}
+<button size="mini" bindtap="onTap">点击</button>  
+</view>
