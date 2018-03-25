@@ -1,7 +1,6 @@
 const {injectBabelPlugin} = require('react-app-rewired');
-
 module.exports = function override(config, env) {
-  config = injuectBabelPlugin([
+  config = injectBabelPlugin([
     'import', {
       libraryName: 'antd',
       libraryDirectory: 'es',
@@ -9,4 +8,4 @@ module.exports = function override(config, env) {
     }
   ], config);
   return config;
-}
+};

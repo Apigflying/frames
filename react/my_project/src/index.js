@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-
+// import './style/reset.css';
 //从react-router-dom引入react路由
 /*
   HashRouter 利用hash值的改变，进行路由的切换
