@@ -1,0 +1,40 @@
+$headerHeight:44px;
+@mixin verticalMiddle($h) {
+  height:$h;
+  line-height:$h;
+}
+#logo{
+  color:#fff;
+  margin-bottom:0;
+  background: #000;
+  text-align:center;
+  @include verticalMiddle($headerHeight);
+}
+.ant-layout-header{
+  @include verticalMiddle($headerHeight);
+}
+.headerDivider{
+  color:#fff;
+  @include verticalMiddle($headerHeight);
+  padding:10px 0;
+  float:left;
+}
+#nav{
+  float:left;
+  background:none;
+  border:none;
+  @include verticalMiddle($headerHeight);
+  line-height: $headerHeight - 2px;
+  margin-left:30px;
+  a{
+    color:#fff;
+    border:none;
+    i{
+      color:#fff;
+    }
+  }
+}
+
+.pageWrap{
+  min-height:100%;
+}

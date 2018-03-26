@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import RouterIndex from './router/index';
-import './view/index.css';
 import MainHeader from './view/main-header';
 import MainFooter from './view/main-footer';
+import 'antd/dist/antd.css';
+import './style/cssreset.scss';
+import './view/index.scss';
 class App extends Component {
   render() {
     return (
