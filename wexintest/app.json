@@ -1,13 +1,15 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/main/main",
-    "pages/logs/logs"
+    "pages/musiclibrary/musiclibrary",
+    "pages/musiclocal/musiclocal",
+    "pages/musicattention/musicattention",
+    "pages/musicsearch/musicsearch"
   ],
   "window": {
     "navigationBarTitleText": "Demo",
-    "navigationBarTextStyle":"white",
-    "backgroundColor":"#ff00ff"
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#ff00ff"
   },
   "networkTimeout": {
     "request": 10000,

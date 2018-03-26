@@ -1,6 +1,0 @@
-<view class="custom">
-  这是一个自定义组件
-  {{customStatus}}
-  <view>{{custom}}</view>
-  <button bindtap="onTap">子组件</button>
-</view>

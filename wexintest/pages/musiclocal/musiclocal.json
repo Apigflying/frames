@@ -5,8 +5,8 @@
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black"
   },
-  "usingComponents":{
-    "header":"../../components/header/header",
-    "footer":"../../components/footer/footer"
+  "usingComponents": {
+    "header": "../../components/header/header",
+    "footer": "../../components/footer/footer"
   }
 }
