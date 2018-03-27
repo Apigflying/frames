@@ -3,6 +3,7 @@ $headerHeight:44px;
   height:$h;
   line-height:$h;
 }
+// 头部的样式
 #logo{
   color:#fff;
   margin-bottom:0;
@@ -37,4 +38,11 @@ $headerHeight:44px;
 
 .pageWrap{
   min-height:100%;
+}
+// 下拉菜单按钮的样式
+.xsNav{
+  position: absolute;
+  top:0;
+  right:0;
+  width:auto;
 }

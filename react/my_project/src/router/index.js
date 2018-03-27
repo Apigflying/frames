@@ -15,6 +15,9 @@ import User from '../view/user';
 import Details from '../view/details';
 
 class RouterIndex extends Component {
+  mounted(props){
+    console.log(props);
+  }
   render() {
     return (
       <Switch>
