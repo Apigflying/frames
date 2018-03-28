@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store' //加载vuex
-import 'src/config/rem' //rem布局
+// import 'src/config/rem' //rem布局
 import 'src/style/cssreset' //cssreset
 import 'src/plugins/element.used' //element按需加载
 import 'src/style/element.theme' //设置element的全局样式

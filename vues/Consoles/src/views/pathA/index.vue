@@ -1,6 +1,6 @@
 <template>
 <div>
-  abc
+  组件a
 </div>
 </template>
 
@@ -17,8 +17,6 @@ export default {
     }
   },
   mounted() {
-    var setData = this.getDatas();
-    setInterval(setData,1000)
   },
   methods: {
     getDatas(){

@@ -124,7 +124,7 @@ export default {
     scrollToElement () {
       // 代理better-scroll的scrollToElement方法
       this.scroll.refresh();
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       })
     }

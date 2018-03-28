@@ -31,7 +31,7 @@ module.exports = {
       'components': path.resolve(__dirname, '../src/components'),
       'utils': path.resolve(__dirname, '../src/utils'),
       'request': path.resolve(__dirname, '../src/request'),
-      'fetch': path.resolve(__dirname, '../src/fetch')
+      'fetch': path.resolve(__dirname, '../src/utils')
     }
   },
   module: {
