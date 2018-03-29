@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import './index.scss';
+
 //组件之间传递数据
 class TodoHeader extends Component {
   handlerKeyUp(e) {
@@ -11,14 +13,21 @@ class TodoHeader extends Component {
         isDone: false
       };
       e.target.value = '';
-      this.props.childCommit(newTodoItem);
+      console.log(this.props);
+      this
+        .props
+        .childCommit(newTodoItem);
     }
   }
   render() {
     console.log(this.props);
     return (
-      <div>
-        <input onKeyUp={this.handlerKeyUp.bind(this)} placeholder="请输入内容"/>
+      <div className={this.props.className}>
+        <input
+          onKeyUp={this
+          .handlerKeyUp
+          .bind(this)}
+          placeholder="请输入内容"/>
       </div>
     )
   }
