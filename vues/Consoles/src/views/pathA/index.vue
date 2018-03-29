@@ -1,15 +1,28 @@
 <template>
 <div>
-  组件a
+  <button @click.prevent="showDialog">点击测试</button>
+  <cDialog title="头部" :isDialogShow="isDialogShow" @closeDialog="closeDialog">
+    <!-- <div slot="custom">
+      自定义内容
+    </div>
+     -->
+     <div>这个是公用的</div>
+     <cCustom slot="custom" title="这个是自定的易容"/>
+  </cDialog>
 </div>
 </template>
 
 <script>
-
+import cDialog from 'components/dialog/dialog'
+import cCustom from 'components/customs'
 export default {
   name: 'pathA',
+  components:{
+    cDialog,cCustom
+  },
   data: function() {
     return {
+      isDialogShow:false,
       renderData: null,
       otherRender: '',
       renderData:null,
@@ -19,6 +32,12 @@ export default {
   mounted() {
   },
   methods: {
+    showDialog(){
+      this.isDialogShow = !this.isDialogShow;
+    },
+    closeDialog(val){
+      this.isDialogShow = val;
+    },
     getDatas(){
       let n=0;
       return ()=>{
