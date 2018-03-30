@@ -57,7 +57,8 @@ module.exports = {
       '.js',
       '.json',
       '.web.jsx',
-      '.jsx'
+      '.jsx',
+      '.scss'
     ],
     alias: {
       'react-native': 'react-native-web'
@@ -100,7 +101,7 @@ module.exports = {
               compact: true
             }
           }, {
-            test: /\.css$/,
+            test: /\.(css|sass|scss)$/,
             loader: ExtractTextPlugin.extract(Object.assign({
               fallback: {
                 loader: require.resolve('style-loader'),
@@ -130,7 +131,8 @@ module.exports = {
                       })
                     ]
                   }
-                }
+                },
+                'sass-loader'
               ]
             }, extractTextPluginOptions))
           }, {

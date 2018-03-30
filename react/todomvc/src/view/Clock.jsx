@@ -9,7 +9,8 @@ class Clock extends Component {
       date: this
         .$moment()
         .format('hh:mm:ss'),
-      timer: 0
+      timer: 0,
+      svalue:'bcd'
     }
   }
   componentWillMount() {
@@ -46,6 +47,11 @@ class Clock extends Component {
       .props
       .childCommit(val)
   }
+  handleChange(e){
+    this.setState({
+      svalue:e.target.value
+    })
+  }
   render() {
     return (
       <div className="clock">
@@ -58,13 +64,21 @@ class Clock extends Component {
             return <div key={index}>{item.text}</div>
           })}
         <div>
+          {this.props.keyName}
           {this.props.rootState}
           <button onClick={this
             .commitCustomEvent
             .bind(this)}>点击</button>
         </div>
+        <select value={this.state.svalue} onChange={this.handleChange.bind(this)}>
+          <option value="abc">abc</option>
+          <option value="bcd">bcd</option>
+        </select>
       </div>
     )
   }
+}
+Clock.defaultProps={
+  keyName:'valuesss'
 }
 export default Clock;

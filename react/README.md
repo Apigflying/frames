@@ -81,6 +81,52 @@ render(){
 }
 ```
 **注：**当父组件状态改变时，子组件对数据进行中间处理，可以用componetWillReceiveProps,对父组件的数据源进行过滤和筛选
+##### 为子组件添加props的默认值即验证 Child.defaultProps
+```javascript
+//props是子组件拉取父组件的状态的媒介
+//--------------------------child--------------------------
+class Child extends Component {
+    render(){
+        return (
+        <div>
+            {this.props.name}
+        </div>
+        )
+    }
+}
+//为props设置默认值
+Child.defaultProps={
+    name:'abcd'
+}
+Child.propTypes ={
+    name:PropTypes.string//指定参数类型必须是string
+}
+```
+|PropTypes 属性|验证|
+|:--:|:--:|
+|string|字符串|
+|bool|布尔值|
+|array|数组|
+|func|函数|
+|number|数字|
+|object|对象|
+|node|数字、字符串、元素、数组|
+|element|React节点(组件节点)|
+**PropTypes只需要在开发环境内使用**
+##### props.children作用域插槽
+>当子组件是wrap组件，如dialog,其只是一个样式容器，其内容可以由父组件自己定制,可以在子组件使用的标签对内，添加父组件自定义的内容。子组件通过props.children接收父组件的元素节点们
+```javascript
+//-----------------父组件-----------------
+import Dialog from 'component/Dialog/index'
+<Dialog>
+    <h4>这个是标题</h4>
+    <main>这里是内容</main>
+</Dialog>
+//-----------------Dialog组件-----------------
+<div>
+    {this.props.children}
+</div>
+```
 
 #### State状态
 通常一个组件的状态被定义在constructor中，用来指定自身的状态
@@ -276,10 +322,48 @@ render(){
     return (
         <ul>
             // 用到事件对象时这么写
-            {this.state.list.map((item,index)=>(<li onClick={e=>this.handleClick(e,item,index)}))}
+            {this.state.list.map((item,index)=>(<li onClick={e=>this.handleClick(e,item,index)} key={index}))}
             //不用事件函数可以这么写
             {this.handleClick.bind(this,item,index)}
         </ul>
     )
 }
+```
+**注：如果列表项可能被重新排列，React不建议使用索引index作为keys，因为这会导致性能问题**
+
+### 5.表单受控组件
+绑定表单的状态，和初始值相同，会自动渲染
+```javascript
+this.state={
+    value:'abcd'
+}
+
+handleChange(e){
+    this.setState({
+        value:e.target.value
+    })
+}
+render(){
+    return (
+        <select value={this.stat.value} onChange={this.handleChange.bind(this)}>
+        <option value="efg">efg</option>
+        <option value="abcd">abcd</option>
+    </select>
+    )
+}
+```
+> 上面的下拉菜单，会有默认值，abcd
+
+### 6.ref、DOM、ReactDOM与钩子函数
+>获取元素节点
+```javascript
+componentDidMount(){
+    //相当于mounted，节点只能在此时获取
+this.textInput.focus();
+}
+componentWillMount(){
+// 这个相当于created，无法获取到节点
+console.log(this.textInput);
+}
+<input ref={(ele)=>{this.textInput = ele}}/>
 ```

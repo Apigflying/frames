@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './index.scss';
+import 'style/index.scss';
 
 //组件之间传递数据
 class TodoHeader extends Component {

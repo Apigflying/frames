@@ -1,5 +1,3 @@
-
-
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
@@ -44,7 +42,9 @@ module.exports = {
       '.scss'
     ],
     alias: {
-      'react-native': 'react-native-web'
+      'react-native': 'react-native-web',
+      'style': path.resolve(__dirname, '../src/style/'),
+      'view': path.resolve(__dirname, '../src/view/')
     },
     plugins: [new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson])]
   },
@@ -53,23 +53,12 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx|mjs)$/,
-        enforce: 'pre',
-        use: [
-          {
-            options: {
-              formatter: eslintFormatter,
-              eslintPath: require.resolve('eslint')
-            },
-            loader: require.resolve('eslint-loader')
-          }
-        ],
-        include: paths.appSrc
-      } ,
-      // {
-      //   test:/\.scss$/,
-      //   loaders:['style-loader','css-loader','sass-loader']
-      // },
-      {
+        include: paths.appSrc,
+        loader: require.resolve('babel-loader'),
+        options: {
+          cacheDirectory: true
+        }
+      }, {
         oneOf: [
           {
             test: [
@@ -81,23 +70,14 @@ module.exports = {
               name: 'static/media/[name].[hash:8].[ext]'
             }
           }, {
-            test: /\.(js|jsx|mjs)$/,
-            include: paths.appSrc,
-            loader: require.resolve('babel-loader'),
-            options: {
-              cacheDirectory: true
-            }
-          },{
             test: /\.(css|scss|sass)$/,
             use: [
-              require.resolve('style-loader'), 
-              {
+              require.resolve('style-loader'), {
                 loader: require.resolve('css-loader'),
                 options: {
                   importLoaders: 1
                 }
-              }, 
-              {
+              }, {
                 loader: require.resolve('postcss-loader'),
                 options: {
                   ident: 'postcss',

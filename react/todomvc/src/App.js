@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import TodoHeader from './view/TodoHeader';
-import TodoMain from './view/TodoMain';
-import Clock from './view/Clock';
+import TodoHeader from 'view/TodoHeader';
+import TodoMain from 'view/TodoMain';
+import Clock from 'view/Clock';
 class App extends Component {
   constructor() {
     super();

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'style/reset.scss';
 import App from './App';
 import moment from 'moment';
 React.Component.prototype.$moment = moment;
