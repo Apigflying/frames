@@ -1,0 +1,9 @@
+@import '../../style/base/base.scss';
+.App {
+  .menu {
+    width: 300px;
+    a {
+      @include sc(14px, blue);
+    }
+  }
+}

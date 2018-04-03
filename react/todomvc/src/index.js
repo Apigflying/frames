@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'style/reset.scss';
+import 'style/reset/reset.scss';
 import App from './App';
 import moment from 'moment';
+import {BrowserRouter} from 'react-router-dom';
+
 React.Component.prototype.$moment = moment;
 React.Component.prototype.$nextTick = process.nextTick;
 ReactDOM.render(
-  <App/>, document.getElementById('root'));
-
+  <BrowserRouter>
+  <App/>
+</BrowserRouter>, document.getElementById('root'));
