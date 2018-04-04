@@ -7,8 +7,10 @@ import {NavLink} from 'react-router-dom';
 class CustomMenu extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
+    
     this.state = {
-      current: props.default || props.navs[0].key
+      current: props.defaultSelect
     }
     this.handleClick = this
       .handleClick
@@ -26,6 +28,11 @@ class CustomMenu extends Component {
   }
   handleClick = (e) => {
     this.setState({current: e.key});
+  }
+
+  //----------钩子函数----------
+  componentWillMount(){
+    
   }
   render() {
     return (
