@@ -3,12 +3,18 @@ import {Menu, Icon} from 'antd';
 import {NavLink} from 'react-router-dom';
 /*
   二级路由组件
+  props：
+    defaultSelect route对象的key
+    navs 路由对象列表
+      [{
+        key:'ckgl',
+        to:'/material/storage-material/ckgl',
+        name:'仓库管理'
+      }]
 */
 class CustomMenu extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
-    
     this.state = {
       current: props.defaultSelect
     }
@@ -28,11 +34,6 @@ class CustomMenu extends Component {
   }
   handleClick = (e) => {
     this.setState({current: e.key});
-  }
-
-  //----------钩子函数----------
-  componentWillMount(){
-    
   }
   render() {
     return (
