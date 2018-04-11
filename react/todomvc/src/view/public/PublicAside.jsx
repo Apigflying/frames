@@ -45,6 +45,8 @@ class PublicAside extends Component {
     }
     let first = routes.filter(mapFn)[0];
     let second=null;
+    if(!first)return;
+    console.log(first);
     lastSubMenu.push(first.key)
     if(!!first.children){
       second = first.children.filter(mapFn)[0];
