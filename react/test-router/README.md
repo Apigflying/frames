@@ -1,199 +1,183 @@
-﻿# create-react-app搭建项目
+﻿# react-router-dom
 
 标签（空格分隔）： react
 
----
 [TOC]
-## 1.入口文件
-```javascript
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import {BrowserRouter} from 'react-router-dom';
-import moment from 'moment'
 
-React.Component.prototype.$moment = moment;
-ReactDOM.render(
-  <BrowserRouter><App/></BrowserRouter>, document.getElementById('root')
+---
+
+## 1.BrowserRouter与HashRouter
+>BrowserRouter适合于直接导航，HashRouter适合于静态页面展示
+通常指定路由切换方式的地方为根节点，即根节点注册的位置
+```javascript
+//入口文件
+import {BrowserRouter} from 'react-router-dom';
+import ReactDom from 'react-dom';
+import App from './App';
+//在根节点指定路由的切换方式
+ReactDom.render(
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
+    ,document.getElementById('root')
 );
 ```
->react-dom 用于将子节点以组件的方式渲染到父节点上
 
->HashRouter 利用hash值的改变，进行路由的切换
- BrowserRouter 使用history的路由匹配模式
-
->React.Component.prototype 将插件挂载到全局的Componet，在任何组件内，都能通过this直接访问插件暴露的东西
-
->react-dom与react-router-dom配合，将根组件(App)通过路由(BrowserRouter)的方式放入到根节点内
-
-
-## 2.根组件(App)
+## 2.导航与视图分离
 ```javascript
+//Header
+
+
+//Main
+```
+
+## 3.Route与路径匹配，展示视图
+`<Route>`组件是React Router中主要的结构单元。在任意位置只要匹配了URL的路径名(pathname)你就可以使用`<Route>`元素进行渲染
+
+**思想：路由链接与视图匹配**
+
+### Route属性之path
+>path的类型为string
+
+```javascript
+<Route path="/home" />
+// 当路径名为'/'时, path不匹配
+// 当路径名为'/roster'或'/roster/2'时, path匹配
+
+---------------------------------------------------
+
+// 当你只想匹配'/roster'时，你需要使用"exact"参数，意为严格匹配
+// 则路由仅匹配'/roster'而不会匹配'/roster/2'
+<Route exact path="/home">
+```
+**注：react-router只关注location的变化，而不会关注search的变化**
+
+```javascript
+http://www.cxy.com/path/one?wd=abc
+react-router只会响应location中path/one的变化，而不会响应后面search的变化
+```
+
+
+
+
+>在根组件(App.jsx)中使用路由
+```javascript
+//------------------根组件------------------
 import React, {Component} from 'react';
-//配置页面路由，即：路径 - 视图组件的对应关系
-/*
-    将页面组件(a.js,b.js等页面之间的切换)放到根组件中(App中渲染不同的组件视图)
-*/
-import RouterIndex from './router/index';
-import MainHeader from './view/main-header';
-import MainFooter from './view/main-footer';
-import 'antd/dist/antd.css';
-import './style/cssreset.scss';
-import './view/index.scss';
+import PublicHeader from 'view/PublicHeader';
+import PublicFooter from 'view/PublicFooter';
+import RouterIndex from 'router/index'
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      todos: [], //初始状态
+      rootState:'初始状态',
+      value: '传递给子组件'
+    }
   render() {
     return (
-      <div className="pageWrap">
-        <MainHeader />
-        <MainFooter />
+      <div className="todo-input">
+        <PublicHeader/> //共同用头部，包括导航
+        <RouterIndex> //路由匹配的规则
+        <PublicFooter>
       </div>
     );
-    // (<RouterIndex/>);
   }
 }
 export default App;
-```
 
-## 引用scss或者less
-`cnpm i sass-loader node-sass -D`
-在webpack.dev.js && webpack.prod.js中修改配置
-```javascript
-extensions: [
-  '.web.js',
-  '.mjs',
-  '.js',
-  '.json',
-  '.web.jsx',
-  '.jsx',
-  '.scss'//为解析以.scss为后缀的文件
-],
-{
-    test: /\.(css|scss|sass)$/,//匹配后缀名
-    use: [
-      require.resolve('style-loader'), 
-      {
-        loader: require.resolve('css-loader'),
-        options: {
-          importLoaders: 1
-        }
-      }, 
-      'sass-loader'//使用sass-loader
-    ]
-}
-
-//less同理
-```
-报以下错误是因为重复引用loader
-```
-   Invalid CSS after "...load the styles": expected 1 selector or at-rule, was "var content = requi"
-```
-
-## react-router-dom
-```javascript
-import {
-    Link,//在点击时，进行路由(组件视图)之间的跳转
-    Switch,//包裹Route标签，渲染第一个匹配的路由组件，当有动态路由的时候，可以匹配第一个匹配到的路由
-    Route, //
-    StaticRouter,//
-    Redirect,//
-    BrowserRouter,
-    NavLink,//与link相似
-    HashRouter,// 利用hash值的改变，进行路由的切换
-} from 'react-router-dom'
-```
-![路由切换的原理][1]
-
-### 1.BrowserRouter
->使用history模式，利用h5的pushState,replaceState,popState事件 ，用url于Router组件对应的方式，当有子路由child嵌套的时候，需要服务器配合
-
-原理：
-
-- [x] 利用h5的`window.history`,对浏览器的历史记录读取，使用pushState()方法，replaceState()方法，来动态在history中添加记录，可以用history.go()方法，快速回退到页面
-
-属性：
-
-- [ ] basename:string
-    - 所有位置的基本URL，如果应用程序是从服务器上的子目录提供的，则需要将其设置为子目录
-- [ ] getUserConfuirmation:function
-    - 一个用来确认导航功能，默认使用window.confirm
-- [ ] forceRefresh:bool/false
-    - 如果为true,则路由在页面导航的时候，使用全页刷新进行跳转
-- [x] children:node/子元素节点
-    - 要呈现的单个子元素节点
-
-### 2.HashRouter
-- [x] 原理:在地址栏中加入#hash以欺骗浏览器，地址的改变是由于正在进行页内导航
-
-### 3.Link
-- [ ] to:string|object
-    - 跳转链接名或位置 | 链接位置
-- [ ] replace:bool
-    - 替换路由栈
-
-### 4.Redirect
-- [ ] to:string
-    - 重定向的链接
-```javascript
-import {Route,Redirect} from 'react-router-dom';
-class RouteIndex extends Component {
+//------------------头部------------------
+import {Link} from 'react-router-dom';
+class PublicHeader extends Component{
+    constructor(props){
+        super(props);
+    }
     render(){
-        <Switch>
-            // 主页重定向到/index页面
-            <Route path="/" exact render={<Redirect to="/index">}/>
-        </Switch>
+        return (
+            <header>
+                <nav>
+                    <Link to="/">首页</Link>
+                    <Link to="/about">关于</Link>
+                </nav>
+            </header>
+        )
     }
 }
-```
-- [ ] push：bool / false
-     - 当push为true时，重定向时会将定向页推入到历史记录栈，而不是替换当前记录已有的历史记录
 
-- [ ] from 
-    - 要重定向的路径名，可以用于在`<Switch>`内部渲染`<Redirect>`时匹配位置
-
-### 5.Route
->render methods
-
-- [x] render
-- [x] component
-- [x] children
-**制定render 方式，一个Route标签只能有他们中的一个，作为当路由匹配成功之后，渲染的组件或者页面，大部分情况下使用component来制定渲染的组件**
-
-- [x] component
-> 匹配到路由home的时候，渲染Home组件
-```javascript
-<Route path="/home" component={Home}>
-```
-
-- [x] render
-> 传给render的是一个函数，用于指明渲染的组件
-```javascript
-<Route path="/home" render={()=>
-    <h1>home</h1>
-}/>
-----------------------------------------
-<Route path="/" exact render={
-    () => (
-        < Redirect to = "/index" />
+//------------------路由------------------
+import {Route} form 'react-router-dom';
+import Home from 'view/Home'
+import About form 'view/About'
+render(){
+    return (
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
     )
-}/>
+}
+
+//------------------视图组件------------------
+
 ```
 
->props
-- [x] match
-- [x] location
-- [x] history
-所有的render methods 都将被传入这些props
+## 官方路由示例
+### 1，挂载router到root根实例
+路径不同，匹配不同的视图
+```javascript
+import {Router,Route,broswerHistory} from 'react-router';
+import App from './app';// 引入路由对应的视图
+render(
+    (
+        <Router history={browserHistory}>
+            <Route path="/" component={App}/>
+            <Route path="/repos" component={Repos}/>
+            <Route path="/about" component={About}/>
+        <Router>
+    ),
+    document.getElementById('root')
+)
+```
+|路径|视图组件|
+|:--:|:--:|
+|/|App组件|
+|/repos|Repos组件|
+|/about|About视图|
+### 2.公共的导航栏，匹配不同视图(组件内容)
+```javascript
+//App.js
+import Nav from './nav';
+import RouterIndex from './router/index';
 
-- [x] path:string 
- - url的路径
+render(){
+<div>
+    <Nav/> //路由切换的链接
+    <RouterIndex> //内容(组件)部分的切换
+</div>
+}
+```
+```javascript
+//nav 常驻页面的导航
+import {Link} from 'react-router-dom';
+render(){
+    <div>
+        <Link to="/">首页</Link>
+        <Link to="/about">关于</Link>
+        <Link to="/bar">Bar页面</Link>
+    </div>
+}
+```
+```javascript
+// router/index.js页面路由切换配置
+import Home from 'view/home';
+//import...
+<Switch>
+    {/*默认的重定向*/}
+    <Route path="/" exact render={() => (<Redirect to= "/home" />)}/> 
+    <Route path="/home" component={Home}/>
+    <Route path="/about" component={About}/>
+    <Route path="/bar" component={Bar}/>
+</Switch>
+```
+### 3.二级路由
 
-- [x] exact:bool / false
- - 如果为true，path为：'/one'的路由将不能匹配'/one/two',反之亦然
 
-- [x] strict:bool / false
- - 对路径末尾斜杠的匹配，如果为true。path为'/one/' 将不能匹配 '/one' 但可以匹配 '/one/two'
-
-**如果要确保路由没有末尾斜杠，那么strict和exact都必须同时为true**
-
-
-  [1]: http://osjykr1v3.bkt.clouddn.com/FuiGIO3bpI5wx5QV09CmEggxNBL4
