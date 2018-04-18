@@ -71,23 +71,3 @@ $fonth4color: #6d8097; //区域的h4的文字颜黄
 $heightlightfontcolor: #bacfe8; //有高亮文字的颜色
 $commonfontcolor: #8698ae; //非高亮的颜色值
 $tableBgdColor:#161635;
-@mixin bgdbdr {
-    //每个区块的边框
-    background-color: $tableBgdColor;
-    border: 1px solid #29354d;
-}
-
-@mixin headerstyle {
-    font-weight: bolder;
-    line-height: 72/$rem;
-    height: 72/$rem;
-    @include sc(24/$rem, $bluecolor);
-}
-
-@mixin blockh3 {
-    height: 40/$rem;
-    line-height: 40/$rem;
-    @include sc(14/$rem, $heightlightfontcolor);
-    text-align: left;
-    padding-left: 10/$rem;
-}

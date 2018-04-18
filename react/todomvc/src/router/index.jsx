@@ -23,7 +23,10 @@ class RouterIndex extends Component {
         {/* 资料-品牌管理 */}
         <Route path="/material/brand-mag" component={BrandMag}/>
         {/* 采购-采购业务 */}
-        <Route path="/purchase/purchase-business" component={PurchaseBs}/>
+        <Route path="/purchase/purchase-business" component={PurchaseBs} onEnter={(params,replace)=>{
+          console.log(params);
+          replace('/storages/out-put')
+        }}/>
         <Route path="/storages/out-put" component={OutPut}/>
       </Switch>
     )

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Layout, Row, Col, Divider,Icon,Dropdown,Button} from 'antd';
-import Nav from './nav';
+import Nav from './main-nav';
 class MainHeader extends Component {
   render() {
     return (
