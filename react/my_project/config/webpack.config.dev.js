@@ -95,6 +95,7 @@ module.exports = {
       // native-for-web/
       'react-native': 'react-native-web',
       'view':path.resolve(__dirname,'../src/view/'),
+      'components':path.resolve(__dirname,'../src/components/'),
       'utils':path.resolve(__dirname,'../src/utils/'),
       'router':path.resolve(__dirname,'../src/router/'),
       'static':path.resolve(__dirname,'../src/static/'),

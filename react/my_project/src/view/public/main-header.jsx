@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import 'style/public/index.scss';
-import Nav from './main-nav';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import "style/public/index.scss";
+import NavLeft from "./main-nav";
+import NavRight from "components/search";
 // const {Header} = Layout;
 
 class MainHeader extends Component {
@@ -14,15 +15,22 @@ class MainHeader extends Component {
               <div id="header-title" className="clear">
                 <h1 className="logo-wrap fl">
                   <Link className="GitHub" to={"/"} alt="GitHub头像">
-                    <img src="https://avatars0.githubusercontent.com/u/25586605?s=460&v=4"/>
+                    <img src="https://avatars0.githubusercontent.com/u/25586605?s=460&v=4" alt="logo"/>
                   </Link>
                 </h1>
                 <h2 className="subtitle-wrap fl">
-                  <p>个人小站</p>
+                  <p>abcd</p>
                   <p>test myself</p>
                 </h2>
               </div>
-              <Nav/>
+              <div id="header-navs" className="clear">
+                <div className="nav-left fl">
+                  <NavLeft />
+                </div>
+                <div className="nav-right fr">
+                  <NavRight />
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -9,14 +9,15 @@
     margin: 0 auto;
   }
 }
+
 // 顶部
 #header {
-  background: #26272b;
-  padding-bottom: 60px;
+  background:$BlackBgdColor;
+  padding-bottom: $NavTranslate;
   position: relative;
   #header-outer {
     height: 100%;
-    position: relative;
+    position: relative; // logo - sublogo
     #header-title {
       padding: 30px;
       .logo-wrap {
@@ -30,23 +31,74 @@
           }
         }
       }
-      .subtitle-wrap{
-        margin-left:20px;
-        padding:20px 0 20px;
-        p{
-          color:#fff;
-          cursor:default;
+      .subtitle-wrap {
+        margin-left: 20px;
+        padding: 20px 0 20px;
+        p {
+          color: #fff;
+          cursor: default;
           user-select: none;
         }
       }
-    }
-  }
-  .nav{
-    .is-active{
-      .el-icon{
-        color:#409EFF;
+    } // 导航 - search
+    #header-navs {
+      background: $NavBgdColor;
+      .nav-left {
+        .el-menu--dark {//左侧的列表ul
+          background: $NavBgdColor;
+        }
+        .el-menu-item{//li的样式
+          font-size:$IconFontSize;
+        }
+        .icon {
+          vertical-align:normal;
+        }
+      }
+      .nav-right {
+        height: $NavTranslate;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .search-form {
+          background: $NavBgdColor;
+          .icon {
+            @include sc($IconFontSize, $IconColor);
+            display: inline-block;
+            vertical-align: middle;
+          }
+          .search-form-input {
+            height: 30px;
+            background: $NavBgdColor;
+            font-size: $IconFontSize;
+          }
+        }
       }
     }
-    
+  } // 导航
+  .nav {
+    .el-menu-item:hover {
+      border-bottom: 5px solid $OnSelectColor;
+    }
+    .navlink {
+      display: block;
+    }
+    .is-active {
+      color: $OnSelectColor;
+      border-bottom: 5px solid $OnSelectColor;
+      .icon {
+        color: $OnSelectColor;
+      }
+    }
+  }
+}
+
+// 底部
+#footer {
+  background: #33363b;
+  margin-top: 60px;
+  color: #aaa;
+  line-height: 1.6em;
+  .credit {
+    padding: 30px
   }
 }

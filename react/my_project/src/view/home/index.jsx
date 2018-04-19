@@ -2,7 +2,7 @@
 import React ,{Component} from 'react';
 import {getData} from 'api/getData';
 import {postData} from 'api/postData';
-class Index extends Component{
+class Home extends Component{
   getDataTest(){
     getData().then(res=>{
       console.log(res);
@@ -28,4 +28,4 @@ class Index extends Component{
     )
   }
 }
-export default Index;
+export default Home;

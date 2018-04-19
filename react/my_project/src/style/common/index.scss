@@ -1,0 +1,17 @@
+@import '../base.scss';
+//通用組件的樣式 common
+// search
+.search-form {
+  .icon{
+    margin-right:8px;
+    display: inline-block;
+  }
+  .search-form-input {
+    width: 120px;
+    transition: width .2s;
+    background: $BlackBgdColor;
+    &:focus {
+      width: 200px;
+    }
+  }
+}
