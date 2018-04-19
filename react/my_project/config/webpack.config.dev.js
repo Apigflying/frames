@@ -99,7 +99,8 @@ module.exports = {
       'router':path.resolve(__dirname,'../src/router/'),
       'static':path.resolve(__dirname,'../src/static/'),
       'api':path.resolve(__dirname,'../src/api/'),
-      'store':path.resolve(__dirname,'../src/store/')
+      'store':path.resolve(__dirname,'../src/store/'),
+      'style':path.resolve(__dirname,'../src/style/'),
     },
     plugins: [// Prevents users from importing files from outside of src/ (or node_modules/).
       // This often causes confusion because we only process files within src/ with

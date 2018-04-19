@@ -21,8 +21,6 @@ class Index extends Component{
       <div>
         shouye
         <button onClick={this.getDataTest.bind(this)}>获取数据</button>
-
-
         <div>
           <button onClick={this.postDataTest.bind(this)}>post提交数据</button>
         </div>

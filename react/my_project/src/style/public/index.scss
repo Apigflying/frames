@@ -1,0 +1,52 @@
+@import '../base.scss';
+.container {
+  padding: 0 20px;
+  position: relative;
+  .container-inner {
+    max-width: 1120px;
+    min-width: 320px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+// 顶部
+#header {
+  background: #26272b;
+  padding-bottom: 60px;
+  position: relative;
+  #header-outer {
+    height: 100%;
+    position: relative;
+    #header-title {
+      padding: 30px;
+      .logo-wrap {
+        border-radius: 8px;
+        overflow: hidden;
+        .GitHub {
+          display: block;
+          img {
+            display: block;
+            @include wh(120px, auto);
+          }
+        }
+      }
+      .subtitle-wrap{
+        margin-left:20px;
+        padding:20px 0 20px;
+        p{
+          color:#fff;
+          cursor:default;
+          user-select: none;
+        }
+      }
+    }
+  }
+  .nav{
+    .is-active{
+      .el-icon{
+        color:#409EFF;
+      }
+    }
+    
+  }
+}

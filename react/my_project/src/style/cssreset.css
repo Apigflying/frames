@@ -151,6 +151,11 @@ body {
   animation: backOpacity 2s ease-in-out infinite;
 }
 
+::selection {
+  color: #fff;
+  background: #fa862e;
+}
+
 @keyframes backOpacity {
   0% {
     opacity: 1;

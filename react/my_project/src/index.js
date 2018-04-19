@@ -10,8 +10,6 @@ import axios from 'axios';
 */
 import {BrowserRouter} from 'react-router-dom';
 
-React.Component.prototype.$axios = axios;
-
 //将App挂在到根节点
 ReactDOM.render(
   <BrowserRouter><App/></BrowserRouter>, document.getElementById('root')
