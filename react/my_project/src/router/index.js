@@ -13,7 +13,11 @@ class RouterIndex extends Component {
       <Switch>
         <Route path="/" exact render={() => <Redirect to={routes[0].path} />} />
         {routes.map((item, index) => {
-          return <Route path={item.path} component={item.component} key={index}/>;
+          return <Route path={item.path} render={
+            e=>{
+              return <item.component {...e}/>;
+            }
+          } key={index}/>;
         })}
       </Switch>
     );

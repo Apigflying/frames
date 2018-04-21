@@ -36,7 +36,7 @@ ReactDom.render(
 
 **思想：路由链接与视图匹配**
 
-### Route属性之path
+### 3.1 Route属性之path
 >path的类型为string
 
 ```javascript
@@ -48,6 +48,16 @@ ReactDom.render(
 
 // 当你只想匹配'/roster'时，你需要使用"exact"参数，意为严格匹配
 // 则路由仅匹配'/roster'而不会匹配'/roster/2'
+/*
+ 当页面路由为‘/’的时候，重定向到/index目录 
+  exact 是否严格匹配
+    加上这个属性或者为true，则为严格匹配
+    不加或为fasle，则为正常匹配
+    
+    当使用重定向的时候，需要加上exact，否则会报下面的错误：
+    Warning: You tried to redirect to the same route you're currently on ：/index
+
+*/
 <Route exact path="/home">
 ```
 **注：react-router只关注location的变化，而不会关注search的变化**
@@ -119,6 +129,54 @@ render(){
 //------------------视图组件------------------
 
 ```
+### 3.2Route属性之component
+>渲染组件的视图。通常视图没有传参
+
+### 3.3Route属性之render
+>当视图组件需要接受参数的时候，component通常无法满足情况，需要使用render来渲染对应视图
+```javascript
+// index.jsx 引用了Home组件
+<Route path="/home" render={(e)=>{
+    /*
+    {
+        "match":{
+            "path":"/home",
+            "url":"/home",
+            "isExact":true,
+            "params":{}
+        },
+        "location":{
+            "pathname":"/home",
+            "search":"?sfdsafds",
+            "hash":""
+        },
+        "history":{
+            "length":2,
+            "action":"POP",
+            "location":{
+                "pathname":"/home",
+                "search":"?sfdsafds",
+                "hash":""
+            }
+        }
+    }
+    */
+    return <Home a={123}>
+}}/>
+
+// home.jsx组件
+render(){
+    console.log(this.props);
+    let data = this.props; // {a:123}
+    return (
+        <div>
+            // 这里使用了this.props
+        </div>
+    )
+}
+```
+>上面的组件渲染视图的时候，在子组件内用到了props。如果使用Route的component无法满足上述的功能。即传递props
+而使用render就可以。利用return的组件，在组件标签内添加自定义属性。从而传递给子组件
 
 ## 官方路由示例
 ### 1，挂载router到root根实例
