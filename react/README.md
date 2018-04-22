@@ -23,9 +23,17 @@ ReactDOM.render(ele,document.getElementById('root'))
 
 **自定义标签，也就是组件，本身是一个返回节点的函数，它的行内属性，会被解析成key-value的形式，在函数内部使用这些参数，然后动态渲染节点**
 
+|html行内属性|react写在行内的属性|所属元素|
+|:--:|:--:|:--:|
+|class|className|所有元素|
+|for|htmlFor|label元素|
+|accept-charset|acceptCharset|form元素|
+
+
 >提取组件
 提取组件的原则：I/O
 通过props传值给组件，组件负责接收到参数后，返回对应节点（视图）
+
 
 #### Props只读
 **props是子组件标签，在父组件内定义时，行内的属性组成的对象**
@@ -132,20 +140,57 @@ import Dialog from 'component/Dialog/index'
 通常一个组件的状态被定义在constructor中，用来指定自身的状态
 
 ### 2.生命周期钩子函数
+>1.挂载阶段
 ```javascript
+//1
+constructor(){
+    //  构造函数，在创建组件的时候调用一次    
+}
+//2
 componentWillMount(){
-    //
+    // 在组将即将被挂载的时候调用一次
 }
+//3
+render(){
+    // 渲染组件
+}
+//4
 componentDidMount(){
-    //
-}
-componentWillUnmount(){
-    //
-}
-componentWillReceiveProps(params){
-    //当父组件的数据改变的时候，子组件内此函数会被触发
+    // 在组件挂载完成的时候调用一次，在这里可以使用refs
 }
 ```
+
+>2.更新阶段
+```javascript
+//1
+componentWillReceiveProps(nextProps){
+    // 父组件更新props，会触发此函数
+}
+//2 父组件更新，是否重新渲染
+shouldComponentUpdate(nextProps,nextState){
+    //是否需要重新渲染
+    return true||false;//默认返回false
+}
+//3 
+componentWillUpdate(nextProps,nextState){
+    //即将更新
+}
+//4
+render(){
+    //渲染
+}
+//5
+componentDidUpdate(prevProps,prevState){
+    //更新
+}
+```
+>3.卸载阶段
+```javascript
+componentWillUnmount(){
+// 注销组件时候执行。通常用于清除定时器
+}
+```
+
 ##### componetWillReceiveProps与子组件的state配合，过滤父组件的数据变更响应事件
 >子组件监听父组件的状态变化，是否响应，可以由子组件自己决定
 ```javascript
@@ -332,6 +377,9 @@ render(){
 **注：如果列表项可能被重新排列，React不建议使用索引index作为keys，因为这会导致性能问题**
 
 ### 5.表单受控组件
+
+>input表单元素，value值与state绑定的时候，需要制定onChange事件。否则会报错，无法绑定元素value的变更
+
 绑定表单的状态，和初始值相同，会自动渲染
 ```javascript
 this.state={
@@ -366,4 +414,18 @@ componentWillMount(){
 console.log(this.textInput);
 }
 <input ref={(ele)=>{this.textInput = ele}}/>
+```
+或者：
+```javascript
+handleClick(){
+    this.refs.textInput.value=123;
+}
+render(){
+    return (
+        <div>
+            <input ref="textInput"/>
+            <input type="button" onClick={this.handleClick.bind(this)}/>
+        </div>
+    )
+}
 ```
