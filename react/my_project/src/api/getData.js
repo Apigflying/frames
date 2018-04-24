@@ -8,3 +8,10 @@ export function getData(){
     url:'/abc'
   })
 }
+
+export function getMarkdown(){
+  return fetch({
+    method,
+    url:'/article/get-markdown'
+  })
+}

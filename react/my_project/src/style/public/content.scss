@@ -1,1 +1,38 @@
 @import '../base.scss';
+.main-body.container-inner {
+  margin-top: -60px;
+  background-color: $CommonBgdColor;
+}
+
+.main-body-inner {
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.098) 0px 1px 1px 0px;
+  padding-left: $SidebarWidth;
+}
+
+#main {
+  width: 100%;
+  min-height: 600px;
+  .main-body-header {
+    @include fswh(#666);
+    background: $CommonBgdColor;
+    position: relative;
+    padding: 18px 30px 17px;
+    border-left: 1px solid $SideBarBgdColor;
+    border-bottom: 1px solid #eee;
+  }
+}
+
+#sidebar {
+  background: $CommonBgdColor;
+  margin-left: -$SidebarWidth;
+  width: $SidebarWidth;
+  .sidebar-top {
+    background:  $SideBarBgdColor;
+    padding: 15px 30px;
+    p{
+      @include fswh(rgba($CommonBgdColor,0.8));
+      padding: 3px 0;
+    }
+  }
+}

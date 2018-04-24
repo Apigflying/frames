@@ -2,12 +2,9 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { Menu } from "element-react";
 import routes from "router/routes.js";
-const currentRoute = routes.find(item=>{
-  return window.location.pathname.includes(item.path)
-})
 class Nav extends Component {
   state = {
-    current: currentRoute.path
+    current: window.location.pathname
   };
   componentWillMount() {
     if (this.state.current === "/") {

@@ -11,3 +11,11 @@ export function getOpenId() {
     url: `${proxy}/openId`,
   })
 }
+
+export function mockLogin(data) {
+  return fetch({
+    method,
+    url: `/login/login`,
+    data
+  })
+}

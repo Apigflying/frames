@@ -8,9 +8,9 @@ import axios from 'axios';
   HashRouter 利用hash值的改变，进行路由的切换
   BrowserRouter 使用history的路由匹配模式
 */
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 //将App挂在到根节点
 ReactDOM.render(
-  <BrowserRouter><App/></BrowserRouter>, document.getElementById('root')
+  <Router><App/></Router>, document.getElementById('root')
 );

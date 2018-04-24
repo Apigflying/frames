@@ -1,36 +1,18 @@
-// 全局的函数
-@mixin border($width, $style, $type: solid) {
-    border: $width $type $style;
-}
+/*
+    sass内置函数
+    颜色函数：
+        为某个颜色值添加透明度
+        rgba($red,$green,$blue,$alpha); ||  rgba($color,$alpha);
+        rgba($bgdColor,.8);
+*/
 
-@mixin borderRadius($radius) {
-    -webkit-border-radius: $radius;
-    -moz-border-radius: $radius;
-    -ms-border-radius: $radius;
-    -o-border-radius: $radius;
-    border-radius: $radius;
-}
-
+/* 全局的函数*/
 //定位上下左右居中
 @mixin center {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
-
-//定位上下居中
-@mixin ct {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-//定位左右居中
-@mixin cl {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
 }
 
 //宽高
@@ -57,13 +39,35 @@
 }
 
 
-/*
-    项目引用
-*/
-
+/* ----colors---- */
+// 文字选中时的颜色
 $OnSelectColor:#fa862e;
+// 黑色背景色值
 $BlackBgdColor:#26272b;
-$NavTranslate:60px;
+// 导航的背景色
 $NavBgdColor:#33363b;
-$IconFontSize:16px;
+// 图标的颜色
 $IconColor:#bfcbd9;
+// 通用背景色
+$CommonBgdColor:#fff;
+// 关注的背景色
+$SideBarBgdColor:#62bbc3;
+
+
+/* ----sizes---- */
+// 侧边栏的宽度
+$SidebarWidth:340px;
+// 导航栏偏移的距离
+$NavTranslate:60px;
+// 图标的字体
+$IconFontSize:16px;
+$FontWeigth:600;
+$LineHeight:24px;
+
+/* ----定制---- */
+ // 定制字体，颜色，行高
+@mixin fswh($color){
+    @include sc($IconFontSize,$color);
+    font-weight: $FontWeigth;
+    line-height: $LineHeight;
+}
