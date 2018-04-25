@@ -1,7 +1,9 @@
 import Mock from 'mockjs';
+import {loginByUsername} from './login';
 
-var loginByUsername= config => {
-  return 'denglu'
-}
+console.log(loginByUsername)
+Mock.setup({
+  timeout:'1000-2000'
+})
 
-Mock.mock(/\/login\/login/, 'get', loginByUsername)
+Mock.mock(/\/test\/login/, 'post', loginByUsername);

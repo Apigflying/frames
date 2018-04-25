@@ -11,10 +11,16 @@ const testScroll = () => import("views/testScroll");
 const bScroll = () => import("views/testScroll/better-scroll");
 const Login = () => import("views/login");
 const Authredirect = () => import("views/authredirect");
+const Home =()=> import("views/home")
 const routes = [
   {
     path: "",
-    component: Patha
+    component: Home
+  },
+  {
+    path: "/home",
+    name:'home',
+    component: Home
   },
   {
     path: "/login",

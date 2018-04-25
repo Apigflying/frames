@@ -15,7 +15,7 @@
 <script>
 import cDialog from 'components/dialog/dialog'
 import cCustom from 'components/customs'
-import {mockLogin} from 'request/index'
+// import {mockLogin} from 'request/index'
 export default {
   name: 'pathA',
   components:{
@@ -31,9 +31,9 @@ export default {
     }
   },
   mounted() {
-    mockLogin().then(res=>{
-      console.log(res);
-    })
+    // mockLogin().then(res=>{
+    //   console.log(res);
+    // })
   },
   methods: {
     showDialog(){

@@ -30,8 +30,11 @@ module.exports = {
       'views': path.resolve(__dirname, '../src/views'),
       'components': path.resolve(__dirname, '../src/components'),
       'utils': path.resolve(__dirname, '../src/utils'),
-      'request': path.resolve(__dirname, '../src/request'),
-      'fetch': path.resolve(__dirname, '../src/utils')
+      'api': path.resolve(__dirname, '../src/api'),
+      'filters': path.resolve(__dirname, '../src/filters'),
+      'mixins': path.resolve(__dirname, '../src/mixins'),
+      'store': path.resolve(__dirname, '../src/store'),
+      'router': path.resolve(__dirname, '../src/router'),
     }
   },
   module: {

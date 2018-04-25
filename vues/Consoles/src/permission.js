@@ -17,19 +17,24 @@ router.beforeEach((to, from, next) => {
   if (getToken()) {
     // 如果toke存在
     console.log("token 存在");
+    if (to.path == "/login") {
+      next("/");
+    }
+    next();
   } else {
     // token不存在
+    console.log('token 不存在')
     if (whiteList.includes(to.path)) {
       // 在免登录白名单，直接进入
-      next();
       console.log("在白名单");
-      NProgress.done();
+      next();
+      NProgress.done(); //done放在next()之后
     } else {
       next("/login"); // 否则全部重定向到登录页
-      NProgress.done(); // if current page is login will not trigger afterEach hook, so manually handle it
+      NProgress.done();
     }
   }
 });
 router.afterEach(() => {
-  NProgress.done()
-})
+  NProgress.done();
+});
