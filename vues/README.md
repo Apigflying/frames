@@ -112,6 +112,34 @@ data:{
 <renderB v-else></renderB>
 ```
 **注：自定义标签和自定义属性的名字都是不区分大小写的，就是说，会将原本大写的名字，改为中线分割**
+### 4-自定义标签的v-model
+>父组件
+```js
+<custom-input v-model="content"/>
+
+data(){return {
+    content:'abc'
+}}
+```
+>子组件
+```js
+<input type="text" @input="_change" :value="value"/>
+
+// 使用v-model的父组件会传递value给子组件。value就是父组件content的内容
+props:['value'],
+methods: {
+    _change(e){
+      this.$emit('input',e.target.value);//触发子组件的input事件，同时传递value给父组件
+    }
+},
+//----------------------------------------------------
+watch: {
+    value(val){
+      //可监听value的变化
+      console.log(val);
+    }
+},
+```
 
 ----------------------------------------------------
 ## 3.v-model和input缠绵悱恻
@@ -411,7 +439,36 @@ watch: {
 }
 ```
 
-
+### 3-立即执行watch
+某些函数，在created中，即页面初始化的时候，就执行的函数，在watch某个属性变化的时候，也执行这个函数
+```javascript
+{
+    currentpage:0
+}
+created(){
+    this.getData()
+}
+methods:{
+    getData(){
+        // 依赖于this.currentpage
+        let currentpage = this.currentpage;
+    }
+}
+watch:{
+    currentpage(){
+        this.getData();
+    }
+}
+```
+可以简化为：
+```javascript
+watch:{
+    currentpage:{
+        handler:'getData',
+        immediate:true//加上这个属性，表示在函数创建时(加载组件时)执行一次该函数
+    }
+}
+```
 -------------------------------------------------------
 ## 8.操作DOM样式style
 ### 1.绑定内嵌样式
