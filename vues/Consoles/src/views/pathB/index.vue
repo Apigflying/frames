@@ -1,6 +1,7 @@
 <template>
 <div>
   组件b
+  <router-link to="/">跳转到首页</router-link>
 </div>
 </template>
 

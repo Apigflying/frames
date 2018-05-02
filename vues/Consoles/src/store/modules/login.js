@@ -1,13 +1,28 @@
-import tools from "utils/tools";
 import { loginByUsername } from "api/index";
-import { setToken } from "utils/auth";
-const common = {
+import { setToken,getToken } from "utils/auth";
+import Cookies from 'js-cookie';
+
+const login = {
   state: {
-    token: ""
+    token: getToken()||"",// 用户的身份标识，token
+    beforeUrl: '', // 之前所在的页面
+    userAuthList:null // 权限列表
   },
   mutations: {
-    SET_TOKEN(state, token) {
-      state.token = token;
+    SET_TOKEN(state, data) {
+      state.token = data.token;
+      setToken(data.token);
+      state.userAuthList = data.roles; // 赋予用户权限
+    },
+    SET_BEFORE_RUL: (state, beforeUrl) => {
+      state.beforeUrl = beforeUrl
+      Cookies.set('beforeUrl',beforeUrl)
+    },
+    LOGO_OUT:(state)=>{
+      state.beforeUrl = '/';
+      Cookies.set('beforeUrl','/');// 退出登录后，下次登录直接跳转到首页
+      setToken('');
+      state.userAuthList = null
     }
   },
   actions: {
@@ -15,10 +30,8 @@ const common = {
       try {
         // 使用用户名请求登录数据
         let {data} = await loginByUsername(userInfo);
-        console.log(data);
         if(!!data.token){
-          commit("SET_TOKEN", data.token);
-          setToken(data.token);
+          commit("SET_TOKEN", data);
           return data;
         }else{
           return {
@@ -56,4 +69,4 @@ const common = {
   }
 };
 
-export default common;
+export default login;

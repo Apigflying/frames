@@ -1,6 +1,8 @@
 import tools from 'utils/tools'
+import Cookies from 'js-cookie'
 const getters = {
-  token: state => state.common.token,
+  token: state => state.login.token,
+  beforeUrl:state=> state.login.beforeUrl,
   // jobId: state => {
   //   let jobId = state.repair.jobId
   //   if (!jobId) {

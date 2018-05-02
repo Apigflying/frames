@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 export default {
   name: 'login',
   data () {
@@ -46,6 +47,7 @@ export default {
       showDialog: false
     }
   },
+  computed:{...mapGetters(['beforeUrl'])},
   methods: {
     changePsType(){
       console.log(this.passwordType);
@@ -55,10 +57,12 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('LoginByUsername', this.loginForm).then(res => {
+          this.$store.dispatch('LoginByUsername',{
+            name:this.loginForm.username
+          }).then(res => {
             this.loading = false
             if (!!res.token) {
-              this.$router.replace('/')
+              this.$router.replace(this.beforeUrl)
             } else {
               this.$message.error(res.message);
             }

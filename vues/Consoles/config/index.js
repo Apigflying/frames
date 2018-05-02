@@ -5,11 +5,16 @@
 const path = require('path')
 const devEnv = require('./dev.env')
 const prodEnv = require('./prod.env')
+/*
+  proxyHead: 以此开头的请求，会被代理 http://localhost:9000/server/abc  此链接会被代理
+  proxyReal: 目标域 实际开发的域名和端口
+  pathRewrite: 是否重写请求。重写规则在下方的pathRewrite中
+*/
 const proxyTables = [
   {
-    proxyHead: '/server',
-    proxyReal: JSON.parse(prodEnv.BASE_URL),
-    pathRewrite:true
+    proxyHead: '/server',// 域名+端口 后面的请求体部分的开头
+    proxyReal: JSON.parse(prodEnv.BASE_URL), // prodEnv是实际生产环境的域名和端口(如果接口已经发布到服务器端)
+    pathRewrite:false //是否重写代理。
   }, {
     proxyHead: '/cgi-bin',
     proxyReal: 'https://u.y.qq.com/',
@@ -21,7 +26,7 @@ proxyTables.forEach(item => {
   proxyTable[item.proxyHead] =item.pathRewrite ? {
     target: item.proxyReal,
     changeOrigin: true,
-    pathRewrite: {
+    pathRewrite: {// 重写规则
       ['^' + item.proxyHead]: ''
     }
   }:{

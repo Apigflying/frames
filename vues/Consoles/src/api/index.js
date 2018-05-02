@@ -2,14 +2,13 @@ import fetch from 'utils/fetch'
 //请求的方式
 const method = 'POST';
 //请求被代理的路径
-// const proxy = process.env.IS_DEV ? '/server' : '';
-const env = "/test"
-
+const proxy = process.env.IS_DEV ? '/server' : '';
+import qs from 'qs'
 
 export function loginByUsername(data) {
+  let search = qs.stringify(data);
   return fetch({
-    method,
-    url: `${env}/login`,
-    data
+    method:'GET',
+    url: `${proxy}/getData?${search}`,
   })
 }
