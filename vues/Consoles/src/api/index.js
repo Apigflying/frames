@@ -12,3 +12,12 @@ export function loginByUsername(data) {
     url: `${proxy}/getData?${search}`,
   })
 }
+export const getUserInfo = token =>{
+  return fetch({
+    method,
+    url:`${proxy}/getUserInfo`,
+    data:{
+      token
+    }
+  })
+}

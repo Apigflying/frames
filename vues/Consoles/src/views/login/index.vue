@@ -61,6 +61,8 @@ export default {
             name:this.loginForm.username
           }).then(res => {
             this.loading = false
+            console.log(res);
+
             if (!!res.token) {
               this.$router.replace(this.beforeUrl)
             } else {

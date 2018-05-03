@@ -21,7 +21,10 @@ export default {
     }
   },
   mounted() {
-
+    // this.$message({
+    //   type:'success',
+    //   message:'欢迎您'
+    // })
   }
 }
 </script>

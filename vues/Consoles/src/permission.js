@@ -4,7 +4,6 @@ import store from "./store";
 import { Message } from "element-ui";
 import NProgress from "nprogress"; // progress bar
 import "nprogress/nprogress.css"; // progress bar style
-import { getToken } from "utils/auth"; // getToken from cookie
 
 // 不展示进度条的loading圆
 NProgress.configure({ showSpinner: false });
@@ -14,9 +13,18 @@ const whiteList = ["/login", "/authredirect",'/patha']; //不需要登录就能�
 router.beforeEach((to, from, next) => {
   //开启进度条
   NProgress.start();
-  if (getToken()) {//token存在
+  if (store.getters.token) {//token存在    ||store.getters.token
     if (to.path == "/login") {
       next("/");
+      NProgress.done();
+    }else{
+      // token存在，但是用户权限列表不存在，可能关闭了当前页面，用户信息还没有取到
+      if(store.getters.userAuthList){//
+        store.dispatch('getUserInfoByToken').then(res=>{
+          console.log(res);
+
+        })
+      }
     }
     next();
   } else {// token不存在
