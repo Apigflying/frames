@@ -2,6 +2,7 @@
   <div class="container">
     <cHeader/>
     <cNav/>
+    <img v-lazy="'../../../static/image/loading.svg'" src="" style="width:100px;height:100px;"/>
     <router-view/>
     <cFooter/>
   </div>
@@ -20,6 +21,7 @@ export default {
   },
   data: function () {
     return {
+      imgUrl:''
     }
   },
   mounted () { },
