@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { setToken } from "utils/auth";
+import { mapMutations } from "vuex";
 export default {
   name: 'cheader',
   data: function() {
@@ -14,13 +14,17 @@ export default {
     }
   },
   methods:{
+    ...mapMutations(['LOGO_OUT']),
     handleLogout(){
-      setToken('');
+      this.LOGO_OUT();
       this.$router.push('/login')
     }
   },
   mounted() {
-
+    // this.$message({
+    //   type:'success',
+    //   message:'欢迎您'
+    // })
   }
 }
 </script>
