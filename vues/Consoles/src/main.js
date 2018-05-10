@@ -16,6 +16,9 @@ import "./permission";
 import "./mock";
 // 国际化
 import i18n from "./lang";
+import VConsole from 'vconsole/dist/vconsole.min.js'
+
+const vconsole = new VConsole();
 
 Vue.component("scroll", Scroll);
 
