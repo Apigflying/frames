@@ -6,7 +6,7 @@ const path = require('path')
 const devEnv = require('./dev.env')
 const prodEnv = require('./prod.env')
 /*
-  proxyHead: 以此开头的请求，会被代理 http://localhost:9000/server/abc  此链接会被代理
+  proxyHead: 以 /server 开头的请求，会被代理 http://localhost:9000/server/abc  此链接会被代理
   proxyReal: 目标域 实际开发的域名和端口
   pathRewrite: 是否重写请求。重写规则在下方的pathRewrite中
 */
