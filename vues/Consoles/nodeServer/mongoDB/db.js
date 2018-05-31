@@ -2,9 +2,10 @@
 //使用mongoose
 import mongoose from 'mongoose';
 //config配置文件
-import config from 'config-lite';
-//链接mongoDB的链接
-mongoose.connect(config.url, {useMongoClient: true});
+import configLite from 'config-lite';
+const config = configLite(__dirname);
+
+mongoose.connect(config.url);
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;

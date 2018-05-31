@@ -1,11 +1,12 @@
 <template>
   <nav>
-    <router-link v-for="item,index in nav" :to="item.path||{name:item.pathName}" :key="index">{{item.name}}</router-link>
+    <router-link v-for="(item,index) in nav" :to="item.path||{name:item.pathName}" :key="index">
+      {{item.name}}
+    </router-link>
   </nav>
 </template>
 
 <script>
-
 export default {
   name: 'cnav',
   data: function () {

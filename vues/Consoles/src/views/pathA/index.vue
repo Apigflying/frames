@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import {getData} from 'api/test'
 import cDialog from 'components/dialog/dialog'
 import cCustom from 'components/customs'
 // import {mockLogin} from 'request/index'
@@ -37,7 +38,10 @@ export default {
   },
   methods: {
     showDialog(){
-      this.isDialogShow = !this.isDialogShow;
+      // this.isDialogShow = !this.isDialogShow;
+      getData().then(res=>{
+        console.log(res);
+      })
     },
     closeDialog(val){
       this.isDialogShow = val;

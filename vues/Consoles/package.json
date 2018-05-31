@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "babel-preset-es2015": "^6.24.1",
     "better-scroll": "^1.8.4",
     "echarts": "^3.8.5",
     "element-ui": "^2.0.5",
@@ -48,6 +49,7 @@
     "express-winston": "^2.4.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
+    "formidable": "^1.2.1",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
     "mockjs": "^1.0.1-beta3",

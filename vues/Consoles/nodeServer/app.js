@@ -1,16 +1,9 @@
-import express from 'express';
+import express from "express";
 import db from './mongoDB/db.js';
-import config from 'config-lite';
-// import router from './routes/index.js';
-import connectMongo from 'connect-mongo';
-import cookieParser from 'cookie-parser'
-import session from 'express-session';
-import connectMongo from 'connect-mongo';
-import winston from 'winston';
-import expressWinston from 'express-winston';
-
+import router from './router/index.js';
 import path from 'path';
-
+import configLite from 'config-lite';
+const config = configLite(__dirname);
 const app = express();
 //允许跨域请求
 if (config.alloworigin) {
@@ -28,5 +21,6 @@ if (config.alloworigin) {
   });
 }
 
-app.use(express.static('../dist'));
+router(app);
+
 app.listen(config.port);
