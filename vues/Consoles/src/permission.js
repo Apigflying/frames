@@ -8,7 +8,7 @@ import "nprogress/nprogress.css"; // progress bar style
 // 不展示进度条的loading圆
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ["/login", "/authredirect",'/patha']; //不需要登录就能查看的页面
+const whiteList = ["/login", "/authredirect",'/patha','/echarttest']; //不需要登录就能查看的页面
 
 router.beforeEach((to, from, next) => {
   //开启进度条

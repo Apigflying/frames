@@ -12,6 +12,7 @@ const bScroll = () => import("views/testScroll/better-scroll");
 const Login = () => import("views/login");
 const Authredirect = () => import("views/authredirect");
 const Home =()=> import("views/home")
+const echartTest = ()=>import("views/echarts")
 const routes = [
   {
     path: "",
@@ -51,6 +52,10 @@ const routes = [
     path: "/bScroll",
     name: "bScroll",
     component: bScroll
+  },{
+    path:'/echarttest',
+    name:'echarttest',
+    component:echartTest
   }
 ];
 export default new Router({

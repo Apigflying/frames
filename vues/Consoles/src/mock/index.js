@@ -1,7 +1,7 @@
 import Mock from 'mockjs';
 import {loginByUsername} from './login';
 
-console.log(loginByUsername)
+// console.log(loginByUsername)
 Mock.setup({
   timeout:'1000-2000'
 })

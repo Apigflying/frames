@@ -1,28 +1,33 @@
 <template>
+<div class="charts_wrap">
   <div class="common_chart_set" :ref="id"></div>
+  <slot name="tips"></slot>
+</div>
 </template>
 
 <script>
 /*
  * 参数必传
  * id - 节点元素的id，用来获取元素
- * initData - 初始chart配置
- * renderData - 在拿到渲染数据后更新chart展示
+ * renderData - 初始没有数据的情况下，展示坐标轴，拿到数据后，更新ehart展示
 */
 import echarts from 'echarts';
 export default {
-  props: ['id', 'renderData', 'initData'],
+  props: ['id', 'renderData'],
   data () {
     return {
       myChart: null,
     };
   },
   watch: {
-    renderData (val) {
-      if (!!val) {
-        this.$nextTick(() => {
-          this.drawChart(val);
-        })
+    renderData: {
+      deep: true,
+      handler (val) {
+        if (!!val) {
+          this.$nextTick(() => {
+            this.drawChart(val);
+          })
+        }
       }
     }
   },
@@ -31,12 +36,11 @@ export default {
       const DOM = this.$refs[this.id];
       //初始化配置
       if (!!val && !!this.myChart) {
-        return this.myChart.setOption(Object.assign(this.initData, val));
+        return this.myChart.setOption(val);
       }
       if (!!DOM && !this.myChart) {//初始化节点
-        this.myChart = this.echarts.init(DOM);
-        this.myChart.setOption(this.initData);
-        //初始配置
+        this.myChart = echarts.init(DOM);
+        this.myChart.setOption(this.renderData);
       }
     }
   },
@@ -48,6 +52,6 @@ export default {
 <style lang="scss" scoped>
 @import "../../style/base.scss";
 .common_chart_set {
-  @include wh(100%,100%);
+  @include wh(100%, 100%);
 }
 </style>
