@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: '404',
+  name: 'nofound',
   data: function () {
     return {
       imgUrl:''

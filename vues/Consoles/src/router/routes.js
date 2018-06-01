@@ -1,4 +1,5 @@
 import Patha from "views/pathA"; //正常加载
+const ElementUI = ()=> import("views/elementui");
 const Pathb = () => import("views/pathB"); //懒加载（按需加载）
 const testScroll = () => import("views/testScroll");
 const bScroll = () => import("views/testScroll/better-scroll");
@@ -17,9 +18,9 @@ const routes = [
     component: Home,
     children: [
       {
-        path: "patha",
-        name: "patha",
-        component: Patha
+        path: "element-ui",
+        name: "element-ui",
+        component: ElementUI
       },
       {
         path: "pathb",

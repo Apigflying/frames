@@ -1,8 +1,7 @@
 <template>
   <div class="container">
-    <cHeader/>
+    <cHeader :title="title"/>
     <cNav/>
-    <img v-lazy="'../../../static/image/loading.svg'" src="" style="width:100px;height:100px;"/>
     <router-view/>
     <cFooter/>
   </div>
@@ -19,9 +18,21 @@ export default {
     cFooter,
     cNav
   },
+  watch: {
+    $route (to) {
+      switch (to.name) {
+        case 'element-ui':
+          this.title = 'element-ui组件库'
+          break;
+        case 'pathb':
+          this.title = 'pathb测试专用'
+          break;
+      }
+    }
+  },
   data: function () {
     return {
-      imgUrl:''
+      title: 'element-ui组件库'
     }
   },
   mounted () { },

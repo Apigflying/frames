@@ -1,7 +1,9 @@
 <template>
-  <header>
-    <h1>标题</h1>
-    <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogout">退出</el-button>
+  <header class="header">
+    <h1>{{title}}</h1>
+    <el-button type="primary" @click.native.prevent="handleLogout">
+      退出
+    </el-button>
   </header>
 </template>
 
@@ -9,26 +11,29 @@
 import { mapMutations } from "vuex";
 export default {
   name: 'cheader',
-  data: function() {
+  props: ['title'],
+  data: function () {
     return {
+
     }
   },
-  methods:{
+  methods: {
     ...mapMutations(['LOGO_OUT']),
-    handleLogout(){
+    handleLogout () {
       this.LOGO_OUT();
       this.$router.push('/login')
     }
   },
-  mounted() {
-    // this.$message({
-    //   type:'success',
-    //   message:'欢迎您'
-    // })
+  mounted () {
+
   }
 }
 </script>
 
 <style scoped lang="scss">
-
+@import "../../style/base.scss";
+.header {
+  @include wh(100%, 50px);
+  @include fj;
+}
 </style>

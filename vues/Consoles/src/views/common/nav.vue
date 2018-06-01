@@ -13,7 +13,7 @@ export default {
     return {
       nav: [{
         name: '视图1',
-        path: '/patha'
+        path: '/home/element-ui'
       }, {
         name: '视图2',
         pathName: 'pathb'//依据路由中定义组件的name进行跳转

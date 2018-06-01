@@ -8,4 +8,5 @@ export default class Base {
       }, timeout);
     })
   }
+
 };

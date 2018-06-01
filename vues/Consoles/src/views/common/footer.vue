@@ -1,6 +1,5 @@
 <template>
   <footer>
-    公共的底部
   </footer>
 </template>
 
