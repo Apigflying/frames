@@ -10,6 +10,7 @@ const NotFoundComponent = () => import("views/nofound");
 const routes = [
   {
     path: "",
+    redirect: 'home',
     component: Home
   },
   {
@@ -17,6 +18,11 @@ const routes = [
     name: "home",
     component: Home,
     children: [
+      {
+        path: "",
+        redirect: 'element-ui',
+        component: ElementUI
+      },
       {
         path: "element-ui",
         name: "element-ui",
