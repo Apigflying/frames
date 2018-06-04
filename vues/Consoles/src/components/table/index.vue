@@ -1,9 +1,9 @@
 <!-- table组件 -->
 <template>
   <div class="custom_table" ref="tableparent">
-    <!-- :show-header="!isShowHead" -->
+     <slot name="custom"></slot>
     <el-table :data="options.tableData" style="width: 100%" @row-click="rowClick">
-      <el-table-column v-for="(value,key) in options.tableFormat" :key="key" :prop="key" :label="typeof value === 'string'?value:value.value" :fixed="isFixed(key)" :min-width="typeof value ==='object'?value.width:''">
+      <el-table-column v-for="(format,key) in options.tableFormat" :key="key" :prop="key" :label="format.value" :fixed="format.isFixed" :min-width="format.minWidth" :width="format.width">
         <!-- 如果tableFormat中value的格式是字符串，那么渲染字符串，否则是对象，渲染对象的value -->
         <!-- 如果value是object格式，会在里面定义width百分比，即当前列的宽度占比 -->
         <template slot-scope="scope">
@@ -48,15 +48,13 @@
       tableData - 表格数据 类型：数组
       tableFormat - 表格格式 类型：对象
       isHavePages - 是否展示page切换(用来控制哪个表格的分页展示) 类型：字符串
-      isResRowClick - 默认不响应 表格行是否响应点击事件 类型：布尔值
+      isResRowClick - 表格行是否响应点击事件 默认不响应  类型：布尔值
       setPageInfo - page信息对象
     */
     props:{
       options:{
         type:Object,
         default:{
-          border:'',
-          fixed:'', // 与format的key相对应的字符串 或者 数组(多个固定的)
           isResRowClick:false,
           isHavePages:'',
           tableFormat:{},
@@ -170,18 +168,6 @@
         } else if (val === 'D') {
           return '#D6AF11'
         }
-      },
-      isFixed(key) {
-        let fixed = this.options.fixed
-        if (!fixed) return false
-        if (typeof fixed === 'string') {
-          return key === fixed
-        } else {
-          const len = fixed.filter(item => {
-            return item == key
-          }).length
-          return !!len
-        }
       }
     },
     mounted() {
@@ -193,6 +179,6 @@
 <style lang="scss">
   @import "../../style/base";
   .custom_table {
-    width:500px;
+    width:400px;
   }
 </style>

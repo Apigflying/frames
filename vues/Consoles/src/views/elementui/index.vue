@@ -16,7 +16,11 @@
       <div class="component-title">
         表格组件:
       </div>
-      <cTable :options="tableOptions"/>
+      <cTable class="c-table" :options="tableOptions">
+        <h5 class="common-h5" slot="custom">
+          这里是自定义内容
+       </h5>
+      </cTable>
     </div>
   </div>
 </template>
@@ -73,31 +77,36 @@ export default {
         tableFormat: {
           date: {
             value: '时间',
-            width: '40%'
+            isFixed:true,
+            width: '100px',// width固定像素
+            // minWidth:'40%' //
           },
           name: {
             value: '姓名',
-            width: '20%'
+            width:'100px',
+            // minWidth: '40%'
           },
-          address: '地址'
+          address: {
+            value:'地址',
+            width:'300px',
+            // minWidth:'40%'
+          },
+          a:'a的标题',
+          b:'b的内容'
         },
         tableData: [
           {
             date: '2016-05-02',
             name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
+            address: '上海市普陀区金沙江路 1518 弄',
+            a:'aaaaaaaaa',
+            b:'bbbbbbbbb'
           }, {
             date: '2016-05-04',
             name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
+            address: '上海市普陀区金沙江路 1517 弄',
+             a:'aaaaaaaaa',
+            b:'bbbbbbbbb'
           }
         ]
       }
@@ -123,13 +132,22 @@ export default {
 .component-wrap {
   @include fj(flex-start);
   margin-top: 10px;
+  // 通用的组件头部
   .component-title {
     margin: 0 20px;
   }
+  // 自定义下拉菜单的样式
   .c-select {
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 0px 0px 10px 2px red;
+  }
+  // 自定义表格的样式
+  .c-table{
+    border:1px solid greenyellow;
+    .common-h5{
+      margin-top:20px;
+    }
   }
 }
 </style>
