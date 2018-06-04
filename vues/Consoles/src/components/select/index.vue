@@ -1,19 +1,21 @@
 <template>
-  <el-select v-model="value" :placeholder="placeholder" @change="change" class="selects">
-    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item" :disabled="item.disabled">
+  <el-select v-model="options.select" :placeholder="options.placeholder" @change="change" class="selects">
+    <el-option v-for="(item) in options.selectOptions" :key="item.value" :label="item.label" :value="item" :disabled="item.disabled">
     </el-option>
   </el-select>
 </template>
 <script>
 export default {
   props: {
-    placeholder:{
-      default:'请选择'
-    },
-    options: {
-      type: Array,
-      required: true,
-      default: []
+    options:{
+      type:Object,
+      default: {
+        placeholder:'请选择',
+        // 最终选择的项
+        select: null,
+        // 可选项
+        selectOptions: []
+      }
     }
   },
   data () {
@@ -23,16 +25,16 @@ export default {
   },
   methods: {
     change (item) {
-      this.$emit('select',item);
+      this.$emit('change',item);
     }
   }
 }
 </script>
 <style lang="scss" scoped>
 @import '../../style/base.scss';
-// 覆盖样式用
+// 通用组件 覆盖样式用
 .selects{
-  // @include wh(100px,200px);
+  @include wh(400px,40px);
 }
 </style>
 

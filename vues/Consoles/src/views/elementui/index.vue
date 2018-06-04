@@ -1,50 +1,135 @@
 <template>
-<div class="element-ui">
-  <div>
-    select组件
-    <cSelect :options="selects.selectOptions" @select="changeSelect"/>
+  <div class="element-ui">
+    <div class="component-wrap">
+      <div class="component-title">
+        select组件:
+      </div>
+      <cSelect class="c-select" :options="selectOptions" @change="changeSelect" />
+    </div>
+    <div class="component-wrap">
+      <div class="component-title">
+        多选框组件:
+      </div>
+      <cChecks :options="checkBoxOptions" @change="changeChecks" />
+    </div>
+    <div class="component-wrap">
+      <div class="component-title">
+        表格组件:
+      </div>
+      <cTable :options="tableOptions"/>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
 import cSelect from 'components/select'
+import cChecks from 'components/checkbox'
+import cTable from 'components/table'
 export default {
   name: 'ElementUI',
-  components:{
-    cSelect
+  components: {
+    cSelect,
+    cChecks,
+    cTable
   },
-  data: function() {
+  data: function () {
     return {
-      selects:{
-        select:'',
-        selectOptions:[{
-          label:'选项一',
-          value:'1'
-        },{
-          label:'选项二',
-          value:'2'
-        },{
-          label:'选项三',
-          value:'3'
+      selectOptions: {
+        placeholder: '请选择你的',
+        // 最终选择的项(默认选项是下方数组项)
+        select: null,
+        // 可选项
+        selectOptions: [{
+          label: '选项一',
+          value: '1'
+        }, {
+          label: '选项二',
+          value: '2'
+        }, {
+          label: '选项三',
+          value: '3'
         }]
+      },
+      checkBoxOptions: {
+        isAllChecked: true, // 是否出全选的联动
+        checked: [], // 最终选择的项(默认选项是下方数组项)
+        checkList: [ // 可以选择的项
+          {
+            label: '1',
+            value: '选项一'
+          }, {
+            label: '2',
+            value: '选项二'
+          }, {
+            label: '3',
+            value: '选项三'
+          }, {
+            label: '4',
+            value: '选项四'
+          }
+        ]
+      },
+      tableOptions: {
+        tableFormat: {
+          date: {
+            value: '时间',
+            width: '40%'
+          },
+          name: {
+            value: '姓名',
+            width: '20%'
+          },
+          address: '地址'
+        },
+        tableData: [
+          {
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
+          }, {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1517 弄'
+          }, {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄'
+          }, {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1516 弄'
+          }
+        ]
       }
     }
   },
-  mounted() {
-
+  mounted () {
   },
   methods: {
-    changeSelect(select){
-      this.selects.select = select;
-      console.log(select);
-
+    changeSelect (select) {
+      this.selectOptions.select = select;
+      console.log(this.selectOptions.select);
+    },
+    changeChecks (checked) {
+      this.checkBoxOptions.checked = checked;
+      console.log(this.checkBoxOptions.checked);
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-@import '../../style/base';
-
+@import "../../style/base";
+.component-wrap {
+  @include fj(flex-start);
+  margin-top: 10px;
+  .component-title {
+    margin: 0 20px;
+  }
+  .c-select {
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0px 0px 10px 2px red;
+  }
+}
 </style>
