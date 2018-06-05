@@ -91,8 +91,12 @@ export default {
             width:'300px',
             // minWidth:'40%'
           },
-          a:'a的标题',
-          b:'b的内容'
+          a:{
+            value:'a的标题'
+          },
+          b:{
+            value:'b的标题'
+          }
         },
         tableData: [
           {
