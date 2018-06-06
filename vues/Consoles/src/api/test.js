@@ -21,3 +21,11 @@ export function getLineData(){
     url:`${proxy}/getLineData`
   })
 }
+
+export function downloadfile(){
+  return fetch({
+    methods,
+    url:`${proxy}/download`,
+    responseType: 'blob'
+  })
+}

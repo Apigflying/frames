@@ -1,5 +1,6 @@
-import Base from '../../common/base.js';
-
+import Base from 'common/base.js';
+import fs from 'fs';
+import path from 'path';
 let mock = [];
 function rP (arr) {
   var max = Math.max.apply(this, arr);
@@ -34,12 +35,32 @@ for (var i = 0; i < 20; i++) {
   barData.push(b)
   lineData.push(d + b);
 }
+var sleeps = new Promise((resolve,reject)=>{
+  setTimeout(() => {
+    resolve()
+  }, 2000);
+})
 class Test extends Base {
   constructor() {
     super();
     this.getData = this.getData.bind(this);
     this.getScatterData = this.getScatterData.bind(this);
     this.getLineData = this.getLineData.bind(this);
+    this.downLoad = this.downLoad.bind(this);
+  }
+  async downLoad(req,res){
+    await sleeps;
+    var buff = fs.readFileSync(path.dirname(__filename) + '/abcd.xlsx');
+    res.set('Content-Disposition', "excel.xlsx")
+    res.end(buff)
+    // fs.readFile(path.dirname(__filename) + '/a.json',(err,file)=>{
+    //   if(err){
+    //     console.log(err);
+    //     return res.send('错误')
+    //   }
+    //   res.file(file);
+    //   // res.send(file);
+    // })
   }
   async getData (req, res, next) {
     let data = await this.sleep({

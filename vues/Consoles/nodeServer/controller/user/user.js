@@ -2,19 +2,20 @@ import crypto from 'crypto'
 import formidable from 'formidable'
 import jwt from 'jsonwebtoken'
 import dtime from 'time-formater'
-import Base from '../../common/base.js'
-import { createToken, verifyToken } from '../../common/token.js'
-import UserModel from '../../models/user/user.js'
+//-----------------------------
+import Base from 'common/base.js'
+import { createToken, verifyToken } from 'common/token.js'
+import UserModel from 'models/user/user.js'
 
 class User extends Base {
   constructor() {
     super();
-    this.login = this.login.bind(this);
+    this.logIn = this.logIn.bind(this);
     this.getToken = this.getToken.bind(this);
-    this.signup = this.signup.bind(this);
-    this.encryption = this.encryption.bind(this);
+    this.signUp = this.signUp.bind(this);
+    this._encryption = this._encryption.bind(this);
   }
-  async login (req, res) {
+  async logIn (req, res) {
     const form = new formidable.IncomingForm();
     form.parse(req, async (err, filds, files) => {
       if (err) {
@@ -31,7 +32,7 @@ class User extends Base {
             message: '用户不存在'
           });
         }
-        if (userMes.password !== this.encryption(password)) {// 验证密码
+        if (userMes.password !== this._encryption(password)) {// 验证密码
           return res.send({
             state:0,
             message: '密码错误'
@@ -63,19 +64,28 @@ class User extends Base {
     let token = await createToken(...arguments);
     return token
   }
-  async signup (req, res) {
+  // 判断 用户名 是否存在
+  async isUserNameExisting(){
+
+  }
+  // 注册接口
+  async signUp (req, res) {
     const form = new formidable.IncomingForm();
     form.parse(req, async (err, filds, file) => {
       const { username, password } = filds;
+      /*
+        验证密码是否可用
+      */
       try {
-        const newpassword = this.encryption(password);
-        console.log(newpassword);
+        // 将密码加密，保存到数据库
+        const newpassword = this._encryption(password);
         const user = {
           username,
           password: newpassword,
           createtime: dtime().format('YYYY-MM-DD HH:mm'),
-          authlist: []
+          authlist: [] // 用户权限列表
         }
+
         let data = await UserModel.create(user);
         console.log('create返回结果：', data);
         res.send({
@@ -89,11 +99,11 @@ class User extends Base {
       }
     })
   }
-  encryption (password) {
-    const newpassword = this.Md5(this.Md5(password).sub(2, 7) + this.Md5(password));
+  _encryption (password) {
+    const newpassword = this._Md5(this._Md5(password).sub(2, 7) + this._Md5(password));
     return newpassword;
   }
-  Md5 (password) {
+  _Md5 (password) {
     const md5 = crypto.createHash('md5');
     return md5.update(password).digest('hex');
   }
