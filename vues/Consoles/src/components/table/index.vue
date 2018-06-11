@@ -54,7 +54,7 @@ export default {
       pageInfo: { //分页器配置
         pageSize: 10, //每页显示条数
         pageSizes: [10, 20, 50, 100],
-        layout: 'prev,slot,total,next,sizes', // sizes: 显示共 400 条文字 ; total:
+        layout: 'prev,slot,total,next,sizes', // sizes: 显示共 400 条文字 ; total: 分页总数； slot: 在pagination中插入的自定义内容。注：展示的内容，会依据这里的顺序来改变
         total: 200, // 总数
         currentPage: 1, // 当前页
         params: {}
