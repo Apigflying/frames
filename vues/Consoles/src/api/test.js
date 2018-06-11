@@ -9,6 +9,14 @@ export function getData(){
     url:`${proxy}/getData`
   })
 }
+
+export function getTotal(){
+  return fetch({
+    methods,
+    url:`${proxy}/getTotal`
+  })
+}
+
 export function getScatterData(){
   return fetch({
     methods,

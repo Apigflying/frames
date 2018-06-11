@@ -7,7 +7,7 @@ Vue.use(VueAxios,axios)
 
 
 const service=axios.create({
-	baseURL: 'http://172.16.2.117/api', // api的base_url
+	baseURL: 'http://localhost/api', // api的base_url
     timeout: 30000, // 请求超时时间
     withCredentials: true //是否跨站点访问控制请求
 })
@@ -17,7 +17,7 @@ const service=axios.create({
 //	function(response){
 //		//获取到数据之后，进行拦截
 //		//正常获取之后，要做的事情
-//		
+//
 //		//............//
 //		return response
 //	},

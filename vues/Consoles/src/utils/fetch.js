@@ -18,7 +18,7 @@ var cancel;
 // 创建axios实例
 const service = axios.create({
   baseURL, // api的base_url
-  timeout: 10000, // 请求超时时间
+  timeout: 30000, // 请求超时时间
   retry: 4, //重新请求次数
   retryDelay: 1000, //重新请求的间隔
   cancelToken: new CancelToken(function executor(c) {

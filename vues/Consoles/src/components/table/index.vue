@@ -1,7 +1,7 @@
 <!-- table组件 -->
 <template>
   <div class="custom_table" ref="tableparent">
-     <slot name="custom"></slot>
+    <slot name="custom"></slot>
     <el-table :data="options.tableData" style="width: 100%" @row-click="rowClick">
       <el-table-column v-for="(format,key) in options.tableFormat" :key="key" :prop="key" :label="format.value" :fixed="format.isFixed" :min-width="format.minWidth" :width="format.width">
         <!-- 如果tableFormat中value的格式是字符串，那么渲染字符串，否则是对象，渲染对象的value -->
@@ -25,160 +25,123 @@
             {{ scope.row[key] }}
           </span>
         </template>
-    </el-table-column>
-  </el-table>
-  <!-- 分页器 -->
-  <pagination
-    class="paginations"
-    ref="changeBtns"
-    v-if="!!options.isHavePages&&!!setPageInfo&&pageInfo.total&&showPageInfo"
-    @pageChanged="pageChange"
-    :customconfig="pageInfo"
-    :currentPages="pageInfo.currentPage"
-    v-changeIconPage
-  ></pagination>
-</div>
+      </el-table-column>
+    </el-table>
+    <!-- 分页器 -->
+    <el-pagination class="paginations" ref="paginations" v-if="!!options.tablePagination&&!!options.tablePagination.pagination&&!!pageInfo.total" @size-change="_pageSizeChange" @current-change="_pageCurrentChange" :current-page.sync="pageInfo.currentPage" :page-sizes="pageInfo.pageSizes" :page-size="pageInfo.pageSize" :layout="pageInfo.layout" :total="pageInfo.total">
+      <el-input v-model="currentPage" class="inputPage" @change="pagechange"></el-input>
+    </el-pagination>
+  </div>
 </template>
 
 <script>
-  import pagination from '../pagination';
-  export default {
-    name: 'Table',
-    /*
-      tableData - 表格数据 类型：数组
-      tableFormat - 表格格式 类型：对象
-      isHavePages - 是否展示page切换(用来控制哪个表格的分页展示) 类型：字符串
-      isResRowClick - 表格行是否响应点击事件 默认不响应  类型：布尔值
-      setPageInfo - page信息对象
-    */
-    props:{
-      options:{
-        type:Object,
-        default:{
-          isResRowClick:false,
-          isHavePages:'',
-          tableFormat:{},
-          tableData:[],
+export default {
+  name: 'Table',
+  props: {
+    options: {
+      type: Object,
+      default: {
+        isResRowClick: false,
+        isHavePages: '',
+        tableFormat: {},
+        tableData: [],
+      }
+    }
+  },
+  data () {
+    return {
+      currentPage: 1,
+      pageInfo: { //分页器配置
+        pageSize: 10, //每页显示条数
+        pageSizes: [10, 20, 50, 100],
+        layout: 'prev,slot,total,next,sizes', // sizes: 显示共 400 条文字 ; total:
+        total: 200, // 总数
+        currentPage: 1, // 当前页
+        params: {}
+      }
+    }
+  },
+  watch: {
+    "options.tablePagination": {
+      deep: true,
+      handler (tablePagination) {
+        if (!!tablePagination && tablePagination.pagination) {
+          this.$nextTick(() => {
+            this.pageInfo = Object.assign(this.pageInfo, tablePagination.pagination);
+          })
         }
       }
+    }
+  },
+  methods: {
+    /*--------------------*\
+          分页器事件
+    \*--------------------*/
+    _pageSizeChange (size) {
+      // console.log(`每页显示${ size }条`);
+      this.$emit('tableSizeChange', {
+        size
+      });
     },
-    components: {
-      pagination
+    _pageCurrentChange (current) {
+      // console.log(`当前是第${ current }页,类型是${type}`);
+      let type = this.options.tablePagination.type;
+      this.currentPage = current;
+      this.$emit('tablePageChange', {
+        type,
+        current
+      });
     },
-    data: function() {
-      return {
-        tableHeight: 0, //表格高度设置
-        showPageInfo: true,
-        pageInfo: { //分页器配置
-          pageSize: 10, //每页显示条数
-          layout: 'total, prev, pager, next',
-          total: 0,
-          currentPage: 1,
-          params: {}
-        },
+    pagechange (current) {
+      this._pageCurrentChange(current);
+    },
+
+
+
+    _setTableHeigth () {
+      //如果有分页器，那么就将高度减去40
+      // const pagination = !!this.options.isHavePages ? 26 : 0
+      // this.tableHeight = this.$refs.tableparent.getBoundingClientRect().height - pagination
+    },
+    //-----------------------------------------------------
+    //定制事件
+    changeSwitch (val) { //开关改变状态
+      this.$emit('changeSwitch', val)
+    },
+    rowClick (val) { //列表项点击查看详情
+      if (!this.isResRowClick) {
+        return false
       }
+      console.log(val)
+      this.$emit('columnVal', val)
     },
-    watch: {
-      setPageInfo: {
-        deep: true,
-        handler(val) {
-          if (val) {
-            this.showPageInfo = false
-            this.$nextTick(() => {
-              this.showPageInfo = true
-              this.pageInfo = Object.assign(this.pageInfo, val)
-              this._setTableHeigth()
-            })
-          }
-        }
-      },
-    },
-    directives: {
-      changeIconPage: {
-        bind(el, binding) {
-          var prevBtn = el.querySelector('.btn-prev').firstElementChild
-          var nextBtn = el.querySelector('.btn-next').firstElementChild
-          if (!!prevBtn && !!nextBtn) {
-            prevBtn.classList.remove('el-icon-arrow-left')
-            prevBtn.classList.add('el-icon-caret-left')
-            nextBtn.classList.remove('el-icon-arrow-right')
-            nextBtn.classList.add('el-icon-caret-right')
-          }
-        }
-      }
-    },
-    methods: {
-      _setTableHeigth() {
-        //如果有分页器，那么就将高度减去40
-        // const pagination = !!this.options.isHavePages ? 26 : 0
-        // this.tableHeight = this.$refs.tableparent.getBoundingClientRect().height - pagination
-      },
-      //-----------------------------------------------------
-      //定制事件
-      changeSwitch(val) { //开关改变状态
-        this.$emit('changeSwitch', val)
-      },
-      rowClick(val) { //列表项点击查看详情
-        if (!this.isResRowClick) {
-          return false
-        }
-        console.log(val)
-        this.$emit('columnVal', val)
-      },
-      //可以在pageChange中获取数据
-      pageChange(page) {
-        this.pageInfo.currentPage = page
-        const currentTable = this.options.isHavePages
-        switch (currentTable) {
-          case 'rgfw':
-            break;
-          case 'fjgp':
-            console.log('fjgp' + page)
-            break;
-          case 'xfjsbh':
-            console.log('xfjsbh' + page)
-            break;
-            //报警设置
-          case 'bjsz':
-            console.log('bjsz' + page)
-            break;
-        }
-        this.$emit('tablePageChange', {
-          page,
-          type: currentTable
-        })
-      },
-      handleClick(row) {
-        this.$emit('detailShow', row)
-      },
-      //-----------------------------------------------------
-      //改变文字样式（颜色）
-      setColorByStatus(val) {
-        if (val === '报警') {
-          return '#E34156 '
-        } else {
-          return '#0090FF'
-        }
-      },
-      setColorByRank(val) { //根据不同文字设置不同的样式颜色
-        if (val === 'S' || val === 'A') {
-          return '#E34156 '
-        } else if (val === 'B') {
-          return '#FD9055'
-        } else if (val === 'D') {
-          return '#D6AF11'
-        }
-      }
-    },
-    mounted() {
-      this._setTableHeigth()
+    //可以在pageChange中获取数据
+    handleClick (row) {
+      this.$emit('detailShow', row)
     }
   }
+}
 </script>
 
 <style lang="scss">
-  @import "../../style/base";
-  .custom_table {
-    width:400px;
+@import '../../style/base';
+.custom_table {
+  width: 400px;
+}
+// 分页的样式
+.paginations {
+  display: flex;
+  align-items: center;
+  .inputPage {
+    width: 30px;
+    margin-right: 10px;
+    .el-input__inner {
+      // input输入框的圆角
+      width: 30px;
+      border-radius: 0;
+      padding: 0 5px;
+      vertical-align: baseline;
+    }
   }
+}
 </style>

@@ -16,10 +16,10 @@
       <div class="component-title">
         表格组件:
       </div>
-      <cTable class="c-table" :options="tableOptions">
+      <cTable class="c-table" :options="tableOptions" @tablePageChange="testTablePageChange" @tableSizeChange="tableSizeChange">
         <h5 class="common-h5" slot="custom">
           这里是自定义内容
-       </h5>
+        </h5>
       </cTable>
     </div>
   </div>
@@ -29,6 +29,7 @@
 import cSelect from 'components/select'
 import cChecks from 'components/checkbox'
 import cTable from 'components/table'
+import { getTotal } from 'api/test'
 export default {
   name: 'ElementUI',
   components: {
@@ -74,28 +75,32 @@ export default {
         ]
       },
       tableOptions: {
+        tablePagination: {// 显示分页组件
+          type: 'test',  // 分页组件类别，依据类别判断当前操作的是哪个分页
+          pagination: null // 分页的配置内容
+        },
         tableFormat: {
           date: {
             value: '时间',
-            isFixed:true,
+            isFixed: true,
             width: '100px',// width固定像素
             // minWidth:'40%' //
           },
           name: {
             value: '姓名',
-            width:'100px',
+            width: '100px',
             // minWidth: '40%'
           },
           address: {
-            value:'地址',
-            width:'300px',
+            value: '地址',
+            width: '300px',
             // minWidth:'40%'
           },
-          a:{
-            value:'a的标题'
+          a: {
+            value: 'a的标题'
           },
-          b:{
-            value:'b的标题'
+          b: {
+            value: 'b的标题'
           }
         },
         tableData: [
@@ -103,22 +108,36 @@ export default {
             date: '2016-05-02',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄',
-            a:'aaaaaaaaa',
-            b:'bbbbbbbbb'
+            a: 'aaaaaaaaa',
+            b: 'bbbbbbbbb'
           }, {
             date: '2016-05-04',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1517 弄',
-             a:'aaaaaaaaa',
-            b:'bbbbbbbbb'
+            a: 'aaaaaaaaa',
+            b: 'bbbbbbbbb'
           }
         ]
       }
     }
   },
   mounted () {
+    this.getPagations();
   },
   methods: {
+    getPagations () {
+      getTotal().then(res => {
+        let { data } = res;
+        this.tableOptions.tablePagination.pagination = data;
+      })
+    },
+    tableSizeChange({size}){
+      console.log(size);
+    },
+    // 有分页的table，在分页更改当前页面时触发的事件
+    testTablePageChange ({ type, current }) {
+      console.log(type, current);
+    },
     changeSelect (select) {
       this.selectOptions.select = select;
       console.log(this.selectOptions.select);
@@ -132,7 +151,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../style/base";
+@import '../../style/base';
 .component-wrap {
   @include fj(flex-start);
   margin-top: 10px;
@@ -147,10 +166,10 @@ export default {
     box-shadow: 0px 0px 10px 2px red;
   }
   // 自定义表格的样式
-  .c-table{
-    border:1px solid greenyellow;
-    .common-h5{
-      margin-top:20px;
+  .c-table {
+    border: 1px solid greenyellow;
+    .common-h5 {
+      margin-top: 20px;
     }
   }
 }

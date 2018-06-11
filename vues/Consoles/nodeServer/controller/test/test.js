@@ -47,6 +47,7 @@ class Test extends Base {
     this.getScatterData = this.getScatterData.bind(this);
     this.getLineData = this.getLineData.bind(this);
     this.downLoad = this.downLoad.bind(this);
+    this.getTotal = this.getTotal.bind(this);
   }
   async downLoad(req,res){
     await sleeps;
@@ -302,6 +303,12 @@ class Test extends Base {
       barData
     });
     res.send(data);
+  }
+  async getTotal (req, res, next) {
+    let data = await this.sleep({
+      total:200
+    },1000)
+    res.send(data)
   }
 }
 export default new Test();

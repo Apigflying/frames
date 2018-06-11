@@ -56,7 +56,7 @@ export default {
         let link = document.createElement('a')
         link.style.display = 'none'
         link.href = url
-        // link.setAttribute('download', 'abcd.xlsx')
+        link.setAttribute('download', 'abcd.xlsx')
         document.body.appendChild(link)
         link.onclick = function () {
           that.show = true;
