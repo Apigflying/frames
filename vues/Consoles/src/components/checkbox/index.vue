@@ -1,54 +1,68 @@
 <template>
-<div class="checkbox-group-wrap">
-  <el-checkbox class="isAllChecked" v-if="!!options.isAllChecked" :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">
+<div class="checkbox-group-wrap" v-show="!!value.length">
+  <el-checkbox class="isAllChecked" v-if="checkAll" :indeterminate="isIndeterminate" v-model="isCheckAll" @change="handleCheckAllChange">
     全选
   </el-checkbox>
-  <el-checkbox-group class="checkbox-group" v-model="options.checked" @change="checksChange">
-    <el-checkbox v-for="(item,index) in options.checkList" :key="index" :label="item" :disabled="item.disabled">
+  <el-checkbox-group class="checkbox-group" v-model="checks" @change="checksChange">
+    <el-checkbox v-for="(item,index) in value" :key="index" :label="item.label" :disabled="item.disabled">
       {{item.value}}
     </el-checkbox>
   </el-checkbox-group>
 </div>
 </template>
 <script>
-/*
-  options:{
-    isAllCheck:true, // 控制是否有全选项
-    checked:[],  // 对外输出的已选项
-    // 所有的选项
-    checkList:[{
-      label:'1',
-      value:'选项一'
-    },{
-      label:'4',
-      value:'选项四'
-    }]
-  }
-*/
+var getChecks = (value) => {
+  return value.filter(item => item.isCheck).map(item => item.label)
+}
 export default {
   props: {
-    options: Object,
+    value: Array,
+    checkAll: {
+      type: Boolean,
+      default: true
+    }
   },
   data () {
+    // 初始化（为了兼容初始选项）
+    let checkList = this.value;
+    let checks = getChecks(checkList);
+    let checkedCount = checks.length;
+    let isIndeterminate = checkedCount > 0 && checkedCount < checkList.length;
+    let isCheckAll = checkedCount === checkList.length;
     return {
-      isIndeterminate:false, // 部分被选择 为true，展示位 - ；全部被选择或者全部没被选，应为false，即复选框置空；
-      checkAll: false // 全选框是否全选
+      checks,
+      isIndeterminate, // 部分被选择 为true，展示位 - ；全部被选择或者全部没被选，应为false，即复选框置空；
+      isCheckAll, // 全选框是否全选
+    }
+  },
+  watch: {
+    value: {
+      deep: true,
+      handler (val) {
+        this.checks = val.filter(item => item.isCheck).map(item => item.label);
+      }
     }
   },
   methods: {
     // 选择一个选项事件
-    checksChange (value) {
-      let checkedCount = value.length;
-      let checkList = this.options.checkList;
-      this.checkAll = checkedCount === checkList.length;
-      this.isIndeterminate = checkedCount > 0 && checkedCount < checkList.length;
-      // 触发自定义事件
-      this.$emit('change', value);
+    checksChange (checks) {
+      let checkList = this.value;
+      let checkedCount = checks.length;
+      if (this.checkAll) {
+        this.isCheckAll = checkedCount === checkList.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < checkList.length;
+      }
+      this.$emit('input', this.value.map(item => {
+        return Object.assign(item, {
+          isCheck: checks.includes(item.label)
+        })
+      }))
     },
     // 全选事件
     handleCheckAllChange (boolean) {
-      this.options.checked = boolean ? this.options.checkList : [];
-      this.checksChange(this.options.checked)
+      let checkList = this.value;
+      let checks = boolean ? checkList.map(item => item.label) : [];
+      this.checksChange(checks)
     }
   }
 }
