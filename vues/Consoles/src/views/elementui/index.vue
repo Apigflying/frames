@@ -22,6 +22,22 @@
         </h5>
       </cTable>
     </div>
+    <div class="component-wrap">
+      <div class="component-title">
+        弹窗组件:
+      </div>
+      <cDialog v-model="isDialogShow">
+        <div slot="open">
+          <el-button type="primary" @click="showDialog">打开弹窗</el-button>
+        </div>
+        <div>
+          这里是组件内要展示的东西
+        </div>
+        <div slot="footer">
+          <el-button type="primary" @click="closeDialog">关闭弹窗</el-button>
+        </div>
+      </cDialog>
+      </div>
   </div>
 </template>
 
@@ -29,16 +45,19 @@
 import cSelect from 'components/select'
 import cChecks from 'components/checkbox'
 import cTable from 'components/table'
+import cDialog from 'components/dialog'
 import { getTotal } from 'api/test'
 export default {
   name: 'ElementUI',
   components: {
     cSelect,
     cChecks,
-    cTable
+    cTable,
+    cDialog
   },
   data: function () {
     return {
+      isDialogShow:false,
       selectOptions: {
         placeholder: '请选择你的',
         // 最终选择的项(默认选项是下方数组项)
@@ -122,9 +141,15 @@ export default {
     }
   },
   mounted () {
-    this.getPagations();
+    // this.getPagations();
   },
   methods: {
+    showDialog(){
+      this.isDialogShow = true
+    },
+    closeDialog(){
+      this.isDialogShow = false
+    },
     getPagations () {
       getTotal().then(res => {
         let { data } = res;

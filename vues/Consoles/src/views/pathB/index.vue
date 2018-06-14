@@ -6,11 +6,11 @@
 </template>
 
 <script>
-
 export default {
   name: 'pathA',
   data: function() {
     return {
+      test:'str',
       renderData: null,
       otherRender: '',
       renderData:null,
