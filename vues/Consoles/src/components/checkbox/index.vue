@@ -3,7 +3,7 @@
   <el-checkbox class="isAllChecked" v-if="checkAll" :indeterminate="isIndeterminate" v-model="isCheckAll" @change="handleCheckAllChange">
     全选
   </el-checkbox>
-  <el-checkbox-group class="checkbox-group" v-model="checks" @change="checksChange">
+  <el-checkbox-group class="checkbox-group" v-model="cChecks">
     <el-checkbox v-for="(item,index) in value" :key="index" :label="item.label" :disabled="item.disabled">
       {{item.value}}
     </el-checkbox>
@@ -35,34 +35,31 @@ export default {
       isCheckAll, // 全选框是否全选
     }
   },
-  watch: {
-    value: {
-      deep: true,
-      handler (val) {
-        this.checks = val.filter(item => item.isCheck).map(item => item.label);
+  computed: {
+    cChecks: {
+      get () {
+        return getChecks(this.value);
+      },
+      set (checks) {
+        let checkList = this.value;
+        let checkedCount = checks.length;
+        if (this.checkAll) {
+          this.isCheckAll = checkedCount === checkList.length;
+          this.isIndeterminate = checkedCount > 0 && checkedCount < checkList.length;
+        }
+        this.$emit('input', checkList.map(item => {
+          return Object.assign(item, {
+            isCheck: checks.includes(item.label)
+          })
+        }))
       }
     }
   },
   methods: {
-    // 选择一个选项事件
-    checksChange (checks) {
-      let checkList = this.value;
-      let checkedCount = checks.length;
-      if (this.checkAll) {
-        this.isCheckAll = checkedCount === checkList.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < checkList.length;
-      }
-      this.$emit('input', this.value.map(item => {
-        return Object.assign(item, {
-          isCheck: checks.includes(item.label)
-        })
-      }))
-    },
     // 全选事件
     handleCheckAllChange (boolean) {
       let checkList = this.value;
-      let checks = boolean ? checkList.map(item => item.label) : [];
-      this.checksChange(checks)
+      this.cChecks = boolean ? checkList.map(item => item.label) : [];
     }
   }
 }

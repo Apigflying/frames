@@ -34,6 +34,11 @@
         </div>
       </cDialog>
     </div>
+
+    <div>
+      <button @click="testComputed">点击测试</button>
+      {{fillName}} - {{a}} - {{b}}
+    </div>
   </div>
 </template>
 
@@ -133,6 +138,19 @@
             a: 'aaaaaaaaa',
             b: 'bbbbbbbbb'
           }]
+        },
+        a:'a',
+        b:'b'
+      }
+    },
+    computed:{
+      fillName:{
+        get(){
+          return this.a + this.b
+        },
+        set(val){
+          this.a = val.slice(0,4);
+          // this.b = val.slice(4)
         }
       }
     },
@@ -140,6 +158,9 @@
       // this.getPagations();
     },
     methods: {
+      testComputed(){
+        this.fillName = 'abcdefghijklmn';
+      },
       getSelects(){
 
       },

@@ -22,6 +22,7 @@ export default {
   watch: {
     renderData: {
       deep: true,
+      immediate:true,// 立即执行
       handler (val) {
         if (!!val) {
           this.$nextTick(() => {
@@ -43,9 +44,6 @@ export default {
         this.myChart.setOption(this.renderData);
       }
     }
-  },
-  mounted () {
-    this.drawChart();
   }
 };
 </script>
