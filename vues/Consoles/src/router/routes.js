@@ -7,6 +7,7 @@ const Login = () => import("views/login");
 const Authredirect = () => import("views/authredirect");
 const Home = () => import("views/home");
 const NotFoundComponent = () => import("views/nofound");
+const Echarts = () => import("views/echarts");
 const routes = [
   {
     path: "",
@@ -26,6 +27,11 @@ const routes = [
         path: "element-ui",
         name: "element-ui",
         component: ElementUI
+      },
+      {
+        path:'echarts',
+        name:'echarts',
+        component:Echarts
       },
       {
         path: "pathb",

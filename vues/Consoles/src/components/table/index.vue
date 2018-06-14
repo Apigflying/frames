@@ -129,19 +129,19 @@ export default {
   width: 400px;
 }
 // 分页的样式
-// .paginations {
-//   display: flex;
-//   align-items: center;
-//   .inputPage {
-//     width: 30px;
-//     margin-right: 10px;
-//     .el-input__inner {
-//       // input输入框的圆角
-//       width: 30px;
-//       border-radius: 0;
-//       padding: 0 5px;
-//       vertical-align: baseline;
-//     }
-//   }
+.paginations {
+  display: flex;
+  align-items: center;
+  .inputPage {
+    width: 30px;
+    margin-right: 10px;
+    .el-input__inner {
+      // input输入框的圆角
+      width: 30px;
+      border-radius: 0;
+      padding: 0 5px;
+      vertical-align: baseline;
+    }
+  }
 }
 </style>
