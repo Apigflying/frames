@@ -2,24 +2,44 @@
 <div>
   组件b
   <router-link to="/">跳转到首页</router-link>
+  <div @click.left="left" @click.right.prevent.stop="right">
+    鼠标左键和右键点击这段文字
+  </div>
+  <todoList :todos="todos">
+    <template slot-scope="{todo}">
+      <span v-if="todo.isComplete">✔️</span>{{todo}}
+    </template>
+  </todoList>
 </div>
 </template>
 
 <script>
+import todoList from 'components/slot-scope'
 export default {
   name: 'pathA',
+  components:{
+    todoList
+  },
   data: function() {
     return {
       test:'str',
       renderData: null,
       otherRender: '',
       renderData:null,
-      renderList:[1,2,3,4,5]
+      todos:[{text:123,isComplete:false},{text:'abc',isComplete:true}]
     }
   },
   mounted() {
   },
   methods: {
+    left(){
+      alert(1);
+
+    },
+    right(){
+      alert(2);
+
+    },
     getDatas(){
       let n=0;
       return ()=>{

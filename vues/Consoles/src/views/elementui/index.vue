@@ -3,7 +3,7 @@
     <div class="component-wrap select">
       <el-button class="component-title" @click="getSelects">下拉组件:</el-button>
 
-      <cSelect class="c-select" :options="selectOptions" @change="changeSelect" />
+      <cSelect class="c-select" placeholder="请选择123" :options="selectOptions" @change="changeSelect" />
     </div>
     <div class="component-wrap checkboxgroup">
       <el-button class="component-title" @click="getCheckeds">多选组件:</el-button>

@@ -1,11 +1,12 @@
 <template>
-  <el-select v-model="options.select" :placeholder="options.placeholder" @change="change" class="selects">
+  <el-select v-model="options.select" v-bind="$attrs" @change="change" class="selects">
     <el-option v-for="(item) in options.selectOptions" :key="item.value" :label="item.label" :value="item" :disabled="item.disabled">
     </el-option>
   </el-select>
 </template>
 <script>
 export default {
+  inheritAttrs: false,
   props: {
     options:{
       type:Object,
