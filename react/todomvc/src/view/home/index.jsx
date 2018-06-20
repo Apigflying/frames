@@ -1,29 +1,23 @@
-import React, {Component} from 'react';
-import store from 'store';
-import TestStore from './testStore';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { userLogin } from 'store/models/login';
 import 'style';
 import 'style/base/base.scss';
 import './home.scss';
 
+connect(state => state.loginReducer, { userLogin })
 //组件之间传递数据
 class Home extends Component {
-  state = {
-    num:store.getState()
+  componentDidMount () {
+
   }
-  
-  componentDidMount(){
-    store.subscribe(this.setNumState.bind(this))
+  setNumState () {
+
   }
-  setNumState(){
-    this.setState({
-      num:store.getState()
-    })
-  }
-  render() {
+  render () {
     return (
       <main>
-        abc
-        <TestStore value={this.state.num} add={e=>store.dispatch({type:'add'})} reduce={e=>store.dispatch({type:'reduce'})}/>
+        <button onClick={this.userLogin}></button>
       </main>
     )
   }

@@ -16,12 +16,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <PublicHeader promise={new Promise((res,rej)=>{
+        {/* <PublicHeader promise={new Promise((res,rej)=>{
           setTimeout(() => {
             res(123)
           }, 2000);
-        })}/>
-        <PublicAside/>
+        })}/> */}
+        {/* <PublicAside/> */}
         <RouterIndex/>
       </div>
     );
