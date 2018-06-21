@@ -7,7 +7,7 @@ import axios from "axios";
   说明封装的请求，在dev或者build后，都以这里的url作为基础
 
 */
-const baseURL = process.env.BASE_URL;
+const baseURL = '';
 var CancelToken = axios.CancelToken;
 var cancel;
 // 创建axios实例

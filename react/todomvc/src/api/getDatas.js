@@ -1,7 +1,7 @@
 import fetch from 'utils/fetch';
 
 export function getData(){
-  fetch({
+  return fetch({
     url:`/getData`,
     methods:'GET'
   })

@@ -1,5 +1,5 @@
 // reudcer 负责返回初始值和更改后的
-import { ADD_CARD } from './actions/cards.action';
+import { ADD_CARD } from '../actions/cards.action';
 
 let init = {
   cards: [{
