@@ -6,9 +6,6 @@ import AddTodo from './AddTodo'
 import VisibleTodoList from './VisibleTodoList'
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   async add () {
     let {data:{data}} = await getData();
     console.log(data);
