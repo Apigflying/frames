@@ -1,10 +1,10 @@
-import {combineReducers} from 'redux';
-import {cardsReducer} from './cards.reducer';
-import {shoppingReducer} from './shopping.reducer';
+import { combineReducers } from 'redux';
+import { countReducer } from './count.reducer';
+import { todoListReducer } from './todoList.reducer';
 
 const reducers = combineReducers({
-  cards:cardsReducer,
-  shopping:shoppingReducer
+  count: countReducer,
+  todoList: todoListReducer
 })
 
 export default reducers;

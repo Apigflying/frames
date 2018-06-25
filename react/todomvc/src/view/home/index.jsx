@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { userLogin } from 'store/models/login';
 import 'style';
 import 'style/base/base.scss';
 import './home.scss';
+import Count from './count'
+import TodoList from './todoList'
 
-connect(state => state.loginReducer, { userLogin })
 //组件之间传递数据
 class Home extends Component {
+  // constructor(props){
+  //   super(props);
+  // }
   componentDidMount () {
-
-  }
-  setNumState () {
 
   }
   render () {
     return (
       <main>
-        <button onClick={this.userLogin}></button>
+        <Count count={this.props.count}/>
+        <hr/>
+        <TodoList todos={this.props.todos}/>
       </main>
     )
   }
