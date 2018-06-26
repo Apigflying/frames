@@ -1,7 +1,20 @@
-button{
-  width:80px;
-  height:50px;
-  line-height: 50px;
-  text-align: center;
-  border:1px solid red;
+.TodoListWrp{
+  width:600px;
+  border:1px solid #333;
+  border-radius:4px;
+  margin:30px auto;
+  padding:30px 40px;
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  .TodoForm{
+    display:flex;
+    justify-content: space-between;
+  }
+  .TodoList{
+
+  }
+  .TodoFooter{
+
+  }
 }

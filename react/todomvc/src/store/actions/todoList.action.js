@@ -1,10 +1,24 @@
-export const ADD_TODOS = 'ADD_TODOS'
+export const ADD_TODO = 'ADD_TODO';
+export const TOGGLE_TODO = 'TOGGLE_TODO';
+export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
+// footer里的内容
+export const visibilityType = {
+  SHOW_ALL: 'SHOW_ALL',
+  SHOW_COMPLETED: 'SHOW_COMPLETED',
+  SHOW_ACTIVE: 'SHOW_ACTIVE'
+};
 
-export function addTodos (content){
-  return {
-    type:ADD_TODOS,
-    payload: {
-      content
-    }
-  }
-}
+export const addTodo = (text) => ({
+  type: ADD_TODO,
+  text
+});
+
+export const toggleTodo = (index) => ({
+  type: TOGGLE_TODO,
+  index
+});
+
+export const setVisibilityFilter = (filter) => ({
+  type: SET_VISIBILITY_FILTER,
+  filter
+});  

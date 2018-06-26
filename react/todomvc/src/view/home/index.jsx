@@ -3,23 +3,27 @@ import { connect } from 'react-redux';
 import 'style';
 import 'style/base/base.scss';
 import './home.scss';
-import Count from './count'
-import TodoList from './todoList'
+import TodoForm from './TodoForm';
+import TodoList from './TodoList';
+import TodoVisibility from './TodoVisibility';
+
+let todos = [{
+  content:'默认内容',
+  isFinish:true
+}]
 
 //组件之间传递数据
 class Home extends Component {
-  // constructor(props){
-  //   super(props);
-  // }
-  componentDidMount () {
-
-  }
   render () {
     return (
-      <main>
-        <Count count={this.props.count}/>
-        <hr/>
-        <TodoList todos={this.props.todos}/>
+      <main className="TodoListWrp">
+        <TodoForm className="TodoForm" />
+        <TodoList className="TodoList" todos={todos} change={(index) => {
+          console.log('change', index)
+        }} delete={(index) => {
+          console.log('delete', index)
+        }} />
+        <TodoVisibility className="TodoFooter" />
       </main>
     )
   }
