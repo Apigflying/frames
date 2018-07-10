@@ -1,6 +1,6 @@
 <template>
-  <el-select v-model="options.select" v-bind="$attrs" @change="change" class="selects">
-    <el-option v-for="(item) in options.selectOptions" :key="item.value" :label="item.label" :value="item" :disabled="item.disabled">
+  <el-select v-model="select" v-bind="$attrs" @change="change" class="selects">
+    <el-option v-for="(item) in selectOptions" :key="item.value" :label="item.label" :value="item" :disabled="item.disabled">
     </el-option>
   </el-select>
 </template>
@@ -8,34 +8,29 @@
 export default {
   inheritAttrs: false,
   props: {
-    options:{
-      type:Object,
-      default: {
-        placeholder:'请选择',
-        // 最终选择的项
-        select: null,
-        // 可选项
-        selectOptions: []
-      }
+    value:{
+      type:Object
+    },
+    "select-options":{
+      type:Array,
+      default:[]
     }
   },
-  data () {
-    return {
-      value: ''
+  computed:{
+    select:{
+      get (){
+        return this.value;
+      },
+      set (value){
+        // this.change(value);
+        return value;
+      }
     }
   },
   methods: {
     change (item) {
-      this.$emit('change',item);
+      this.$emit('input',item);
     }
   }
-}
+};
 </script>
-<style lang="scss" scoped>
-@import '../../style/base.scss';
-// 通用组件 覆盖样式用
-.selects{
-  @include wh(400px,40px);
-}
-</style>
-
