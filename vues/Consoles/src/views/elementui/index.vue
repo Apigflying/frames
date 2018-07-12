@@ -19,14 +19,31 @@
             column就是tabelFormater中的每一项
             props.row就是tabelData中的每一项
           -->
-          <div>{{props.row[column.key]}}</div>
+          <div>
+            <i @click="changeShow(props.$index)">
+              {{props.row.showOrNot ? '-': '+'}}
+            </i>
+            {{props.row[column.key]}}
+          </div>
+
+          <!--
+            使用过程中，碰到的问题：
+              异步加载table的数据，没办法通过点击事件，改变下方的显示隐藏，和上方i标签内+、-的切换
+              解决办法：
+                重新给tableData赋值
+                  Object.assign([],this.tableData)
+
+           -->
+
         </template>
         <template slot="child-text" slot-scope="{props:{props,column}}">
-          <ul>
-            <li v-for="(item,index) in props.row.children" :key="index">
-              {{item[column.key]||' '}}
-            </li>
-          </ul>
+          <el-collapse-transition>
+            <ul v-show="props.row.showOrNot">
+              <li v-for="(item,index) in props.row.children" :key="index">
+                {{item[column.key]||' '}}
+              </li>
+            </ul>
+          </el-collapse-transition>
         </template>
       </cTable>
     </div>
@@ -122,6 +139,7 @@ export default {
           type: 'string',
           num: 1,
           custom: '自定义1',
+          showOrNot:false,
           children:[{
             name:'abc',
             type:'string123'
@@ -130,17 +148,20 @@ export default {
           name: 'a',
           type: 'string',
           num: 1,
-          custom: '自定义1'
+          custom: '自定义1',
+          showOrNot:false
         }, {
           name: 'a',
           type: 'string',
           num: 1,
-          custom: '自定义1'
+          custom: '自定义1',
+          showOrNot:false
         }, {
           name: 'a',
           type: 'string',
           num: 1,
-          custom: '自定义1'
+          custom: '自定义1',
+          showOrNot:false
         }
       ]
     }
@@ -160,6 +181,12 @@ export default {
     // this.getPagations();
   },
   methods: {
+    changeShow(index){
+      let flag = this.tableData[index].showOrNot;
+      this.tabelData[index] = !flag;
+      // 重新赋值，才能对渲染页面有用
+      this.tabelData = Object.assign([],this.tableData);
+    },
     testComputed () {
       this.fillName = 'abcdefghijklmn';
     },
