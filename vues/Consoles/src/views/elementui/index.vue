@@ -33,6 +33,10 @@
                 重新给tableData赋值
                   Object.assign([],this.tableData)
 
+              思想：
+                在data中写好的数据，直接更改，能实现双向绑定
+                但是异步加载的table数据，没办法双向绑定
+                  解决思路就是：将整个table重新赋值
            -->
 
         </template>
