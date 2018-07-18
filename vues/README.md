@@ -34,7 +34,7 @@
 ```
 ## 2.内置组件：
 ### 1-component标签，绑定is属性，用来决定要渲染的组件
-![templet标签的scope属性（插入子组件到父组件的自定义标签内）][3]
+![templet标签的scope属性（插入子组件到父组件的自定义标签内）][1]
 <component>是vue的保留元素。动态地绑定到它的 is 特性，我们让多个组件可以使用同一个挂载点，并动态切换：
 ```javascript
 <template>
@@ -88,7 +88,7 @@ components: {
 ### 2-keep-alive标签，决定加载后的内容是否进行缓存
 如果把切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。为此可以添加一个 keep-alive 指令参数：
 如：用户填写表单后提交，但是提交失败，keep-alive会保存用户填写过的所有信息
-![keep-alive保存component标签（带有is属性）的信息][4]
+![keep-alive保存component标签（带有is属性）的信息][2]
 
 ### 3-is属性自定义渲染组件
 ```javascript
@@ -112,7 +112,8 @@ data:{
 <renderB v-else></renderB>
 ```
 **注：自定义标签和自定义属性的名字都是不区分大小写的，就是说，会将原本大写的名字，改为中线分割**
-### 4-自定义标签的v-model
+
+### ** 4-自定义标签的v-model
 >父组件
 ```js
 <custom-input v-model="content"/>
@@ -140,6 +141,42 @@ watch: {
     }
 },
 ```
+#### ** 5-自定义v-model的属性和事件
+> 在默认情况下，v-model绑定的属性，会在子组件内被分解为：
+`props:['value'],
+this.$emit('change',val)`
+来实现双向绑定
+
+----------
+> 可以通过更改model来更改
+```js
+model: {
+    prop: 'checked',
+    event: 'change'
+ }
+```
+> 来更改上面的value和change
+```js
+// 父组件
+<custom-parent v-model="parent-bind-v-model"/>
+// 子组件
+ {
+    model:{
+        prop:'parent-bind-v-model',
+        event:'response-parent-data-change'
+    },
+    props:['parent-bind-v-model'],
+    methods:{
+        _change(val){
+            this.$emit('response-parent-data-change',val)
+        }
+    }
+ }
+ ```
+**注意你仍然需要在组件的 props 选项里声明 parent-bind-v-model 这个 prop。**
+
+
+
 
 ----------------------------------------------------
 ## 3.v-model和input缠绵悱恻
@@ -198,6 +235,7 @@ methods:{
     }
 }
 ```
+#### 1-1 直接改变数组的第几项或者改变数组的长度，无法实现双向绑定。需要用$set 或者改用splice
 > 在遍历数组的时候，使用以下方法会让页面重新渲染
 push()
 pop()
@@ -349,7 +387,7 @@ once：事件只触发一次，触发后清除该事件
 可以再行间写上.13也就是对应的keyCode，也能够触发键盘事件
 
 --------------------------------------------------------
-## 6.计算属性
+## 6.Computed计算属性
 >通常用计算属性的地方都用到data内的数据，依据data内的数据，进行计算返回，例如表单验证，数组重排序等等，可以对接收到的数据进行缓存和重定义
 在可复用的模板组件中，可以通过计算属性，返回不同的data值，来进行区分和比较
 ```javascript
@@ -378,7 +416,53 @@ computed:{
 报错信息：
 The computed property "a" is already defined in data.
 ```
-## 6.5.filter和filters过滤器
+### ** 1-Computed利用setter的反制
+> 解决嵌套中v-model的冲突问题
+```js
+<template>
+    <el-checkbox-group class="checkbox-group" v-model="cChecks">
+        <el-checkbox v-for="(item,index) in value" :key="index" :label="item.label" :disabled="item.disabled">
+          {{item.value}}
+        </el-checkbox>
+    </el-checkbox-group>
+</template>
+<script>
+export default {
+    props:{
+        value:{
+            type:Array
+        }
+    },
+    computed:{
+        checks:{
+            get(){
+            
+                return this.value.filter(item=>item.isChecked).map(item=>item.label);
+            },
+            set(val){
+                /* 当更改checks的值时，可以用val取到当前改变的值
+                但是如果只改变checks，是无法起作用的，甚至有时候会报错，这时要利用依赖项（this.value）,在这里反制this.value，从而让checks来改变 */
+                let checkList = this.value;
+                let checkedCount = checks.length;
+                if (this.checkAll) {
+                  this.isCheckAll = checkedCount === checkList.length;
+                  this.isIndeterminate = checkedCount > 0 && checkedCount < checkList.length;
+                }
+                // 重点是在于改变checkList
+                this.$emit('input', checkList.map(item => {
+                  return Object.assign(item, {
+                    isCheck: checks.includes(item.label)
+                  })
+                }))
+            }
+        }
+    }
+}
+</script>
+```
+
+
+## 7.filter和filters过滤器
 过滤器的作用是用于初始化，过滤文本
 ```javascript
 //template
@@ -415,7 +499,7 @@ filters:{
 这里，filterA 被定义为接收三个参数的过滤器函数。其中 message 的值作为第一个参数，普通字符串 'arg1' 作为第二个参数，表达式 arg2 的值作为第三个参数。
 
 
-## 7.watch
+## 8.watch
 ### 1-普通使用
 ```javacript
 data:{
@@ -439,7 +523,7 @@ watch: {
 }
 ```
 
-### 3-立即执行watch
+### ** 3-立即执行watch
 某些函数，在created中，即页面初始化的时候，就执行的函数，在watch某个属性变化的时候，也执行这个函数
 ```javascript
 {
@@ -470,7 +554,7 @@ watch:{
 }
 ```
 -------------------------------------------------------
-## 8.操作DOM样式style
+## 9.操作DOM样式style
 ### 1.绑定内嵌样式
 ```javascript
 <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }"></div>
@@ -514,9 +598,10 @@ computed: {
   }
 }
 ```
-## 9.父子组件通信
-### 1-父向子传数据
->在子组件内可以有props验证：[查看props验证方式][5]
+## 10.父子组件通信
+### 1-父向子传数据 - props 和非props
+#### 1.1、子组件用props接受
+>在子组件内可以有props验证：[查看props验证方式][3]
 ```javascript
 /*父组件内*/
 <template>
@@ -538,6 +623,59 @@ props:{
     */
 },
 ```
+#### 1.2、非props接收属性
+> 子组件可以通过非props接收父组件上定义的属性，挂载的元素是子组件的wrap节点（无法动态设置）;
+```js
+// 父组件
+<parent :options="options" data-abc="a" placeholder="请选择123"/>
+/*
+    data-abc、placeholder属性会被添加到子组件外层的div上
+    但是无法添加到el-select组件上，所以更改的placeholder不会生效
+*/
+
+// 子组件
+<template>
+     <el-select v-model="options.select" @change="change" class="selects">
+     想要接收父组件传过来的placeholder，但是placeholder被渲染到了外层wrap DIV上面
+  </el-select>
+</template>
+{
+    props:['options'],// options是用props接收的
+}
+```
+#### **1.3、子组件决定由哪个元素接收父组件传递过来的非props属性
+> 为了解决上面的问题，vue提供了一个可以动态改变接收非props的方法：
+`inheritAttrs: false + $attrs`
+```js
+/* 
+    inheritAttrs: false
+    可以设置这个属性，来禁用非props传递的属性
+    添加之后，上面的data-abc、placeholder都不会被子组件接收
+*/
+
+
+// 父组件
+<parent :options="options" data-abc="a" placeholder="请选择123"/>
+
+// 子组件
+<template>
+     <el-select v-bind="attrs" v-model="options.select" @change="change" class="selects">
+     // v-bind="attrs" 决定了将所有从父组件传过来的非props属性全部由这个元素接收
+  </el-select>
+</template>
+{
+    inheritAttrs: false,
+    props:['options'],// options是用props接收的
+}
+
+```
+#### **1.4、将原生事件绑定到组件
+使用上面的方式接收带有事件修饰符的事件如.native时可能会有问题，暂时没有碰到
+
+
+----------
+
+
 ### 2-子向父传数据
 >在父组件内使用自定义事件
 ```javascript
@@ -574,7 +712,7 @@ methods: {
 > - [x] 通常，子组件内触发父组件的自定义事件，是为了保证数据源。即：当一个父组件内有多个子组件的时候，甚至子组件又有子组件，那么直接改变父组件的数据源，会产生一些问题，所以子组件使用自定义事件，修改父组件的内容
 
 ----------------------------
-## 10.transition过渡效果
+## 11.transition过渡效果
 ### 1-transiton标签的行间属性
  |属性名|作用|
  |:--:|:--:|:--:|
@@ -637,7 +775,7 @@ v-if和v-else过渡的标签名相同的时候，无法有过渡效果
 	
 	
 ----------------------------------------------------------
-## 11.自定义指令
+## 12.自定义指令
 想要自己定义一个指令：v-color在全局下使用
 ```javascript
 directives:{
@@ -674,12 +812,12 @@ binding对象的属性:
 --	value:指令绑定的值，可以接收动态的值
 			
 -------------------------------------------------
-## 12.slot插槽
-![不具名slot插槽][1]
+## 13.slot插槽
+![不具名slot插槽][4]
 
 -------------------------------------------------
 
-![具名slot插槽2][2]
+![具名slot插槽2][5]
 
 **注:在父组件内引用子组件的自定义标签中，写入html代码，这段html代码会被放入到子组件的slot标签中**
 
@@ -705,7 +843,7 @@ methods: {
 </template>
 ```
 **Element-UI编写可复用组件的方式就是通过slot插槽的方式，让用户在父组件内自定义部分内容**
-### 12.1 组合slot
+### 1-组合slot
 >component组件与slot结合
 ```javascript
 // 以下两个组件，都是在componets中的公用组件
@@ -733,12 +871,35 @@ import cCustom from 'components/custom'
     <cCustom :content="customContent" slot="custom"/>
 </cDialog>
 ```
->在slot插槽中放入组件，可以将自定义组件，以slot的方式放入到容器组件中
+> 在slot插槽中放入组件，可以将自定义组件，以slot的方式放入到容器组件中
+### **2-slot与template组合，从子组件向父组件传递数据
+```js
+// 父组件
+ <todoList :todos="todos">
+    <!-- 收到的todo被包裹了一层-->
+    <template slot-scope="{todo}">
+      <span v-if="todo.isComplete">✔</span>{{todo}}
+    </template>
+  </todoList>
 
 
+// 子组件
+  <ul>
+    <li v-for="(todo,index) in todos" :key="index">
+        <!-- todo将会传递给父组件,父组件接收到的是{todo} -->
+      <slot :todo="todo">
+        如果父组件内使用了template（引用了slot-scope），那么这里的todo.text不会被渲染
+        如果父组件内没有使用slot-scope，那么这里的todo.text会被展示
+        {{todo.text}}
+      </slot>
+    </li>
+  </ul>
+props:['todos']
+```
 
 -----------------------------------------------------------------
-## 13.mixins混合
+## 14.mixins混合
+### 1-mixins的使用
 在一个单独的js文件内，暴露一个对象
 ```javascript
 //mixin.js
@@ -800,10 +961,30 @@ export default {
         mixins的状态在不同组件中切换的时候，是通用的，互不影响 存值
 */
 ```
+### ** 2-mixin的钩子函数与组件的钩子函数的执行顺序
+```js
+// mixins.js
+export default {
+    created(){
+        console.log(1)
+    }
+}
+
+// pathA.vue
+import mixins from 'mixins/mixins.js';
+{
+    mixins: [mixins],
+    data(){},
+    created(){
+        console.log(2)
+    }
+}
+```
+> 输出：1 2 
 
 
 
-## 14.plugin全局插件
+## 15.plugin全局插件
 `1. 写插件`
 ```javascript
 
@@ -872,10 +1053,58 @@ function abc(params1,params2,success){
     }
 }
 ```
+## 16.$createElement 在逻辑中创建动态节点
+> 在某些逻辑中需要动态创建节点，且这个节点是要支持逻辑的此时需要使用`$createElement函数`
+
+需求：表格中插入自定义节点，使用框架：elm
+如图
+```js
+<el-table :data="tableData" show-summary sum-text="小计" :summary-method="handlerSummary" style="width: 100%">
+    <el-table-column type="index" :index="indexMethod" fixed label=" " align="center"></el-table-column>
+</el-table>
+methods:{
+    handlerSummary({column,data}){
+        return ['小计',1,2,3]
+    }
+}
+```
+上面的代码只能展示小计，而无法使用自定义的插件：indicator-description（含有 ？图标，且在鼠标移上去的时候，有提示语）
+
+----------
+
+- [ ] 尝试使用一下方法：
+```js
+return [`<indicator-description></indicator-description>`,1,2,3]
+```
+> 但是渲染的是字符串
+
+----------
+
+所以此时想到用动态节点
+```js
+handlerSummary ({column,data}) {
+  const h = this.$createElement;
+  const hml = h('indicator-description', null, [
+    h('p', null, '堂食营业汇总表是按天/月维度，统计连锁/门店在所选结算日或自然月的营业收入汇总情况，包含堂食、外带业务的营业数据。 '),
+    h('div', {slot:'hover-btn'}, '小计')
+  ]);
+  return [hml,2,3];
+}
+```
+- [x] 此时的小计已经是动态节点了（前提是indicator-description组件已被正确引用）
+
+### **动态节点详解
+```js
+// 1- 使用$createElement来创建实例
+ const h = this.$createElement;
+// 2- 实例本身就是一个函数 (标签名 'p'，标签行内属性 {} ，子节点 [])
+```
+[标签行内属性][6]
 
 
-  [1]: http://osjykr1v3.bkt.clouddn.com/FtvDRIABuAR0-71nzvL14s1LC6KG
-  [2]: http://osjykr1v3.bkt.clouddn.com/Fqa7n5eA9yAPCLlTJJg-mTSW5u9D
-  [3]: http://osjykr1v3.bkt.clouddn.com/FtYZHLpyfF7bYj9aNxcnP4uFGofC
-  [4]: http://osjykr1v3.bkt.clouddn.com/FmxdcEtCelKvdI8btVC9pG9zgNJd
-  [5]: https://cn.vuejs.org/v2/guide/components.html#Prop-%E9%AA%8C%E8%AF%81
+  [1]: http://osjykr1v3.bkt.clouddn.com/FtYZHLpyfF7bYj9aNxcnP4uFGofC
+  [2]: http://osjykr1v3.bkt.clouddn.com/FmxdcEtCelKvdI8btVC9pG9zgNJd
+  [3]: https://cn.vuejs.org/v2/guide/components.html#Prop-%E9%AA%8C%E8%AF%81
+  [4]: http://osjykr1v3.bkt.clouddn.com/FtvDRIABuAR0-71nzvL14s1LC6KG
+  [5]: http://osjykr1v3.bkt.clouddn.com/Fqa7n5eA9yAPCLlTJJg-mTSW5u9D
+  [6]: https://cn.vuejs.org/v2/guide/render-function.html#createElement-%E5%8F%82%E6%95%B0
