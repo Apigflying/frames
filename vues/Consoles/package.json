@@ -19,6 +19,7 @@
     "eventsource": "^1.0.5",
     "font-awesome": "^4.7.0",
     "js-cookie": "^2.2.0",
+    "moment": "^2.22.2",
     "nprogress": "^0.2.0",
     "qs": "^6.5.1",
     "vconsole": "^3.2.0",

@@ -41,13 +41,11 @@
 
         </template>
         <template slot="child-text" slot-scope="{props:{props,column}}">
-          <el-collapse-transition>
-            <ul v-show="props.row.showOrNot">
-              <li v-for="(item,index) in props.row.children" :key="index">
-                {{item[column.key]||' '}}
-              </li>
-            </ul>
-          </el-collapse-transition>
+          <ul v-show="props.row.showOrNot">
+            <li v-for="(item,index) in props.row.children" :key="index">
+              {{item[column.key]||' '}}
+            </li>
+          </ul>
         </template>
       </cTable>
     </div>
@@ -72,6 +70,7 @@
       <button @click="testComputed">点击测试</button>
       <!-- {{fillName}} - {{a}} - {{b}} -->
     </div>
+    <ssss/>
   </div>
 </template>
 
@@ -80,6 +79,7 @@ import cSelect from 'components/select'
 import cChecks from 'components/checkbox'
 import cTable from 'components/table'
 import cDialog from 'components/dialog'
+import ssss from '../index';
 import {
   getTotal
 } from 'api/test'
@@ -89,7 +89,7 @@ export default {
     cSelect,
     cChecks,
     cTable,
-    cDialog
+    cDialog,ssss
   },
   data: function () {
     return {
