@@ -60,11 +60,9 @@ export default {
     activeIndex:{
       get (){
         let months = this.months;
-        let index = this.dateShortCut.findIndex(item=>{
-          let flag = item.values[0] === months[0]&&item.values[1]===months[1];
-          return flag;
-        })
-        return index;
+        return this.dateShortCut.findIndex(item=>{
+          return item.values[0] === months[0]&&item.values[1]===months[1];
+        });
       },
       set (index){
         // 设置快捷方式的日期的时候，更改 months 中的值 。months中的值更改后，会对activeTime 造成影响

@@ -32,7 +32,6 @@
     computed:{
       active:{
         get (){
-          console.log(this.value);
           return this.value;
         },
         set (val){
