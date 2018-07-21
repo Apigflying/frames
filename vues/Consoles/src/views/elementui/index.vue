@@ -12,7 +12,7 @@
     </div>
     <div class="component-wrap table">
       <el-button class="component-title" type="primary">表格组件:</el-button>
-      <cTable class="c-table" :tabelFormater="tabelFormater" :tableData="tableData" border>
+      <cTable class="c-table" :tabelFormater="tabelFormater" :tableData="tableData" border @row-click="rowClick">
         <!-- tabel组件就是一个容器，其内部的内容都由父组件自己定义，用了一个壳子 -->
         <template slot="main-text" slot-scope="{props:{props,column}}">
           <!--
@@ -185,6 +185,9 @@ export default {
     // this.getPagations();
   },
   methods: {
+    rowClick(val){
+      console.log(val);
+    },
     changeShow(index){
       let flag = this.tableData[index].showOrNot;
       this.tabelData[index] = !flag;
