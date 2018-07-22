@@ -643,7 +643,7 @@ props:{
     props:['options'],// options是用props接收的
 }
 ```
-#### **1.3、子组件决定由哪个元素接收父组件传递过来的非props属性
+#### **1.3、`v-bind="$attrs"`子组件决定由哪个元素接收父组件传递过来的非props属性
 > 为了解决上面的问题，vue提供了一个可以动态改变接收非props的方法：
 `inheritAttrs: false + $attrs`
 ```js
@@ -667,10 +667,26 @@ props:{
     inheritAttrs: false,
     props:['options'],// options是用props接收的
 }
-
 ```
-#### **1.4、将原生事件绑定到组件
-使用上面的方式接收带有事件修饰符的事件如.native时可能会有问题，暂时没有碰到
+
+#### **1.4、`v-on="$listeners"` 解决封装组件无法接收事件，且不报错的问题
+```js
+// parent
+<cTable class="c-table" :tabelFormater="tabelFormater" :tableData="tableData" border @row-click="rowClick">
+</cTable>
+/*
+    如果下面的子组件不添加v-on="$listeners"，那么elm的table组件的table-events事件都无法被触发（且不报错）
+*/
+// child
+<el-table :data="tableData" v-bind="$attrs" v-on="$listeners">
+    <el-table-column v-for="(column,key) in tabelFormater" :key="key" :label="column.label" :sortable="!!column.sortable" :align="column.align || 'center'">
+      <template slot-scope="props">
+        <slot name="main-text" :props="{props,column}"></slot>
+        <slot name="child-text" :props="{props,column}"></slot>
+      </template>
+    </el-table-column>
+</el-table>
+```
 
 
 ----------
