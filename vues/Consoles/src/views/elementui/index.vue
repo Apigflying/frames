@@ -65,7 +65,6 @@
         </div>
       </cDialog>
     </div>
-
     <div>
       <button @click="testComputed">点击测试</button>
       <!-- {{fillName}} - {{a}} - {{b}} -->
@@ -89,7 +88,8 @@ export default {
     cSelect,
     cChecks,
     cTable,
-    cDialog,ssss
+    cDialog,
+    ssss
   },
   data: function () {
     return {
