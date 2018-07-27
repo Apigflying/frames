@@ -6,6 +6,8 @@ export default class Arrow {
     this.h = 60;
     this.startX = 0;
     this.startY = 0;
+    this.vx = 0;
+    this.vy =0;
     this.len = 200;
     this.rotation = 0;
     this.arrowcolor = 'green';
@@ -19,6 +21,8 @@ export default class Arrow {
     let {
       x,
       y,
+      vx,
+      vy,
       w,
       h,
       startX,

@@ -8,6 +8,7 @@ const Authredirect = () => import("views/authredirect");
 const Home = () => import("views/home");
 const NotFoundComponent = () => import("views/nofound");
 const Echarts = () => import("views/echarts");
+const Canvas = () => import('views/canvas');
 const routes = [
   {
     path: "",
@@ -49,6 +50,11 @@ const routes = [
         component: bScroll
       }
     ]
+  },
+  {
+    path:"/canvas",
+    name:'canvas-class',
+    component:Canvas
   },
   {
     path: "/login",
