@@ -36,6 +36,8 @@ export default {
 
       // console.log(+new Date() - firstTime);
       // firstTime = +new Date();
+
+
       requestAnimationFrame(this.animate);
     },
     _initCanvas(){// 初始化元素
