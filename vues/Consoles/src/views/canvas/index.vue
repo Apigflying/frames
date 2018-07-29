@@ -6,6 +6,7 @@
 
 <script>
 import Arrow from 'components/canvas/Arrow';
+import Ball from 'components/canvas/Ball';
 const W = window.innerWidth;
 const H = window.innerHeight;
 const arrow = new Arrow({
@@ -14,6 +15,9 @@ const arrow = new Arrow({
   vx:0.2
 });
 let firstTime,lastTime;
+const ball = new Ball({
+
+})
 export default {
   name: 'canvas-class',
   data: function () {
@@ -36,8 +40,6 @@ export default {
 
       // console.log(+new Date() - firstTime);
       // firstTime = +new Date();
-
-
       requestAnimationFrame(this.animate);
     },
     _initCanvas(){// 初始化元素
