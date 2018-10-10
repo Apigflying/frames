@@ -69,7 +69,14 @@
       <button @click="testComputed">点击测试</button>
       <!-- {{fillName}} - {{a}} - {{b}} -->
     </div>
-    <ssss/>
+    tests:{{tests}}
+    <el-pagination
+  background
+  layout="prev, pager, next"
+  :current-page="current"
+  :total="pageConf.total"
+  @current-change="pageChange">
+</el-pagination>
   </div>
 </template>
 
@@ -93,6 +100,12 @@ export default {
   },
   data: function () {
     return {
+      curretn:2,
+      tests:'',
+      pageConf: {
+        current: 1,
+        total: 50
+      },
       isDialogShow: false, // 控制弹窗展示
       checkOptions: [ // 选项集
         {
@@ -114,60 +127,78 @@ export default {
         }
       ],
       select: null,
-      selectOptions: [{
-        label: '选项一',
-        value: '1'
-      }, {
-        label: '选项二',
-        value: '2'
-      }, {
-        label: '选项三',
-        value: '3'
-      }],
-      tabelFormater: [{
-        label: '名字',
-        key: 'name'
-      }, {
-        label: '类型',
-        key: 'type'
-      }, {
-        label: '数值',
-        key: 'num'
-      }, {
-        label: '自定义',
-        key: 'custom'
-      }],
+      selectOptions: [
+        {
+          label: '选项一',
+          value: '1'
+        }, {
+          label: '选项二',
+          value: '2'
+        }, {
+          label: '选项三',
+          value: '3'
+        }
+      ],
+      tabelFormater: [
+        {
+          label: '名字',
+          key: 'name'
+        }, {
+          label: '类型',
+          key: 'type'
+        }, {
+          label: '数值',
+          key: 'num'
+        }, {
+          label: '自定义',
+          key: 'custom'
+        }
+      ],
       tableData: [
         {
           name: 'a',
           type: 'string',
           num: 1,
           custom: '自定义1',
-          showOrNot:false,
-          children:[{
-            name:'abc',
-            type:'string123'
+          showOrNot: false,
+          children: [{
+            name: 'abc',
+            type: 'string123'
           }]
         }, {
           name: 'a',
           type: 'string',
           num: 1,
           custom: '自定义1',
-          showOrNot:false
+          showOrNot: false
         }, {
           name: 'a',
           type: 'string',
           num: 1,
           custom: '自定义1',
-          showOrNot:false
+          showOrNot: false
         }, {
           name: 'a',
           type: 'string',
           num: 1,
           custom: '自定义1',
-          showOrNot:false
+          showOrNot: false
         }
       ]
+    }
+  },
+  watch: {
+    '$route': {
+      immediate: true,
+      handler (to) {
+        let { params } = to;
+        let current = Number(params.page);
+        if (current) {
+          this.$nextTick(()=>{
+            this.getArticles(current);
+          })
+        }
+      }
     }
   },
   computed: {
@@ -185,14 +216,26 @@ export default {
     // this.getPagations();
   },
   methods: {
-    rowClick(val){
+    async getArticles(val){
+      this.current = val;
+      console.log(typeof val)
+      this.tests = await new Promise((resolve)=>{
+        setTimeout(() => {
+            resolve(val+ '内容');
+        }, 10);
+      })
+    },
+    pageChange(page){
+      // this.pageConf.current = page;
+    },
+    rowClick (val) {
       console.log(val);
     },
-    changeShow(index){
+    changeShow (index) {
       let flag = this.tableData[index].showOrNot;
       this.tabelData[index] = !flag;
       // 重新赋值，才能对渲染页面有用
-      this.tabelData = Object.assign([],this.tableData);
+      this.tabelData = Object.assign([], this.tableData);
     },
     testComputed () {
       this.fillName = 'abcdefghijklmn';

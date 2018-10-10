@@ -21,11 +21,11 @@ const routes = [
     children: [
       {
         path: "",
-        redirect: 'element-ui',
+        redirect: 'element-ui/1',
         component: ElementUI
       },
       {
-        path: "element-ui",
+        path: "element-ui/:page",
         name: "element-ui",
         component: ElementUI
       },
