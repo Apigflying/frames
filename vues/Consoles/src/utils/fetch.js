@@ -13,18 +13,13 @@ Vue.use(vueAxios, axios);
 
 */
 const baseURL = process.env.BASE_URL;
-var CancelToken = axios.CancelToken;
-var cancel;
+console.log(baseURL);
 // 创建axios实例
 const service = axios.create({
   baseURL, // api的base_url
   timeout: 30000, // 请求超时时间
-  retry: 4, //重新请求次数
+  retry: 2, //重新请求次数
   retryDelay: 1000, //重新请求的间隔
-  cancelToken: new CancelToken(function executor(c) {
-    // executor 函数接收一个 cancel 函数作为参数
-    cancel = c;
-  })
 })
 
 // 添加请求拦截器
@@ -36,7 +31,6 @@ service.interceptors.request.use(function(config) {
   if (token) {
     config.headers.Authorization = token;
   }
-  //cancel(); // 取消请求
   return config;
 }, function(error) {
   // 对请求错误做些什么

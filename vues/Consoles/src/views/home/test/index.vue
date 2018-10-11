@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { downloadfile } from 'api/test'
+import { downloadfile,getData,postData } from 'api/test'
 
 export default {
   name: 'test',
@@ -27,11 +27,9 @@ export default {
   },
   methods: {
     testdownload () {
-      let that = this;
-      that.show = false;
-      console.log('点击了，隐藏按钮');
-      downloadfile().then(res => {
-        console.log(res.data);
+      downloadfile({
+        name:'test'
+      }).then(res => {
         let url = window.URL.createObjectURL(
           new Blob([res.data],
             {
@@ -45,7 +43,6 @@ export default {
         link.setAttribute('download', 'abcd.xlsx')
         document.body.appendChild(link)
         link.onclick = function () {
-          that.show = true;
           console.log('下载了，显示按钮');
         }
         link.click()

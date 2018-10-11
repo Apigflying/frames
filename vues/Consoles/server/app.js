@@ -1,5 +1,6 @@
+import path from 'path';
 import express from "express";
-import db from './mongoDB/db.js';
+// import db from './mongoDB/db.js';
 import router from 'router/index.js';
 import configLite from 'config-lite';
 import bodyParser from 'body-parser';

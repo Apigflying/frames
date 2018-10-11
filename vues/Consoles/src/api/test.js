@@ -1,39 +1,26 @@
 import fetch from 'utils/fetch'
-const methods = 'GET'
+const method = 'GET'
 const proxy = '/test'
 
 
 export function getData(){
   return fetch({
-    methods,
+    method,
     url:`${proxy}/getData`
   })
 }
-
-export function getTotal(){
+export function postData(data){
   return fetch({
-    methods,
-    url:`${proxy}/getTotal`
+    method:'POST',
+    url:`${proxy}/postData`,
+    data
   })
 }
-
-export function getScatterData(){
+export function downloadfile(data){
   return fetch({
-    methods,
-    url:`${proxy}/getScatterData`
-  })
-}
-export function getLineData(){
-  return fetch({
-    methods,
-    url:`${proxy}/getLineData`
-  })
-}
-
-export function downloadfile(){
-  return fetch({
-    methods,
+    method:'POST',
     url:`${proxy}/download`,
-    responseType: 'blob'
+    responseType: 'blob',
+    data
   })
 }
