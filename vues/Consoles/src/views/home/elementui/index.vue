@@ -59,7 +59,7 @@
       <div class="component-title">
         弹窗组件:
       </div>
-      <cDialog v-model="isDialogShow">
+      <cDialog v-model="isDialogShow" v-dialogDrag>
         <div slot="open">
           <el-button type="primary" @click="showDialog">打开弹窗</el-button>
         </div>

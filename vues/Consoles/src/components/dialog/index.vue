@@ -1,7 +1,7 @@
 <template>
 <div>
   <slot name="open"></slot>
-  <el-dialog :title="title" :visible.sync="value" width="50%" :before-close="closeDialog">
+  <el-dialog v-bind="$attrs" :title="title" :visible.sync="value" width="50%" :before-close="closeDialog">
     <slot></slot>
     <slot name="footer"></slot>
   </el-dialog>

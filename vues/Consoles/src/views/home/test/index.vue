@@ -1,5 +1,9 @@
 <template>
-<div>
+<div class="test-container">
+  <div class="wrap">
+    <div class="introduce"></div>
+
+  </div>
   <div class="wrap">
     <div class="introduce">测试axios下载文件</div>
     <el-button @click="testdownload">点击下载</el-button>
