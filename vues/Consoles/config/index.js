@@ -34,7 +34,7 @@ proxyTables.forEach(item => {
   proxyTable[item.proxyHead] = item.pathRewrite ? {
     target: item.proxyReal,
     ws: true, //代理websocket连接
-    changeOrigin: true,
+    changeOrigin: true,// 开启代理服务
     pathRewrite: {// 重写规则
       ['^' + item.proxyHead]: ''
     }

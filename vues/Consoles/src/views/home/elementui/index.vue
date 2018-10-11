@@ -1,17 +1,22 @@
 <template>
   <div class="element-ui">
+    <!-- 下拉菜单 -->
     <div class="component-wrap select">
-      <el-button class="component-title" @click="getSelects">下拉组件:</el-button>
+      <el-button class="component-title" @click="getSelects"><i class="fa fa-paper-plane" aria-hidden="true"></i> 下拉组件:</el-button>
 
       <cSelect v-model="select" :select-options="selectOptions" class="c-select" placeholder="请选择123"/>
     </div>
+    <!-- 多选框 -->
     <div class="component-wrap checkboxgroup">
       <el-button class="component-title" @click="getCheckeds">多选组件:</el-button>
 
       <cChecks class="c-checks" v-model="checkOptions" />
     </div>
+    <!-- 带有子项的table -->
     <div class="component-wrap table">
-      <el-button class="component-title" type="primary">表格组件:</el-button>
+      <div class="component-title">
+        表格组件:
+      </div>
       <cTable class="c-table" :tabelFormater="tabelFormater" :tableData="tableData" border @row-click="rowClick">
         <!-- tabel组件就是一个容器，其内部的内容都由父组件自己定义，用了一个壳子 -->
         <template slot="main-text" slot-scope="{props:{props,column}}">
@@ -49,6 +54,7 @@
         </template>
       </cTable>
     </div>
+    <!-- 弹窗组件 -->
     <div class="component-wrap dialog">
       <div class="component-title">
         弹窗组件:
@@ -65,18 +71,13 @@
         </div>
       </cDialog>
     </div>
-    <div>
-      <button @click="testComputed">点击测试</button>
-      <!-- {{fillName}} - {{a}} - {{b}} -->
+    <!-- 日期联动组件 -->
+    <div class="component-wrap linkage">
+      <div class="component-title">
+        日期联动组件:
+      </div>
+      <date-linkage/>
     </div>
-    tests:{{tests}}
-    <el-pagination
-  background
-  layout="prev, pager, next"
-  :current-page="current"
-  :total="pageConf.total"
-  @current-change="pageChange">
-</el-pagination>
   </div>
 </template>
 
@@ -85,7 +86,7 @@ import cSelect from 'components/select'
 import cChecks from 'components/checkbox'
 import cTable from 'components/table'
 import cDialog from 'components/dialog'
-import ssss from '../index';
+import DateLinkage from './DateLinkage.vue';
 import {
   getTotal
 } from 'api/test'
@@ -96,16 +97,11 @@ export default {
     cChecks,
     cTable,
     cDialog,
-    ssss
+    DateLinkage
   },
   data: function () {
     return {
-      curretn:2,
       tests:'',
-      pageConf: {
-        current: 1,
-        total: 50
-      },
       isDialogShow: false, // 控制弹窗展示
       checkOptions: [ // 选项集
         {
@@ -187,58 +183,27 @@ export default {
       ]
     }
   },
-  watch: {
-    '$route': {
-      immediate: true,
-      handler (to) {
-        let { params } = to;
-        let current = Number(params.page);
-        if (current) {
-          this.$nextTick(()=>{
-            this.getArticles(current);
-          })
-        }
-      }
-    }
-  },
-  computed: {
-    fillName: {
-      get () {
-        return this.a + this.b
-      },
-      set (val) {
-        this.a = val.slice(0, 4);
-        // this.b = val.slice(4)
-      }
-    }
-  },
   mounted () {
     // this.getPagations();
   },
   methods: {
+    // 模拟请求
     async getArticles(val){
-      this.current = val;
-      console.log(typeof val)
-      this.tests = await new Promise((resolve)=>{
+      return await new Promise((resolve)=>{
         setTimeout(() => {
             resolve(val+ '内容');
-        }, 10);
+        }, 100);
       })
-    },
-    pageChange(page){
-      // this.pageConf.current = page;
     },
     rowClick (val) {
       console.log(val);
     },
     changeShow (index) {
+      console.log(this.tableData[index]);
       let flag = this.tableData[index].showOrNot;
       this.tabelData[index] = !flag;
       // 重新赋值，才能对渲染页面有用
       this.tabelData = Object.assign([], this.tableData);
-    },
-    testComputed () {
-      this.fillName = 'abcdefghijklmn';
     },
     getSelects () {
       console.log(this.select);
@@ -254,40 +219,12 @@ export default {
     closeDialog () {
       this.isDialogShow = false
     },
-    getPagations () {
-      getTotal().then(res => {
-        let {
-          data
-        } = res;
-        this.tableOptions.tablePagination.pagination = data;
-      })
-    },
-    tableSizeChange ({
-      size
-    }) {
-      console.log(size);
-    },
-    // 有分页的table，在分页更改当前页面时触发的事件
-    testTablePageChange ({
-      type,
-      current
-    }) {
-      console.log(type, current);
-    },
-    changeSelect (select) {
-      this.selectOptions.select = select;
-      console.log(this.selectOptions.select);
-    },
-    changeChecks (checked) {
-      this.checkBoxOptions.checked = checked;
-      console.log(this.checkBoxOptions.checked);
-    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-@import "../../style/base";
+@import "~style/base";
 .component-wrap {
   @include fj(flex-start);
   margin-top: 10px; // 通用的组件头部

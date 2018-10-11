@@ -26,15 +26,16 @@ module.exports = {
     extensions: ['.js', '.vue', '.json', '.scss', '.sass'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('node_modules'),
       'src': resolve('src'),
-      'views': path.resolve(__dirname, '../src/views'),
+      'views': resolve('src/views'),
       'components': path.resolve(__dirname, '../src/components'),
       'utils': path.resolve(__dirname, '../src/utils'),
       'api': path.resolve(__dirname, '../src/api'),
-      'filters': path.resolve(__dirname, '../src/filters'),
       'mixins': path.resolve(__dirname, '../src/mixins'),
       'store': path.resolve(__dirname, '../src/store'),
       'router': path.resolve(__dirname, '../src/router'),
+      'style': path.resolve(__dirname, '../src/style'),
     }
   },
   module: {

@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../style/base.scss";
+@import "~style/base.scss";
 .header {
   @include wh(100%, 50px);
   @include fj;

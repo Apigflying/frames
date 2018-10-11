@@ -1,14 +1,11 @@
 // import Patha from "views/pathA"; //正常加载
-const ElementUI = ()=> import("views/elementui");
-const Pathb = () => import("views/pathB"); //懒加载（按需加载）
-const testScroll = () => import("views/testScroll");
-const bScroll = () => import("views/testScroll/better-scroll");
-const Login = () => import("views/login");
-const Authredirect = () => import("views/authredirect");
 const Home = () => import("views/home");
+const ElementUI = ()=> import("views/home/elementui");
+const Test = () => import("views/home/test"); //懒加载（按需加载）
+const Login = () => import("views/login");
 const NotFoundComponent = () => import("views/nofound");
-const Echarts = () => import("views/echarts");
-const Canvas = () => import('views/canvas');
+const Echarts = () => import("views/home/echarts");
+const Canvas = () => import('views/home/canvas');
 const routes = [
   {
     path: "",
@@ -35,36 +32,21 @@ const routes = [
         component:Echarts
       },
       {
-        path: "pathb",
-        name: "pathb",
-        component: Pathb
+        path: "test",
+        name: "test",
+        component: Test
       },
       {
-        path: "testScroll",
-        name: "testScroll",
-        component: testScroll
+        path:"canvas",
+        name:'canvas',
+        component:Canvas
       },
-      {
-        path: "bScroll",
-        name: "bScroll",
-        component: bScroll
-      }
     ]
-  },
-  {
-    path:"/canvas",
-    name:'canvas-class',
-    component:Canvas
   },
   {
     path: "/login",
     name: "login",
     component: Login
-  },
-  {
-    path: "/authredirect",
-    name: "authredirect",
-    component: Authredirect
   },
   {
     path: "*", // 其他没有被匹配的路由，都会跳转到404页面

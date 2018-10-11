@@ -24,4 +24,4 @@ const i18n = new VueI18n({
   messages
 })
 
-export default i18n
+export default i18n;

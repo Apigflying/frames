@@ -55,7 +55,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../style/base";
+@import "~style/base";
 .canvas-wrap{
   @include wh;
 }

@@ -74,7 +74,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../style/base";
+@import "~style/base";
 .echarts_test {
   .charts {
     @include wh(500px, 500px);

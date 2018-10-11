@@ -7,7 +7,7 @@ Vue.use(vueAxios, axios);
 /*
 
   build后，发送的请求路径为：
-  http://localhost:9050
+  http://localhost:9000
 
   说明封装的请求，在dev或者build后，都以这里的url作为基础
 
