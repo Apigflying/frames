@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get('/getData',test.getData);
 router.post('/download', test.downLoad);
-router.post('/postData', test.postData);
+router.get('/getValidateCode', test.getValidateCode);
 
 export default router;

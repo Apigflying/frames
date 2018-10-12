@@ -1,11 +1,13 @@
 import Base from 'common/base.js';
 import fs from 'fs';
 import path from 'path';
+import ccap from 'ccap'
 class Test extends Base {
   constructor() {
     super();
     this.getData = this.getData.bind(this);
     this.downLoad = this.downLoad.bind(this);
+    this.getValidateCode = this.getValidateCode.bind(this);
   }
   // 下载文件
   async downLoad(req,res){
@@ -22,12 +24,12 @@ class Test extends Base {
     });
     res.send(data);
   }
-  postData(req,res,next){
-    let {value} = req.body;
-    res.send({
-      a:1,
-      value
-    })
+  async getValidateCode(req,res,next){
+    var ary = ccap().get();
+    var txt = ary[0];
+    console.log(txt);
+    var buf = ary[1];
+    res.end(buf);
   }
 }
 export default new Test();

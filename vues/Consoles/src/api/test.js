@@ -9,11 +9,10 @@ export function getData(){
     url:`${proxy}/getData`
   })
 }
-export function postData(data){
+export function getValidateCode(){
   return fetch({
-    method:'POST',
-    url:`${proxy}/postData`,
-    data
+    method,
+    url:`${proxy}/getValidateCode`
   })
 }
 export function downloadfile(data){
