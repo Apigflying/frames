@@ -25,6 +25,7 @@ module.exports = {
     // 其中 __dirname 表示当前工作目录，也就是项目根目录
     extensions: ['.js', '.vue', '.json', '.scss', '.sass'],
     alias: {
+      'static':resolve('static'),
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('node_modules'),
       'src': resolve('src'),

@@ -3,17 +3,18 @@
     <div class="wrap">
       <div class="introduce">生成验证码</div>
       <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="验证码" prop="vaildate" required>
+        <el-form-item label="验证码" prop="vaildate" :rules="[
+            { required: true, message: '请输入验证码', trigger: 'blur' ,validator : validateCode},
+          ]">
           <el-col :span="4">
-            <el-input v-model="form.validate"></el-input>
+            <el-input v-model="form.validate" :maxlength='6'></el-input>
           </el-col>
           <el-col :span="4">
-            <span style="display:inline-block;width:80px;height:40px;background:red;margin-left:10px;cursor:pointer" title="点击更换验证码" @click.prevent="getValidate"></span>
-            <img :src="validateImage"/>
-          </el-col >
+            <img class="validate-code" :src="validateImage" alt="验证码" title="点击更换验证码" @click.prevent="getValidate" />
+          </el-col>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <el-button type="primary" @click="onSubmit">验证</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -34,15 +35,17 @@
 import {
   downloadfile,
   getData,
-  getValidateCode
-} from 'api/test'
+  getValidateCode,
+  testSession
+} from 'api/test';
+import loadingSvg from '../../../../static/image/loading.svg';
 export default {
   name: 'test',
   data: function () {
     return {
-      validateImage:'http://localhost:9000/test/getValidateCode',
-      form:{
-        validate:''
+      validateImage: loadingSvg,
+      form: {
+        validate: ''
       }
     }
   },
@@ -50,15 +53,51 @@ export default {
     this.getValidate();
   },
   methods: {
-    // 获取验证码图片
-    async getValidate(){
-      this.validateImage = `http://localhost:9000/test/getValidateCode?${Date.now()}`;
-      // await getValidateCode()
-      // this.$nextTick(()=>{
-      //   this.validateImage='http://localhost:9000/test/getValidateCode'
-      // })
+    validateCode (rule, values, callback) {
+      // 用户输入的验证码
+      let value = this.form.validate.trim();
+      if (value === '') {
+        callback(new Error('请输入验证码！'));
+      } else if (value.length > 6) {
+        callback(new Error('输入长度不能超过6个呢！'));
+      } else {
+        callback();
+      }
     },
-    async onSubmit(){
+    // 获取验证码图片
+    async getValidate () {
+      this.validateImage = loadingSvg;
+      let {
+        data
+      } = await getValidateCode();
+      this.validateImage = data;
+    },
+    async onSubmit () {
+      this.$refs.form.validate(async (validate) => {
+        if (validate) {
+          let validateCode = this.form.validate.trim();
+          let {
+            data
+          } = await testSession({
+            validateCode
+          });
+          if (data.success) {
+            this.$message({
+              type: 'success',
+              message: '验证成功！'
+            })
+          } else {
+            this.getValidate();
+            this.$message({
+              type: 'error',
+              message: '验证码有误，请重新输入！'
+            })
+          }
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      })
 
     },
     testdownload () {
@@ -99,5 +138,12 @@ export default {
   border: 1px solid rgba(219, 66, 66, 0.5);
   padding: 40px;
   margin-bottom: 20px;
+}
+.validate-code {
+  display: inline-block;
+  height: 40px;
+  width: 100px;
+  margin-left: 10px;
+  cursor: pointer;
 }
 </style>

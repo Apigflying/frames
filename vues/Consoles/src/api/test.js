@@ -23,3 +23,10 @@ export function downloadfile(data){
     data
   })
 }
+export function testSession(data){
+  return fetch({
+    method:'POST',
+    url:`${proxy}/validateCode`,
+    data
+  })
+}
