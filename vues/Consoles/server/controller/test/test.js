@@ -25,6 +25,8 @@ class Test extends Base {
     res.send(data);
   }
   getValidateCode (req, res, next) {
+    let ip = req.ip;
+    console.log(ip);
     // 将sessionId放到cookie中返回给客户端
     var ary = ccap().get();
     var txt = ary[0];
@@ -50,6 +52,7 @@ class Test extends Base {
       // 转成对象 里面保存了validateCode 验证码的值
       const session = JSON.parse(sessionObj);
       if(session.validateCode === validateCode.toUpperCase()){
+        session.validateCode = null;
         return res.send({
           success:true
         });

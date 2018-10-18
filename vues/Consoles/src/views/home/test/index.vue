@@ -2,16 +2,16 @@
   <div class="test-container">
     <div class="wrap">
       <div class="introduce">生成验证码</div>
-      <el-form ref="form" :model="form" label-width="80px">
+      <el-form ref="form" :model="form" label-width="80px" @submit.native.prevent>
         <el-form-item label="验证码" prop="vaildate" :rules="[
-            { required: true, message: '请输入验证码', trigger: 'blur' ,validator : validateCode},
-          ]">
-          <el-col :span="4">
-            <el-input v-model="form.validate" :maxlength='6'></el-input>
-          </el-col>
-          <el-col :span="4">
+              { required: true, trigger: 'blur' ,validator : validateCode},
+            ]">
+          <div class="validate-block">
+            <el-input v-model="form.validate" :maxlength='6' @keyup.enter.native="onSubmit"></el-input>
+          </div>
+          <div class="validate-block">
             <img class="validate-code" :src="validateImage" alt="验证码" title="点击更换验证码" @click.prevent="getValidate" />
-          </el-col>
+          </div>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">验证</el-button>
@@ -56,10 +56,11 @@ export default {
     validateCode (rule, values, callback) {
       // 用户输入的验证码
       let value = this.form.validate.trim();
+      console.log(value);
       if (value === '') {
-        callback(new Error('请输入验证码！'));
-      } else if (value.length > 6) {
-        callback(new Error('输入长度不能超过6个呢！'));
+        callback(new Error('请输入验证码'));
+      } else if (value.length < 6) {
+        callback(new Error('验证码输入长度有误'));
       } else {
         callback();
       }
@@ -91,14 +92,17 @@ export default {
             this.$message({
               type: 'error',
               message: '验证码有误，请重新输入！'
-            })
+            });
+            this.form.validate = '';
           }
         } else {
-          console.log('error submit!!');
+          this.$message({
+            type: 'error',
+            message: '验证码有误，请重新输入！'
+          });
           return false;
         }
       })
-
     },
     testdownload () {
       downloadfile({
@@ -140,10 +144,15 @@ export default {
   margin-bottom: 20px;
 }
 .validate-code {
-  display: inline-block;
+  width: 100%;
   height: 40px;
-  width: 100px;
-  margin-left: 10px;
   cursor: pointer;
+}
+.validate-block {
+  width: 100px;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 10px;
+  height: 40px;
 }
 </style>
