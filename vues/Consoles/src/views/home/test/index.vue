@@ -56,7 +56,6 @@ export default {
     validateCode (rule, values, callback) {
       // 用户输入的验证码
       let value = this.form.validate.trim();
-      console.log(value);
       if (value === '') {
         callback(new Error('请输入验证码'));
       } else if (value.length < 6) {

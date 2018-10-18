@@ -7,9 +7,12 @@ import bodyParser from 'body-parser';
 import history from 'connect-history-api-fallback';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import redis from 'redis';
+import connectRedis from 'connect-redis';
 const config = configLite(__dirname);
 const app = express();
-
+const RedisStore = connectRedis(session);
+const redisClient = redis.createClient(6379, '127.0.0.1', { auth_pass: null });
 //允许跨域请求
 if (config.alloworigin) {
   app.all('*', (req, res, next) => {
@@ -39,6 +42,7 @@ app.use(session({
   // },
   resave: false,// 强制将 session 保存回session存储区，即使在请求期间session从不被修改。该值默认为true
   saveUninitialized: true,// 强制将未初始的session保存到存储中。Session在新创建而未修改时，是未初始化状态
+  store: new RedisStore({ client: redisClient }),
 }));
 
 
