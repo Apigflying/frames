@@ -78,6 +78,7 @@
       </div>
       <date-linkage/>
     </div>
+    <Comments :list="commentList"/>
   </div>
 </template>
 
@@ -86,6 +87,8 @@ import cSelect from 'components/select'
 import cChecks from 'components/checkbox'
 import cTable from 'components/table'
 import cDialog from 'components/dialog'
+import Comments from 'components/comments/comment'
+
 import DateLinkage from './DateLinkage.vue';
 import {
   getTotal
@@ -97,7 +100,8 @@ export default {
     cChecks,
     cTable,
     cDialog,
-    DateLinkage
+    DateLinkage,
+    Comments
   },
   data: function () {
     return {
@@ -180,7 +184,22 @@ export default {
           custom: '自定义1',
           showOrNot: false
         }
-      ]
+      ],
+      commentList:[{
+        val:'a',
+        children:[{
+          val:'aa',
+        },{
+          val:'ab',
+        },{
+          val:'ac',
+          children:[{
+            val:'aca'
+          }]
+        }]
+      },{
+        val:'b'
+      }]
     }
   },
   mounted () {
