@@ -4,6 +4,8 @@ const baseWebpackConfig = require('./webpack.base.conf.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
+
+// https://juejin.im/post/5c1de44ff265da61715e523b
 module.exports = merge(baseWebpackConfig, {
     mode: 'development',
     output: {
