@@ -1,18 +1,21 @@
 const path = require('path');
+
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const baseWebpackConfig = require('./webpack.base.conf.js');
+const devEnv = require('./config/dev.env');
 
 function resolve(relatedPath) {
   return path.join(__dirname, '../', relatedPath);
 }
 
-const PORT = 5777;
+const PORT = 8080;
 
 // https://juejin.im/post/5c1de44ff265da61715e523b
 module.exports = merge(baseWebpackConfig, {
+  devtool: 'cheap-module-eval-source-map',
   devServer: {
     port: PORT,
     // 对外提供的访问内容的路径 建议使用绝对路径，不要使用相对路径 与 publicPath 类似
@@ -29,15 +32,25 @@ module.exports = merge(baseWebpackConfig, {
     noInfo: true,
     // 告诉 dev-server 在 server 启动后打开浏览器
     open: true,
+    // 在浏览器显示错误和警告
+    overlay: {
+      warnings: true,
+      errors: true,
+    },
+    // 去除掉每次修改时，控制台的日志
+    clientLogLevel: 'none',
     // 代理
     proxy: {
-      target: 'http://localhost:3000', // 提供接口的域名 本地为 localhost:port
-      changeOrigin: true, // 开启代理服务
-      // ws: true, //代理websocket连接
-      // pathRewrite: {
-      //   // 重写规则 以 /api 开头的,全部替换为空
-      //   '^/api': '',
-      // },
+      '^/api': {
+        target: 'http://localhost:3000', // 提供接口的域名 本地为 localhost:port
+        changeOrigin: true, // 开启代理服务
+        // 代理websocket连接
+        // ws: true,
+        // 重写规则
+        // pathRewrite: {
+        //   '^/api': '',
+        // },
+      },
     },
   },
   // 指定当前模式是开发环境
@@ -47,6 +60,9 @@ module.exports = merge(baseWebpackConfig, {
     filename: 'js/[name].[hash:16].js',
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': devEnv
+    }),
     new HtmlWebpackPlugin({
       template: resolve('index.html'),
       inject: 'body',
@@ -59,5 +75,10 @@ module.exports = merge(baseWebpackConfig, {
       hash: false,
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new FriendlyErrorsWebpackPlugin({
+      compilationSuccessInfo: {
+        messages: [`Your application is running here: http://localhost:${PORT}`],
+      },
+    }),
   ],
 });

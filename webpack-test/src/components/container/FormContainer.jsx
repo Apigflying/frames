@@ -1,35 +1,37 @@
 import React, { Component } from "react";
 import Input from "../presentational/Input.jsx";
-import './a.css';
+import {getTestData} from '@/apis/test';
+
 
 class FormContainer extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      seo_title: ""
-    };
-
-    this.handleChange = this.handleChange.bind(this);
+  state = {
+    seo_title: ""
+  };
+  componentDidMount() {
+    this.getTestData();
+  }
+  handleChange = (event) =>{
+    console.log(this.props);
+    this.setState({ 'seo_title': event.target.value });
   }
 
-  handleChange(event) {
-    this.setState({ [event.target.id]: event.target.value });
-  }
-
+  // getTestData = async ()=>{
+  //   const data = await getTestData();
+  //   console.log(data);
+  // }
   render() {
     const { seo_title } = this.state;
     return (
       <form id="article-form">
-      123
         <Input
-          text="SEO title"
+          text={seo_title}
           label="seo_title"
           type="text"
           id="seo_title"
           value={seo_title}
           handleChange={this.handleChange}
         />
+        <div onClick={this.getTestData}>1234</div>
       </form>
     );
   }

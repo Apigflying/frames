@@ -10,6 +10,21 @@ function resolve(relatedPath) {
 const APP_PATH = resolve('src');
 const DIST_PATH = resolve('dist');
 
+//       @babel/plugin-proposal-class-properties 的作用:支持类方法的箭头函数,不用bind绑定this,可以使用static添加静态属性和静态方法
+//       class Bork {
+//         instanceProperty = "bork";
+//         boundFunction = () => {
+//           return this.instanceProperty;
+//         };
+//         static staticProperty = "babelIsCool";
+//         static staticFunction = function() {
+//           return Bork.staticProperty;
+//         };
+//       }
+
+//       @babel/plugin-syntax-dynamic-import 支持动态import() 懒加载
+//       const Foo = () => import('./Foo.jsx')
+
 module.exports = {
   entry: {
     // 入口文件地址
@@ -37,27 +52,88 @@ module.exports = {
       {
         // 使用 babel-loader 转换以 .js 和 .jsx结尾的文件
         test: /\.(js|jsx)?$/,
-        use: 'babel-loader',
         // 不转换 node_modules 目录下的文件,以减少编译所用的时间
         exclude: /node_modules/,
         // 指定该目录下的文件检查
         include: APP_PATH,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env','@babel/preset-react']
+          },
+        },
       },
       {
-        // css-loader 的作用是处理css文件中 @import，url之类的语句
-        // style-loader则是将css文件内容放在style标签内并插入head中
-        // 需用npm安装 css-loader 和 style-loader
+        // npm install css-loader style-loader autoprefixer
+        // css-loader 处理css文件中 @import，url之类的语句
+        // style-loader 将css文件内容放在style标签内并插入head中
+        // postcss-loader 自动加前缀
+        // autoprefixer 自动加前缀
         // 待处理 : 不同页面引用不同的css的问题(多页的css)
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader'],
-        }),
+        use: [
+          {
+            loader: 'style-loader', //在html中插入<style>标签
+          },
+          {
+            loader: 'css-loader', //获取引用资源，如@import,url()
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                require('autoprefixer')({
+                  overrideBrowserslist: ['iOS >= 7', 'Android >= 4.0'],
+                }),
+              ],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.less$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                require('autoprefixer')({
+                  overrideBrowserslist: ['iOS >= 7', 'Android >= 4.0'],
+                }),
+              ],
+            },
+          },
+          { loader: 'less-loader' },
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif|woff|svg|eot|woff2|tff)$/,
+        use: 'url-loader?limit=8129',
+        //注意后面那个limit的参数，当你图片大小小于这个限制的时候，会自动启用base64编码图片
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              // outputPath:'../',//输出**文件夹
+              // 静态资源的问题: 由于css文件分离出来的原因，会导致在css文件夹下找images文件夹下的图片
+              // '/' 表示以绝对路径的方式寻找资源
+              publicPath: '/',
+              name: 'images/[name].[ext]',
+              limit: 500, //是把小于500B的文件打成Base64的格式，写入JS
+            },
+          },
+        ],
       },
     ],
   },
   plugins: [
-    // 打包后的文件名字 
-    new ExtractTextPlugin('css/[name].[chunkhash:16].css')
+    // 打包后的文件名字
+    new ExtractTextPlugin('css/[name].[chunkhash:16].css'),
   ],
 };

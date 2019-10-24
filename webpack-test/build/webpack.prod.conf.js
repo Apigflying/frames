@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 // 合并webpack配置信息
 const merge = require('webpack-merge');
 // 替换html内容,输出到指定的目录下
@@ -10,6 +11,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const baseWebpackConfig = require('./webpack.base.conf');
+const prodEnv = require('./config/dev.env');
+
 
 function resolve(relatedPath) {
   return path.join(__dirname, '../', relatedPath);
@@ -18,6 +21,9 @@ function resolve(relatedPath) {
 module.exports = merge(baseWebpackConfig, {
   mode: 'production',
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': prodEnv
+    }),
     new HtmlWebpackPlugin({
       // 使用的原html模板
       template: resolve('index.html'),
@@ -31,7 +37,7 @@ module.exports = merge(baseWebpackConfig, {
       },
     }),
     new CleanWebpackPlugin(),
-    new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
+    new BundleAnalyzerPlugin({ analyzerMode: 'static',reportFilename:'../buildReport.html' }),
   ],
   optimization: {
     splitChunks: {

@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import '@/styles/cssreset.css';
+import '@/styles/cssreset';
 import FormContainer from "@/components/container/FormContainer.jsx";
 const wrapper = document.getElementById("create-article-form");
-wrapper ? ReactDOM.render(<FormContainer />, wrapper) : false;
+wrapper ? ReactDOM.render(<FormContainer name="abcd"/>, wrapper) : false;
+console.log(process.env);
