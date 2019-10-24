@@ -25,6 +25,9 @@ const DIST_PATH = resolve('dist');
 //       @babel/plugin-syntax-dynamic-import 支持动态import() 懒加载
 //       const Foo = () => import('./Foo.jsx')
 
+
+// https://webpack.docschina.org/loaders/babel-loader/
+
 module.exports = {
   entry: {
     // 入口文件地址
