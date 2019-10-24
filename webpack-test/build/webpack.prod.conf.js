@@ -1,3 +1,4 @@
+const path = require('path');
 // 合并webpack配置信息
 const merge = require('webpack-merge');
 // 替换html内容,输出到指定的目录下
@@ -5,9 +6,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 生成的js带有Hash值,不会删除掉旧的,所以用这个插件
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const baseWebpackConfig = require('./webpack.base.conf');
+// 打包后,在浏览器中展示当前打包后的情况
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-const path = require('path');
+const baseWebpackConfig = require('./webpack.base.conf');
 
 function resolve(relatedPath) {
   return path.join(__dirname, '../', relatedPath);
@@ -18,7 +20,7 @@ module.exports = merge(baseWebpackConfig, {
   plugins: [
     new HtmlWebpackPlugin({
       // 使用的原html模板
-      template: resolve('src/index.html'),
+      template: resolve('index.html'),
       // 所有的javascript资源都将放置在body元素的底部。 'head'将把脚本放置在head元素中
       inject: 'body',
       // 缩小生成的HTML (将所有代码压缩成一行)
@@ -29,6 +31,7 @@ module.exports = merge(baseWebpackConfig, {
       },
     }),
     new CleanWebpackPlugin(),
+    new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
   ],
   optimization: {
     splitChunks: {
