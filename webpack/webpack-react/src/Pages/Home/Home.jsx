@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getTestData } from '@/Apis/test';
-
+import './Home.less';
 export default class Home extends Component {
   state = {
     message:123
@@ -20,7 +20,7 @@ export default class Home extends Component {
   render() {
     const {message} = this.state;
     return (
-      <div>
+      <div className="home">
         This Is Home Default : {message}
         <div>
            <button onClick={this.changeValue}>Click To Change The Default</button> 

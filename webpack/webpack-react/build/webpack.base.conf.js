@@ -26,6 +26,8 @@ module.exports = {
   resolve: {
     // 使用绝对路径指明第三方模块存放的位置，以减少搜索步骤
     // 其中 __dirname 表示当前工作目录，也就是项目根目录
+    
+    // 用于设置引入模块的时候，如果没有写模块后缀名，webpack 会自动添加后缀去查找，extensions 就是用于设置自动添加后缀的顺序
     extensions: ['.js', '.jsx', '.json', '.css', '.less'],
     // 创建 import 或 require 的别名，来确保模块引入变得更简单
     alias: {
@@ -52,31 +54,15 @@ module.exports = {
         // postcss-loader 自动加前缀
         // autoprefixer 自动加前缀
         // 待处理 : 不同页面引用不同的css的问题(多页的css)
-        test: /\.css$/,
+        test: /\.(css|less)$/,
         use: [
+          // ExtractTextPlugin.extract('style', 'css!less'),
           {
             loader: 'style-loader', //在html中插入<style>标签
           },
           {
             loader: 'css-loader', //获取引用资源，如@import,url()
           },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: [
-                require('autoprefixer')({
-                  overrideBrowserslist: ['iOS >= 7', 'Android >= 4.0'],
-                }),
-              ],
-            },
-          },
-        ],
-      },
-      {
-        test: /\.less$/,
-        use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
           {
             loader: 'postcss-loader',
             options: {
