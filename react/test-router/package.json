@@ -99,7 +99,7 @@
   },
   "devDependencies": {
     "babel-plugin-import": "^1.6.7",
-    "node-sass": "^4.8.3",
+    "node-sass": "^4.13.1",
     "prop-types": "^15.6.1",
     "react-app-rewired": "^1.5.0",
     "sass-loader": "^6.0.7"
